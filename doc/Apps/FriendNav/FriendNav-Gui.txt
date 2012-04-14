@@ -1,0 +1,61 @@
+FriendNav GUI
+
+This document describes the GUI of the FriendNav application. This
+application is intended for navigating the network of nodes (friends)
+in a social network.
+
+
+
+
+
+There are two main panels in the application:
+
+* Friend list panel - Shows the neighbour nodes of the currently
+  selected node.
+
+* Friend map panel - Shows in a map the predecessors of the current
+  node, the current node, the neighbours of the current node.
+
+
+
+
+
+Friend list panel
+
+Shows the following information:
+
+* Details of the currently selected node. When the aplication starts,
+  the first selected node is the user herself.
+
+* List of neighbours of the current node.
+
+Available actions:
+
+* Select item on the list of neighbours. The selected item becomes the
+  currently selected node.
+
+* Back - The current node is set to the previous current node. That
+  is, the predecessor of the current node becomes the current node.
+
+
+
+
+
+Friend map panel
+
+Shows a map with two sets of markers.
+
+* The predecessors of the current node and the current node. These
+  markers are connected with a line, starting on the initial node and
+  ending on the current node.
+
+* The neighbours of the current node. Each of these markers is
+  connected with a line to the marker for the current node.
+
+Each marker is displayed as an icon with the image of the
+corresponding node
+
+Available actions:
+
+* Select marker on map. The node corresponding to the marker becomes
+  the currently selected node.

@@ -61,7 +61,7 @@ multiple APIs. Very usefull for learning the APIs.
 
 
 The goal of this project is to create an application for navigating
-the network of relations (friends) in a social network.
+the network of nodes (friends) in a social network.
 
 There are two main panels in the application:
 
