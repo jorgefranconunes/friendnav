@@ -1,0 +1,71 @@
+/**************************************************************************
+ *
+ * Copyright (c) 2012 Jorge Nunes, All Rights Reserved.
+ *
+ *
+ * CSS styles for the FriendNav application.
+ *
+ **************************************************************************/
+
+
+
+
+/**
+ *
+ *
+ *
+ */
+
+html, body {
+    height: 100%;
+}
+
+
+#fnvHomeLink {
+    padding : 10px 20px 7px;
+}
+
+
+#fnvMainContainer {
+    position : fixed;
+    top : 40px;
+    bottom : 5em;
+}
+
+
+#fnvContents {
+    margin-top: 1em;
+    height : 100%;
+}
+
+
+#fnvContents {
+    overflow-x : hidden;
+    overflow-y : auto;
+}
+
+
+#fnvFooter {
+    position : fixed;
+    bottom : 0;
+}
+
+
+.fnvLocalContent {
+    display : none;
+}
+
+
+
+
+
+/**
+ *
+ *
+ *
+ */
+
+#fnvPanelHome {
+    text-align: center;
+}
+

@@ -1,0 +1,285 @@
+<!doctype html>
+
+<!-- Copyright (c) 2012 Jorge Nunes, All Rights Reserved. -->
+
+<html>
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Friend Navigator</title>
+
+
+    <!-- Third party stylesheets. -->
+    <link
+       href="../lib/bootstrap-2.0.2/css/bootstrap.min.css"
+       rel="stylesheet"
+       type="text/css" />
+    
+    <!-- Our application stylesheets. -->
+    <link
+       href="resources/css/fnav.css"
+       rel="stylesheet"
+       type="text/css" />
+
+
+
+    <!-- Third-party libraries. -->
+    <script
+       src="../lib/jquery/jquery-1.7.1.min.js"
+       type="text/javascript">
+    </script>
+    <script
+       src="../lib/bootstrap-2.0.2/js/bootstrap-transition.js"
+       type="text/javascript">
+    </script>
+
+
+
+    <!-- Our application libraries. -->
+
+    <!-- Generic utility classes. -->
+    <script
+       src="../lib/pdmfc/namespace.js"
+       type="text/javascript">
+    </script>
+    <script
+       src="../lib/pdmfc/util/text/MessageFormat.js"
+       type="text/javascript">
+    </script>
+    <script
+       src="../lib/pdmfc/util/jquery/JQueryUtils.js"
+       type="text/javascript">
+    </script>
+    <script
+       src="../lib/pdmfc/util/logging/SimpleLogger.js"
+       type="text/javascript">
+    </script>
+    <script
+       src="../lib/pdmfc/util/transitions/TransitionManagerFactory.js"
+       type="text/javascript">
+    </script>
+    <script
+       src="../lib/pdmfc/util/transitions/FadeOutInTransitionManager.js"
+       type="text/javascript">
+    </script>
+
+
+    <!-- Controllers -->
+    <script
+       src="../lib/pdmfc/friendnav/fnav/controllers/FnavController.js"
+       type="text/javascript">
+    </script>
+
+
+    <!-- Application specific views -->
+    <script
+       src="../lib/pdmfc/friendnav/fnav/views/main/ContentsView.js"
+       type="text/javascript">
+    </script>
+    <script
+       src="../lib/pdmfc/friendnav/fnav/views/main/FnavView.js"
+       type="text/javascript">
+    </script>
+
+    <script
+       src="../lib/pdmfc/friendnav/fnav/views/home/HomePageView.js"
+       type="text/javascript">
+    </script>
+
+    
+    <!-- Application setup. -->
+    <script
+       src="../lib/pdmfc/friendnav/fnav/Fnav.js"
+       type="text/javascript">
+    </script>
+
+
+    <!-- Main entry point. -->
+    <script type="text/javascript">
+      pdmfc.friendnav.fnav.Fnav.main({
+      });
+    </script>
+
+  </head>
+
+
+
+
+
+  <body>
+
+    <!-- The top navigation bar. -->
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand fnvHomeLink" id="fnvHomeLink" href="#">
+            Friend Navigator
+          </a>
+          <ul class="nav" style="display: none;">
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <!-- The area between the top navigation bar and the footer. -->
+
+    <div class="container">
+      <div id="fnvMainContainer" class="row">
+
+
+
+
+
+        <!-- The screen main contents area. -->
+
+        <div id="fnvContents">
+        </div>
+
+
+      </div> <!-- fnvMainContainer -->
+    </div>
+
+
+
+
+
+      <div class="container">
+      <footer id="fnvFooter">
+        <div class="container">
+          <p class="pull-right">
+            <a class="fnvLocalLink" href="#fnvPanelHelp">Help</a>
+            &nbsp;|&nbsp;
+            <a class="fnvLocalLink" href="#fnvPanelConditions">Terms
+            and Conditions</a>
+          </p>
+          <p>&copy;2012 Jorge Nunes, All Rights Reserved</p>
+        </div>
+      </footer>
+      </div>
+
+
+
+
+
+    <div id="fnvPanelHome" class="fnvLocalContent">
+      <h1>Welcome</h1>
+
+      <p>Some blurb about how awsome the Friend Navigator app is.</p>
+    </div>
+
+
+
+
+
+    <div id="fnvPanelHelp" class="fnvLocalContent">
+      <h1>Help</h1>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing
+      elit. Maecenas libero eros, congue vel scelerisque ac, blandit
+      non tortor. Duis dapibus sapien vel augue ullamcorper quis
+      mattis orci rhoncus. Fusce sit amet magna nibh, at commodo
+      sapien. Phasellus interdum dui in libero tincidunt
+      varius. Aenean vel velit nec ante aliquet auctor vel eu
+      mi. Donec molestie tincidunt neque, eget adipiscing ante
+      venenatis non. Phasellus pulvinar urna non felis hendrerit
+      facilisis. Etiam nec magna at lorem blandit placerat non ac
+      diam. Quisque sapien lorem, lobortis dictum dignissim non,
+      faucibus quis lorem. Aenean at dui id massa egestas congue
+      tincidunt non quam. Duis dapibus molestie porta.</p>
+
+      <img src="http://placehold.it/256x192" width="256"
+      height="192" style="margin: 0 1em 1em 1em; float: right;" />
+      <p>Cras vitae nunc diam, ut faucibus elit. Maecenas orci massa,
+        dapibus id eleifend a, laoreet ac ipsum. Sed nisi enim, ornare
+        eu interdum sed, gravida vel sapien. Nam ornare rutrum
+        arcu. Morbi in nulla vitae elit lobortis luctus. Sed leo
+        augue, sollicitudin ut sollicitudin quis, congue a
+        tellus. Fusce ipsum metus, mollis vel varius cursus, iaculis
+        fringilla diam. Nam et mauris est, nec accumsan
+        metus. Phasellus porta, dui ac condimentum vestibulum, est
+        velit suscipit arcu, in egestas velit massa vel nisi. Quisque
+        aliquet dignissim sem, eget viverra justo pulvinar
+        dictum. Aliquam erat volutpat. Sed nisi augue, fringilla et
+        aliquet quis, ultricies eu mauris. Vestibulum felis sem,
+        fringilla a tincidunt vitae, euismod a lacus. Integer nec erat
+        vel nibh ullamcorper aliquam in non purus. Fusce interdum nisi
+        egestas velit facilisis sed semper lacus ullamcorper. Etiam
+        sagittis magna et lacus ullamcorper at interdum massa
+        suscipit.</p>
+
+      <p>Proin pellentesque rhoncus purus feugiat tincidunt. Quisque
+        aliquet ante id felis feugiat aliquet. Mauris sagittis tempus
+        lectus, ut congue diam eleifend vel. Fusce bibendum volutpat
+        metus vel venenatis. Ut at mattis odio. Ut auctor malesuada
+        purus nec molestie. Duis aliquet, ipsum nec pulvinar semper,
+        dui turpis semper metus, euismod lacinia metus sem ut
+        nisl. Aenean id risus odio. Nullam augue urna, placerat at
+        pulvinar in, pellentesque quis est. Vivamus placerat metus
+        vitae nibh pretium tempus et a dolor. Donec et quam nec sem
+        posuere iaculis vel sed arcu. Quisque non nulla ut odio
+        suscipit dapibus. Vestibulum vel metus nec est pharetra
+        eleifend.</p>
+
+    </div>
+
+
+
+
+
+    <div id="fnvPanelConditions" class="fnvLocalContent">
+      <h1>Terms and Conditions</h1>
+
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
+      aliquam neque aliquet quam adipiscing tempus. Sed lacinia
+      posuere luctus. In bibendum dignissim lectus, eu tincidunt urna
+      vehicula vitae. Nulla luctus arcu et felis tincidunt
+      pulvinar. Aliquam tempus fermentum odio vitae adipiscing. Nullam
+      commodo consequat lobortis. Suspendisse vulputate mollis ipsum,
+      et adipiscing leo sagittis nec. Donec eget venenatis mi. Aenean
+      aliquam lobortis arcu laoreet pharetra. Ut urna quam, pulvinar
+      sit amet consectetur non, fermentum quis leo. Fusce sagittis
+      volutpat dui ac blandit. Quisque et tellus erat, id tempor
+      tellus. Pellentesque accumsan pellentesque orci, lobortis
+      molestie felis elementum in. Phasellus facilisis augue at justo
+      sagittis tempus. Nam suscipit purus eget quam aliquam malesuada
+      at eget lacus. Praesent id lobortis risus.</p>
+
+      <img src="http://lorempixel.com/256/192/fashion" width="256"
+      height="192" style="margin: 0 1em 1em 1em; float: right;" />
+      <p>Pellentesque egestas, diam sit amet vestibulum condimentum,
+      metus lacus egestas nulla, cursus lacinia turpis enim sit amet
+      eros. Donec id massa a dui condimentum cursus. Nulla eu tortor
+      dui, a porta risus. Curabitur laoreet varius dolor, quis
+      vulputate mauris faucibus vitae. Class aptent taciti sociosqu ad
+      litora torquent per conubia nostra, per inceptos
+      himenaeos. Pellentesque vitae lectus quis tortor accumsan
+      hendrerit id vitae velit. Mauris eleifend ornare felis sed
+      molestie. Praesent rutrum sodales tortor, ac volutpat neque
+      eleifend a. Ut ac augue eget lacus facilisis iaculis non sed
+      mi. Aliquam suscipit malesuada interdum. Etiam tincidunt nibh in
+      felis euismod feugiat. Suspendisse potenti. Suspendisse
+      condimentum suscipit mattis. Suspendisse auctor erat id risus
+      blandit vitae volutpat libero consectetur.</p>
+
+      <p>Vestibulum tempus, tortor non tristique dictum, sapien dui
+      ultricies purus, quis molestie arcu nisi et est. Integer et enim
+      ut neque sollicitudin malesuada. Aliquam erat volutpat. Ut
+      bibendum vehicula dictum. Phasellus iaculis ipsum sit amet est
+      viverra congue at id leo. Proin faucibus mollis vulputate. Nunc
+      eu commodo ante. Nam sagittis lorem ac felis laoreet ut
+      elementum erat dictum.</p>
+
+    </div>
+
+
+
+
+
+  </body>
+
+</html>
