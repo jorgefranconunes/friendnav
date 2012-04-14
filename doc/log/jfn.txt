@@ -1,0 +1,165 @@
+2012/04/14
+
+Resumo:
+
+1. 
+
+
+
+
+
+cd .../friendnav
+git init
+git config user.name jorgefranconunes
+git config user.email jorgefranconunes@gmail.com
+git remote add origin git@github.com:jorgefranconunes/friendnav.git
+git push -u origin master
+
+
+
+
+
+http://git-scm.com/course/svn.html
+
+
+yum install git-svn
+
+
+cat > .../authors.txt <<EOF
+jfn = jorgefranconunes <jorgefranconunes@gmail.com>
+EOF
+
+git svn clone \
+    --authors-file=.../authors.txt \
+    --stdlayout \
+    svn+ssh://ssh.pdmfc.com/home/jfn/svn/math mathstuff
+cd ./mathstuff
+git config user.name jorgefranconunes
+git config user.email jorgefranconunes@gmail.com
+git remote add origin git@github.com:jorgefranconunes/mathstuff.git
+git push -u origin master
+
+
+
+
+
+2012/04/13
+
+Resumo:
+
+1. Some analysis work.
+
+
+
+
+
+https://apigee.com/console/ - apigee console for interacting with
+multiple APIs. Very usefull for learning the APIs.
+
+
+
+
+
+The goal of this project is to create an application for navigating
+the network of relations (friends) in a social network.
+
+There are two main panels in the application:
+
+* Friend list panel - Shows the neighbour nodes of the currently
+  selected node.
+
+* Friend map panel - Shows in a map the predecessors of the current
+  node, the current node, the neighbours of the current node.
+
+
+
+
+
+Friend list panel
+
+Shows the following:
+
+* Details of the currently selected node. When the aplication starts,
+  the first selected node is the user herself.
+
+* List of neighbours of the current node.
+
+Available actions:
+
+* Select item on the list of neighbours. The selected item becomes the
+  currently selected node.
+
+* Back - The current node is set to the previous current node. That
+  is, the predecessor of the current node becomes the current node.
+
+
+
+
+
+Friend map panel
+
+Shows a map with two sets of markers.
+
+* The predecessors of the current node and the current node. These
+  markers are connected with a line, starting on the initial node and
+  ending on the current node.
+
+* The neighbours of the current node. Each of these markers is
+  connected with a line to the marker for the current node.
+
+Each marker is displayed as an icon with the image of the
+corresponding node
+
+Available actions:
+
+* Select marker on map. The node corresponding to the marker becomes
+  the currently selected node.
+
+
+
+
+
+Data model
+
+
+Node - Represents a user of the social network.
+
+Attributes:
+
+* ID - Node unique ID.
+
+* Name
+
+* Image
+
+* Geo location (latitude, longitude).
+
+* Town.
+
+* Country.
+
+
+
+
+
+Social networks to be supported:
+
+* Foursquare
+
+* Twitter
+
+* Facebook
+
+* Google+
+
+
+
+
+
+* Authentication
+
+* API to abstract the underlying social network API. It will need to
+  handle asynchronous operations.
+
+* ???
+
