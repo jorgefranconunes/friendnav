@@ -1,3 +1,50 @@
+2012/04/30
+
+Resumo:
+
+1. 
+
+
+
+
+
+Authentication on Foursquare with OAuth2
+
+Documentation on the Foursquare API:
+https://developer.foursquare.com/overview/
+
+The purpose of the authentication is to obtain the access token. This
+access token is needed when making requests (invoking operations) on
+the Foursquare API.
+
+
+Preparation
+
+A "CLIENT_ID" needs to be obtained from Foursquare. Just go to and
+register the dev environment application.
+
+Client ID    : YWDNHROEVRQYDVY0QMFEBANSS43AMHPALDB3Z31HRX3KLAP3
+Callback url : http://localhost/friendnav/fnav/index.html
+
+
+Obtaining the access token
+
+https://foursquare.com/oauth2/authenticate
+?client_id=YWDNHROEVRQYDVY0QMFEBANSS43AMHPALDB3Z31HRX3KLAP3
+&response_type=token
+&redirect_uri=http:%2f%2flocalhost%2ffriendnav%2ffnav%2findex.html
+
+If the user accepts the browser will get redirected to
+http://localhost/friendnav/fnav/index.html/#access_token=ACCESS_TOKEN
+
+If the user does not accept the browser will ge redirected to
+http://localhost/friendnav/fnav/index.html (*** we need to confirm
+this ***).
+
+
+
+
+
 2012/04/14
 
 Resumo:
