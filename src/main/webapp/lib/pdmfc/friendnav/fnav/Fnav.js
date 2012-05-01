@@ -36,19 +36,23 @@ pdmfc.friendnav.fnav.Fnav = (function() {
         pdmfc.friendnav.fnav.views.main.FnavView;
     var HomePageView           =
         pdmfc.friendnav.fnav.views.home.HomePageView;
+    var FriendsBrowserPageView =
+        pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView;
 
 
 
 
-    var APP_NAME           = "Fnav";
-    var PANEL_TOP_CONTENTS = "#fnvContents";
-    var PANEL_HOME         = "#fnvPanelHome";
+    var APP_NAME              = "Fnav";
+    var PANEL_TOP_CONTENTS    = "#fnvContents";
+    var PANEL_HOME            = "#fnvPanelHome";
+    var PANEL_FRIENDS_BROWSER = "#fnvPanelFriendsBrowser";
 
     var _logger     = SimpleLogger.createFor(APP_NAME);
     var _config     = null;
 
-    var _viewFnav     = null;
-    var _viewHomePage = null;
+    var _viewFnav               = null;
+    var _viewHomePage           = null;
+    var _viewFriendsBrowserPage = null;
 
     var _controllerFnav = null;
 
@@ -87,11 +91,11 @@ pdmfc.friendnav.fnav.Fnav = (function() {
             var viewFnavConfig = {
                 containerPanelId  : PANEL_TOP_CONTENTS,
                 pageViewsMap      : {
-                    "Home" : fetchViewHomePage(),
-                    "Main" : fetchViewHomePage(), // Will change soon...
+                    "Home"           : fetchViewHomePage(),
+                    "FriendsBrowser" : fetchViewFriendsBrowserPage(),
                 },
                 preLoginViewCode  : "Home",
-                postLoginViewCode : "Main"
+                postLoginViewCode : "FriendsBrowser"
             };
 
             _viewFnav = new FnavView(viewFnavConfig);
@@ -117,6 +121,26 @@ pdmfc.friendnav.fnav.Fnav = (function() {
         }
 
         return _viewHomePage;
+    }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+    function fetchViewFriendsBrowserPage() {
+
+        if ( _viewFriendsBrowserPage == null ) {
+            _viewFriendsBrowserPage =
+                new FriendsBrowserPageView(PANEL_FRIENDS_BROWSER);
+        }
+
+        return _viewFriendsBrowserPage;
     }
 
 

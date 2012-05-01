@@ -14,7 +14,8 @@ pdmfc.namespace("pdmfc.friendnav.fnav.views.main");
 
 /**************************************************************************
  *
- * A panel with a breadcrumb bar at the top.
+ * A panel for managing transitions between panels on the main
+ * contents area.
  *
  * The page objects are expected to respond to the following methods:
  *

@@ -1,8 +1,31 @@
-2012/04/30
+2012/05/01
 
 Resumo:
 
 1. 
+
+
+
+
+
+Documentation on obtaining the current document URL:
+https://developer.mozilla.org/En/DOM/Window.location#Location%5Fobject
+
+
+To obtain the current URL, without hash:
+
+var location = window.location;
+var url      = location.protocol + "//" + location.host + location.pathname;
+
+
+
+
+
+2012/04/30
+
+Resumo:
+
+1. Analysis on authentication using Foursquare.
 
 
 
@@ -25,6 +48,9 @@ register the dev environment application.
 
 Client ID    : YWDNHROEVRQYDVY0QMFEBANSS43AMHPALDB3Z31HRX3KLAP3
 Callback url : http://localhost/friendnav/fnav/index.html
+
+This Client ID is used by Foursquare as a unique identifier of our
+application.
 
 
 Obtaining the access token

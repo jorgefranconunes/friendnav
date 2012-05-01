@@ -170,7 +170,7 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
             this._logger.info("View \"{0}\" selected", viewCode);
 
-            this.showTopPage(view);
+            this.showPage(view);
         }
 
 
@@ -363,24 +363,6 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
 /**************************************************************************
  *
- * Specifies the callback to be invoked invoked when the login form is
- * submmited by the user. The callback will be called with an object
- * containing the form field values (username, password).
- *
- **************************************************************************/
-
-        FnavView.prototype.onLoginSubmitted =
-        function ( callback ) {
-
-            this._viewLoginForm.onLoginSubmitted(callback);
-        }
-
-
-
-
-
-/**************************************************************************
- *
  * 
  *
  **************************************************************************/
@@ -389,23 +371,6 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
         function ( callback ) {
 
             this._callbackLogoutSelected = callback;
-        }
-
-
-
-
-
-/**************************************************************************
- *
- * Displays the login failure message. When the users dismisses the
- * message the form will be emptied and ready for use again.
- *
- **************************************************************************/
-
-        FnavView.prototype.showLoginFailureMessage =
-        function () {
-
-            this._viewLoginForm.showLoginFailureMessage();
         }
 
 
@@ -425,7 +390,7 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
             this._panelLoginForm.hide();
             this._panelUserActions.show();
-            this.showTopPage(this._postLoginView);
+            this.showPage(this._postLoginView);
         }
 
 
