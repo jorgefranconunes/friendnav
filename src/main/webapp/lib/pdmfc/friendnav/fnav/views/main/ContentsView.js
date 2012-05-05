@@ -41,7 +41,7 @@ pdmfc.friendnav.fnav.views.main.ContentsView = (function() {
         var DEFAULT_TRANSITION_TYPE = "fadeoutin";
 
         ContentsView.prototype._transitionManager = null;
-        ContentsView.prototype._container     = null;
+        ContentsView.prototype._container         = null;
         ContentsView.prototype._currentPage       = null;
 
 
@@ -76,12 +76,21 @@ pdmfc.friendnav.fnav.views.main.ContentsView = (function() {
         ContentsView.prototype.showPage =
         function ( nextPage ) {
 
-            var container = this._container;
-            var fromPage  = this._currentPage;
-            var fromPanel = (fromPage!=null) ? fromPage.getElement() : null;
-            var nextPanel = nextPage.getElement();
+            if ( nextPage !== this._currentPage ) {
+                var container = this._container;
+                var fromPage  = this._currentPage;
+                var fromPanel = (fromPage!=null) ? fromPage.getElement() : null;
+                var nextPanel = nextPage.getElement();
 
-            this._showPage(container, fromPanel, fromPage, nextPanel, nextPage);
+                this._showPage(container,
+                               fromPanel,
+                               fromPage,
+                               nextPanel,
+                               nextPage);
+            } else {
+                // We are already displaying the given page. Nothing
+                // to do...
+            }
         }
 
 

@@ -70,7 +70,9 @@ pdmfc.friendnav.fnav.Fnav = (function() {
 
         _logger.info("Initializing {0}...", APP_NAME);
 
-        fetchControllerFnav();
+        var controllerFnav = fetchControllerFnav();
+
+        controllerFnav.initialize();
 
         _logger.info("Done initializing {0}.", APP_NAME);
     }

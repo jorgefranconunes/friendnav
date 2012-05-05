@@ -100,9 +100,6 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
             this._setupLogoutLinks();
             this._setupHomeLinks();
 
-            logger.info("Seting initial view to \"{0}\"", preLoginViewCode);
-            this.showPage(this._preLoginView);
-
             logger.info("Done seting up view for \"{0}\"", containerPanelId);
         }
 
@@ -388,8 +385,6 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
             this._isLoggedIn = true;
 
-            this._panelLoginForm.hide();
-            this._panelUserActions.show();
             this.showPage(this._postLoginView);
         }
 
@@ -408,9 +403,6 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
             this._isLoggedIn = false;
 
-            this._panelUserActions.hide();
-            this._panelLoginForm.show();
-            this._viewLoginForm.reset();
             this.showPage(this._preLoginView);
         }
 

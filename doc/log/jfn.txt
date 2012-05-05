@@ -1,3 +1,19 @@
+2012/05/05
+
+Resumo:
+
+1. 
+
+
+
+
+
+Javascript library for managing cookies: http://code.google.com/p/cookies/
+
+
+
+
+
 2012/05/01
 
 Resumo:
@@ -49,8 +65,8 @@ register the dev environment application.
 Client ID    : YWDNHROEVRQYDVY0QMFEBANSS43AMHPALDB3Z31HRX3KLAP3
 Callback url : http://localhost/friendnav/fnav/index.html
 
-This Client ID is used by Foursquare as a unique identifier of our
-application.
+This Client ID is actually used by Foursquare as a unique identifier
+of our application.
 
 
 Obtaining the access token
@@ -61,11 +77,26 @@ https://foursquare.com/oauth2/authenticate
 &redirect_uri=http:%2f%2flocalhost%2ffriendnav%2ffnav%2findex.html
 
 If the user accepts the browser will get redirected to
-http://localhost/friendnav/fnav/index.html/#access_token=ACCESS_TOKEN
+http://localhost/friendnav/fnav/index.html#access_token=ACCESS_TOKEN
 
 If the user does not accept the browser will ge redirected to
 http://localhost/friendnav/fnav/index.html (*** we need to confirm
 this ***).
+
+
+When the application starts one of the following scenarios will occur:
+
+* The URL has no "access_token" hash and the user has not logged in -
+  The pre-login page is displayed.
+
+* The URL has no "access_token" hash and the user has already logged
+  in - The post-login page is displayed.
+
+* The URL has the "access_token" hash and it does not matter if the
+  user has already logged in - The access token is stored for later
+  use when invoking Foursquare web services. The post-login page is
+  displayed. The URL on the browser should also be changed to not
+  contain the hash.
 
 
 
