@@ -27,8 +27,9 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
 
         var COOKIE_ACCESS_TOKEN = "FnavAccessToken";
 
-        FnavController.prototype._logger         = null;
-        FnavController.prototype._viewFnav       = null;
+        FnavController.prototype._logger     = null;
+        FnavController.prototype._fsqManager = null;
+        FnavController.prototype._viewFnav   = null;
 
         FnavController.prototype._isLoggedIn  = false;
         FnavController.prototype._accessToken = null;
@@ -43,14 +44,16 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
  *
  **************************************************************************/
 
-        function FnavController ( viewFnav ) {
+        function FnavController ( fsqManager,
+                                  viewFnav ) {
 
             var logger = SimpleLogger.createFor("FnavController");
 
             logger.info("Seting up...");
 
-            this._logger   = logger;
-            this._viewFnav = viewFnav;
+            this._logger      = logger;
+            this._fsqManager  = fsqManager;
+            this._viewFnav    = viewFnav;
             this._accessToken = getCookieValue(COOKIE_ACCESS_TOKEN);
             this._isLoggedIn  = (this._accessToken != null );
         }
@@ -79,6 +82,10 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
                 setCookieValue(COOKIE_ACCESS_TOKEN, newAccessToken);
                 this._accessToken = newAccessToken;
                 this._isLoggedIn  = true;
+
+                // Remove the hash with the access token from the URL
+                // the browser is displaying.
+                window.location.hash = null;
             } else {
                 this._logger.info("No access token specified.");
             }
@@ -87,10 +94,39 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
                 this._logger.info("User is signed in.");
 
                 this._viewFnav.showPostLoginView();
+
+                var self = this;
+
+                this._fsqManager.setAccessToken(this._accessToken);
+                this._fsqManager.retrieveSelfUserNode(function ( node ) {
+                        self._setSelfUserNode(node);
+                    });
             } else {
                 this._logger.info("User is not yet signed in.");
 
                 this._viewFnav.showPreLoginView();
+            }
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        FnavController.prototype._setSelfUserNode =
+        function ( userNode ) {
+
+            if ( userNode != null ) {
+                this._logger.info("Receieved self user node:");
+                this._logger.infoObj(userNode);
+                // TBD
+            } else {
+                this._logger.info("Failed to receive self user node...");
             }
         }
 

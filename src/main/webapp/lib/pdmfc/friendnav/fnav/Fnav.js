@@ -38,6 +38,8 @@ pdmfc.friendnav.fnav.Fnav = (function() {
         pdmfc.friendnav.fnav.views.home.HomePageView;
     var FriendsBrowserPageView =
         pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView;
+    var Foursquare             =
+        pdmfc.friendnav.foursquare.Foursquare;
 
 
 
@@ -55,6 +57,8 @@ pdmfc.friendnav.fnav.Fnav = (function() {
     var _viewFriendsBrowserPage = null;
 
     var _controllerFnav = null;
+
+    var _foursquareManager = null;
 
 
 
@@ -158,12 +162,32 @@ pdmfc.friendnav.fnav.Fnav = (function() {
     function fetchControllerFnav() {
 
         if ( _controllerFnav == null ) {
-            var viewFnav = fetchViewFnav();
+            var fsqManager = fetchFoursquareManager();
+            var viewFnav   = fetchViewFnav();
 
-            _controllerFnav = new FnavController(viewFnav);
+            _controllerFnav = new FnavController(fsqManager, viewFnav);
         }
 
         return _controllerFnav;
+    }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+    function fetchFoursquareManager() {
+
+        if ( _foursquareManager == null ) {
+            _foursquareManager = new Foursquare();
+        }
+
+        return _foursquareManager;
     }
 
 
