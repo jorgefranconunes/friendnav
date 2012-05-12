@@ -161,6 +161,7 @@ pdmfc.friendnav.foursquare.Foursquare = (function() {
                 id        : fsqUser.id,
                 firstName : fsqUser.firstName,
                 lastName  : fsqUser.lastName,
+                email     : fsqUser.contact ? fsqUser.contact.email : null,
                 photoUrl  : fsqUser.photo,
             };
 

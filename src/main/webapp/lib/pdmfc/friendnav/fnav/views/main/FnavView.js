@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012 PDMFC, All Rights Reserved.
+ * Copyright (c) 2012 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -29,6 +29,8 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
             pdmfc.util.text.MessageFormat;
         var ContentsView       =
             pdmfc.friendnav.fnav.views.main.ContentsView;
+        var UserDataView        =
+            pdmfc.friendnav.fnav.views.main.UserDataView;
 
 
 
@@ -38,6 +40,7 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
         FnavView.prototype._preLoginView  = null;
         FnavView.prototype._postloginView = null;
         FnavView.prototype._viewContents  = null;
+        FnavView.prototype._viewUserData  = null;
 
         FnavView.prototype._isLoggedIn = false;
 
@@ -94,6 +97,7 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
             this._postLoginView = this._getViewWithCode(postLoginViewCode);
 
             this._viewContents = new ContentsView(containerPanelId);
+            this._viewUserData = new UserDataView("#fnvUserData");
 
             this._setupPageViewLinks(containerPanelId);
             this._setupLocalLinks();
@@ -385,6 +389,7 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
             this._isLoggedIn = true;
 
+            this._viewUserData.showWithUserData(userProfile);
             this.showPage(this._postLoginView);
         }
 
@@ -403,6 +408,7 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
             this._isLoggedIn = false;
 
+            this._viewUserData.hide();
             this.showPage(this._preLoginView);
         }
 

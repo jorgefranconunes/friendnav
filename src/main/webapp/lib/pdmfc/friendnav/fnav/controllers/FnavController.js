@@ -47,9 +47,14 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
         function FnavController ( fsqManager,
                                   viewFnav ) {
 
+            var self   = this;
             var logger = SimpleLogger.createFor("FnavController");
 
             logger.info("Seting up...");
+
+            viewFnav.onLogoutSelected(function () {
+                    self._logoutSelectedEvent();
+                });
 
             this._logger      = logger;
             this._fsqManager  = fsqManager;
@@ -85,15 +90,13 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
 
                 // Remove the hash with the access token from the URL
                 // the browser is displaying.
-                window.location.hash = null;
+                window.location.hash = "";
             } else {
                 this._logger.info("No access token specified.");
             }
 
             if ( this._isLoggedIn ) {
                 this._logger.info("User is signed in.");
-
-                this._viewFnav.showPostLoginView();
 
                 var self = this;
 
@@ -118,13 +121,35 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
  *
  **************************************************************************/
 
+        FnavController.prototype._logoutSelectedEvent =
+        function () {
+
+            deleteCookie(COOKIE_ACCESS_TOKEN);
+
+            this._accessToken = null;
+            this._isLoggedIn  = false;
+
+            this._viewFnav.showPreLoginView();
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
         FnavController.prototype._setSelfUserNode =
         function ( userNode ) {
 
             if ( userNode != null ) {
-                this._logger.info("Receieved self user node:");
+                this._logger.info("Received self user node:");
                 this._logger.infoObj(userNode);
-                // TBD
+
+                this._viewFnav.showPostLoginView(userNode);
             } else {
                 this._logger.info("Failed to receive self user node...");
             }
@@ -168,6 +193,21 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
             };
 
             jaaulde.utils.cookies.set(cookieName, cookieValue, cookieOptions);
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * Retrieves the value of a cookie.
+ *
+ **************************************************************************/
+
+        function deleteCookie ( cookieName ) {
+
+            jaaulde.utils.cookies.del(cookieName);
         }
 
 

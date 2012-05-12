@@ -32,6 +32,10 @@
        src="../lib/jquery/jquery.cookies.2.2.0.min.js"
        type="text/javascript">
     </script>
+     <script
+        src="../lib/bootstrap-2.0.2/js/bootstrap-dropdown.js"
+        type="text/javascript">
+     </script>
     <script
        src="../lib/bootstrap-2.0.2/js/bootstrap-transition.js"
        type="text/javascript">
@@ -89,6 +93,10 @@
        type="text/javascript">
     </script>
     <script
+       src="../lib/pdmfc/friendnav/fnav/views/main/UserDataView.js"
+       type="text/javascript">
+    </script>
+    <script
        src="../lib/pdmfc/friendnav/fnav/views/main/FnavView.js"
        type="text/javascript">
     </script>
@@ -133,8 +141,30 @@
           <a class="brand fnvHomeLink" id="fnvHomeLink" href="#">
             Friend Navigator
           </a>
-          <ul class="nav" style="display: none;">
+
+          <ul class="nav">
+            <li><a href="#">&nbsp;</a></li>
           </ul>
+
+          <ul class="nav pull-right" id="fnvUserData" style="display: none;">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img width="32" height="32" id="fnvUserDataPhoto"/>
+                <span id="fnvUserDataName"></span><b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="nav-list">
+                  <h5 id="fnvUserDataUsername"></h5>
+                  <em id="fnvUserDataEmail"></em>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a class="fnvLogoutLink" href="#">Sign Out</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
         </div>
       </div>
     </div>
