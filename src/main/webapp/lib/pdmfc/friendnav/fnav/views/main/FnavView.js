@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012 PDMFC, All Rights Reserved.
+ * Copyright (c) 2012 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -29,6 +29,8 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
             pdmfc.util.text.MessageFormat;
         var ContentsView       =
             pdmfc.friendnav.fnav.views.main.ContentsView;
+        var UserDataView        =
+            pdmfc.friendnav.fnav.views.main.UserDataView;
 
 
 
@@ -38,6 +40,7 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
         FnavView.prototype._preLoginView  = null;
         FnavView.prototype._postloginView = null;
         FnavView.prototype._viewContents  = null;
+        FnavView.prototype._viewUserData  = null;
 
         FnavView.prototype._isLoggedIn = false;
 
@@ -94,14 +97,12 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
             this._postLoginView = this._getViewWithCode(postLoginViewCode);
 
             this._viewContents = new ContentsView(containerPanelId);
+            this._viewUserData = new UserDataView("#fnvUserData");
 
             this._setupPageViewLinks(containerPanelId);
             this._setupLocalLinks();
             this._setupLogoutLinks();
             this._setupHomeLinks();
-
-            logger.info("Seting initial view to \"{0}\"", preLoginViewCode);
-            this.showPage(this._preLoginView);
 
             logger.info("Done seting up view for \"{0}\"", containerPanelId);
         }
@@ -170,7 +171,7 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
             this._logger.info("View \"{0}\" selected", viewCode);
 
-            this.showTopPage(view);
+            this.showPage(view);
         }
 
 
@@ -363,24 +364,6 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
 /**************************************************************************
  *
- * Specifies the callback to be invoked invoked when the login form is
- * submmited by the user. The callback will be called with an object
- * containing the form field values (username, password).
- *
- **************************************************************************/
-
-        FnavView.prototype.onLoginSubmitted =
-        function ( callback ) {
-
-            this._viewLoginForm.onLoginSubmitted(callback);
-        }
-
-
-
-
-
-/**************************************************************************
- *
  * 
  *
  **************************************************************************/
@@ -389,23 +372,6 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
         function ( callback ) {
 
             this._callbackLogoutSelected = callback;
-        }
-
-
-
-
-
-/**************************************************************************
- *
- * Displays the login failure message. When the users dismisses the
- * message the form will be emptied and ready for use again.
- *
- **************************************************************************/
-
-        FnavView.prototype.showLoginFailureMessage =
-        function () {
-
-            this._viewLoginForm.showLoginFailureMessage();
         }
 
 
@@ -423,9 +389,8 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
             this._isLoggedIn = true;
 
-            this._panelLoginForm.hide();
-            this._panelUserActions.show();
-            this.showTopPage(this._postLoginView);
+            this._viewUserData.showWithUserData(userProfile);
+            this.showPage(this._postLoginView);
         }
 
 
@@ -443,9 +408,7 @@ pdmfc.friendnav.fnav.views.main.FnavView = (function() {
 
             this._isLoggedIn = false;
 
-            this._panelUserActions.hide();
-            this._panelLoginForm.show();
-            this._viewLoginForm.reset();
+            this._viewUserData.hide();
             this.showPage(this._preLoginView);
         }
 
