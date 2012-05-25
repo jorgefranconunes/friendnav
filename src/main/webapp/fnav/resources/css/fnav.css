@@ -85,3 +85,47 @@ html, body {
     text-align: center;
 }
 
+
+
+
+
+/**
+ *
+ * 
+ *
+ */
+
+.fnvUserNodeDetail > h1 {
+    white-space : nowrap;
+    text-overflow : ellipsis;
+    overflow : hidden;
+    text-align : left;
+}
+
+.fnvUserNodeDetail > div {
+    background-image : url(../resources/img/UserNodePlaceholder-large.png);
+    background-position : center;
+    background-repeat : no-repeat;
+    background-size : cover;
+    border-radius : 8px;
+    margin : auto;
+    width : 200px;
+    height : 200px;
+}
+
+
+.fnvUserNodeItem {
+    clear : both;
+    margin-bottom : 1em;
+}
+
+.fnvUserNodeItemPhoto {
+    background-position : center;
+    background-repeat : no-repeat;
+    background-size : cover;
+    border-radius : 4px;
+    width : 48px;
+    height : 48px;
+    margin-right : 1em;
+    margin-bottom : 1em;
+}

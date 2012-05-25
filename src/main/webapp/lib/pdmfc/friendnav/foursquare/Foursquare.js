@@ -109,6 +109,44 @@ pdmfc.friendnav.foursquare.Foursquare = (function() {
 
 /**************************************************************************
  *
+ * Retrieves the list of friends for the given user.
+ *
+ * @param userId
+ *
+ * @param callback Function called when data is retrieved. Will be
+ * called a list of UserNode as argument.
+ *
+ **************************************************************************/
+
+        Foursquare.prototype.retrieveFriendsList =
+        function ( userId,
+                   callback ) {
+
+            var self            = this;
+            var endpoint        = "users/" + userId + "/friends";
+            var callParams      = {}
+            var requestCallback = function ( response ) {
+                var userNodeList = null;
+                
+                if ( response != null ) {
+                    var fsqUserList = response.friends.items;
+
+                    userNodeList =
+                        buildUserNodeListFromFsqUserList(fsqUserList);
+                }
+
+                callback(userNodeList);
+            };
+
+            this._doGetAuth(endpoint, callParams, requestCallback);
+        }
+
+
+
+
+
+/**************************************************************************
+ *
  * 
  *
  **************************************************************************/
@@ -157,15 +195,44 @@ pdmfc.friendnav.foursquare.Foursquare = (function() {
 
         function buildUserNodeFromFsqUser ( fsqUser ) {
 
+            var photoUrl      = fsqUser.photo;
+            var largePhotoUrl =
+                photoUrl.replace("/userpix_thumbs/", "/userpix/");
+
             var result = {
-                id        : fsqUser.id,
-                firstName : fsqUser.firstName,
-                lastName  : fsqUser.lastName,
-                email     : fsqUser.contact ? fsqUser.contact.email : null,
-                photoUrl  : fsqUser.photo,
+                id            : fsqUser.id,
+                firstName     : fsqUser.firstName,
+                lastName      : fsqUser.lastName,
+                email         : fsqUser.contact ? fsqUser.contact.email : null,
+                photoUrl      : fsqUser.photo,
+                largePhotoUrl : largePhotoUrl
             };
 
             return result;
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        function buildUserNodeListFromFsqUserList ( fsqUserList ) {
+
+            var userNodeList = [];
+
+            for ( var i=0, size=fsqUserList.length; i<size; ++i ) {
+                var fsqUser  = fsqUserList[i];
+                var userNode = buildUserNodeFromFsqUser(fsqUser);
+
+                userNodeList.push(userNode);
+            }
+
+            return userNodeList;
         }
 
 

@@ -29,8 +29,10 @@ pdmfc.friendnav.fnav.Fnav = (function() {
 
     var SimpleLogger   = pdmfc.util.logging.SimpleLogger;
 
-    var FnavController              =
+    var FnavController               =
         pdmfc.friendnav.fnav.controllers.FnavController;
+    var FriendsBrowserPageController =
+        pdmfc.friendnav.fnav.controllers.FriendsBrowserPageController;
 
     var FnavView               =
         pdmfc.friendnav.fnav.views.main.FnavView;
@@ -47,7 +49,7 @@ pdmfc.friendnav.fnav.Fnav = (function() {
     var APP_NAME              = "Fnav";
     var PANEL_TOP_CONTENTS    = "#fnvContents";
     var PANEL_HOME            = "#fnvPanelHome";
-    var PANEL_FRIENDS_BROWSER = "#fnvPanelFriendsBrowser";
+    var PANEL_FRIENDS_BROWSER = "#fnvFriendsBrowser";
 
     var _logger     = SimpleLogger.createFor(APP_NAME);
     var _config     = null;
@@ -56,7 +58,8 @@ pdmfc.friendnav.fnav.Fnav = (function() {
     var _viewHomePage           = null;
     var _viewFriendsBrowserPage = null;
 
-    var _controllerFnav = null;
+    var _controllerFnav               = null;
+    var _controllerFriendsBrowserPage = null;
 
     var _foursquareManager = null;
 
@@ -73,6 +76,8 @@ pdmfc.friendnav.fnav.Fnav = (function() {
     function initialize() {
 
         _logger.info("Initializing {0}...", APP_NAME);
+
+        fetchControllerFriendsBrowserPage();
 
         var controllerFnav = fetchControllerFnav();
 
@@ -169,6 +174,36 @@ pdmfc.friendnav.fnav.Fnav = (function() {
         }
 
         return _controllerFnav;
+    }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+    function fetchControllerFriendsBrowserPage() {
+
+        if ( _controllerFriendsBrowserPage == null ) {
+            var fsqManager = fetchFoursquareManager();
+            var view       = fetchViewFriendsBrowserPage();
+
+            _controllerFriendsBrowserPage =
+                new FriendsBrowserPageController(fsqManager, view);
+
+            var fnavController = fetchControllerFnav();
+            var callback       = function ( userNode ) {
+                _controllerFriendsBrowserPage.setInitialUserNode(userNode);
+            };
+
+            fnavController.onInitialUserNode(callback);
+        }
+
+        return _controllerFriendsBrowserPage;
     }
 
 

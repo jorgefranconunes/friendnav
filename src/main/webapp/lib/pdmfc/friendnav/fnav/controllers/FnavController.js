@@ -31,8 +31,9 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
         FnavController.prototype._fsqManager = null;
         FnavController.prototype._viewFnav   = null;
 
-        FnavController.prototype._isLoggedIn  = false;
-        FnavController.prototype._accessToken = null;
+        FnavController.prototype._isLoggedIn              = false;
+        FnavController.prototype._accessToken             = null;
+        FnavController.prototype._callbackInitialUserNode = null;
 
 
 
@@ -121,6 +122,22 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
  *
  **************************************************************************/
 
+        FnavController.prototype.onInitialUserNode =
+        function ( callback ) {
+
+            this._callbackInitialUserNode = callback;
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
         FnavController.prototype._logoutSelectedEvent =
         function () {
 
@@ -150,6 +167,10 @@ pdmfc.friendnav.fnav.controllers.FnavController = (function() {
                 this._logger.infoObj(userNode);
 
                 this._viewFnav.showPostLoginView(userNode);
+
+                var callback = this._callbackInitialUserNode;
+
+                callback && callback(userNode);
             } else {
                 this._logger.info("Failed to receive self user node...");
             }
