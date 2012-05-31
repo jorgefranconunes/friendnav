@@ -195,7 +195,11 @@ pdmfc.friendnav.foursquare.Foursquare = (function() {
 
         function buildUserNodeFromFsqUser ( fsqUser ) {
 
+            var name          = buildName(fsqUser);
             var photoUrl      = fsqUser.photo;
+
+            // This is a hack. We should have an official procedure
+            // for obtaining the lasr photo for the user...
             var largePhotoUrl =
                 photoUrl.replace("/userpix_thumbs/", "/userpix/");
 
@@ -203,6 +207,7 @@ pdmfc.friendnav.foursquare.Foursquare = (function() {
                 id            : fsqUser.id,
                 firstName     : fsqUser.firstName,
                 lastName      : fsqUser.lastName,
+                name          : name,
                 email         : fsqUser.contact ? fsqUser.contact.email : null,
                 photoUrl      : fsqUser.photo,
                 largePhotoUrl : largePhotoUrl
@@ -221,15 +226,55 @@ pdmfc.friendnav.foursquare.Foursquare = (function() {
  *
  **************************************************************************/
 
+        function buildName ( fsqUser ) {
+
+            var firstName = fsqUser.firstName;
+            var lastName  = fsqUser.lastName;
+            var name      = null;
+
+            if ( firstName != null ) {
+                if ( lastName != null ) {
+                    name = firstName + " " + lastName;
+                } else {
+                    name = firstName;
+                }
+            } else {
+                if ( lastName != null ) {
+                    name = lastName;
+                } else {
+                    name = "";
+                }
+            }
+
+            return name;
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
         function buildUserNodeListFromFsqUserList ( fsqUserList ) {
 
             var userNodeList = [];
 
             for ( var i=0, size=fsqUserList.length; i<size; ++i ) {
-                var fsqUser  = fsqUserList[i];
-                var userNode = buildUserNodeFromFsqUser(fsqUser);
+                var fsqUser     = fsqUserList[i];
+                var fsqUserType = fsqUser.type;
+                
+                if ( (fsqUserType===undefined) || (fsqUserType=="user") ) {
+                    var userNode = buildUserNodeFromFsqUser(fsqUser);
 
-                userNodeList.push(userNode);
+                    userNodeList.push(userNode);
+                } else {
+                    // Either a "page" or a "celebrity". We don't care
+                    // about those...
+                }
             }
 
             return userNodeList;

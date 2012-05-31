@@ -88,7 +88,7 @@ pdmfc.friendnav.fnav.views.friends.UserNodeDetailView = (function() {
         UserNodeDetailView.prototype.setUserNode =
         function ( userNode ) {
 
-            var name     = userNode.firstName + " " + userNode.lastName;
+            var name     = userNode.name;
             var photoUrl = userNode.largePhotoUrl;
 
             this._divName.text(name);

@@ -48,6 +48,10 @@ pdmfc.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
 
             logger.info("Seting up...");
 
+            view.onUserNodeSelected(function ( userNode ) {
+                    self._setUserNode(userNode);
+                });
+
             this._logger     = logger;
             this._fsqManager = fsqManager;
             this._view       = view;
@@ -67,6 +71,38 @@ pdmfc.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
         function ( userNode ) {
 
             this._view.setInitialUserNode(userNode);
+            this._retrieveFriendsList(userNode);
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        FriendsBrowserPageController.prototype._setUserNode =
+        function ( userNode ) {
+
+            this._view.setUserNode(userNode);
+            this._retrieveFriendsList(userNode);
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        FriendsBrowserPageController.prototype._retrieveFriendsList =
+        function ( userNode ) {
 
             var self     = this;
             var userId   = userNode.id;

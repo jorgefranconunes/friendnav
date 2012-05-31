@@ -91,6 +91,29 @@ html, body {
 
 /**
  *
+ *
+ *
+ */
+
+#fnvFriendsBrowser {
+    height : 100%;
+}
+
+#fnvFriendsBrowser > div {
+    height : 100%;
+}
+
+#fnvFriendsBrowser > div > .span3 {
+    height : 100%;
+    overflow-y : auto;
+}
+
+
+
+
+
+/**
+ *
  * 
  *
  */

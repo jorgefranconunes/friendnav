@@ -34,6 +34,8 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
         UserNodeListView.prototype._spanCounter = null;
         UserNodeListView.prototype._divList     = null;
 
+        UserNodeListView.prototype._callbackUserNodeSelected = null;
+
 
 
 
@@ -75,6 +77,22 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
             var result = this._panel;
 
             return result;
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        UserNodeListView.prototype.onUserNodeSelected =
+        function ( callback ) {
+
+            this._callbackUserNodeSelected = callback;
         }
 
 
@@ -134,14 +152,25 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
         UserNodeListView.prototype._buildUserNodeElem =
         function ( userNode ) {
 
+            var self      = this;
             var photoElem = this._buildPhotoElem(userNode);
-            var name      = userNode.firstName + " " + userNode.lastName;
+            var name      = userNode.name;
+
+            var anchor =
+                jQuery("<a>")
+                .attr("href", "#")
+                .text(name);
+
+            anchor.click(function ( event ) {
+                    event.preventDefault();
+                    self._triggerUserNodeSelected(userNode);
+                });
 
             var elem = jQuery("<div>").addClass("fnvUserNodeItem");
 
             elem
             .append(photoElem)
-            .append(name);
+            .append(anchor);
 
             return elem;
         }
@@ -166,6 +195,28 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
                 .css("background-image", "url(" + photoUrl + ")");
 
             return elem;
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        UserNodeListView.prototype._triggerUserNodeSelected =
+        function ( userNode ) {
+
+            this._logger.info("Selected node {0} ({1})",
+                              userNode.id,
+                              userNode.name);
+
+            var callback = this._callbackUserNodeSelected;
+
+            callback && callback(userNode);
         }
 
 

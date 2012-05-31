@@ -61,6 +61,8 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
             var viewUserNodeDetail = new UserNodeDetailView(panelId + "Detail");
             var viewUserNodeList   = new UserNodeListView(panelId + "List");
 
+            
+
             this._logger             = logger;
             this._panel              = JQueryUtils.getOne(panelId);
             this._viewUserNodeDetail = viewUserNodeDetail;
@@ -132,12 +134,45 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
+        FriendsBrowserPageView.prototype.onUserNodeSelected =
+        function ( callback ) {
+
+            this._viewUserNodeList.onUserNodeSelected(callback);
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
         FriendsBrowserPageView.prototype.setInitialUserNode =
         function ( userNode ) {
 
-            this._logger.info("Showing initial node for {0} {1} ({2})",
-                              userNode.firstName,
-                              userNode.lastName,
+            this.setUserNode(userNode);
+
+            // TBD - Update navigation buttons.
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        FriendsBrowserPageView.prototype.setUserNode =
+        function ( userNode ) {
+
+            this._logger.info("Showing node for {0} ({1})",
+                              userNode.name,
                               userNode.id);
 
             this._currentUserNodeId = userNode.id;
