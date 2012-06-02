@@ -50,6 +50,7 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
 
         function UserNodeListView ( panelId ) {
 
+            var self   = this;
             var logger = SimpleLogger.createFor("UserNodeListView");
 
             logger.info("Seting up with panel \"{0}\"...", panelId);
@@ -57,6 +58,11 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
             var spanCounter = JQueryUtils.getOne(panelId + "Count");
             var divList     = JQueryUtils.getOne(panelId + "Listing");
             var buttonBack  = JQueryUtils.getOne(panelId + "Back");
+
+            buttonBack.click(function ( event ) {
+                    event.preventDefault();
+                    self._triggerBack();
+                });
 
             this._logger      = logger;
             this._panel       = JQueryUtils.getOne(panelId);
