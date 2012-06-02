@@ -33,8 +33,10 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
         UserNodeListView.prototype._panel       = null;
         UserNodeListView.prototype._spanCounter = null;
         UserNodeListView.prototype._divList     = null;
+        UserNodeListView.prototype._buttonBack  = null;
 
         UserNodeListView.prototype._callbackUserNodeSelected = null;
+        UserNodeListView.prototype._callbackBack             = null;
 
 
 
@@ -54,11 +56,13 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
 
             var spanCounter = JQueryUtils.getOne(panelId + "Count");
             var divList     = JQueryUtils.getOne(panelId + "Listing");
+            var buttonBack  = JQueryUtils.getOne(panelId + "Back");
 
             this._logger      = logger;
             this._panel       = JQueryUtils.getOne(panelId);
             this._spanCounter = spanCounter;
             this._divList     = divList;
+            this._buttonBack  = buttonBack;
         }
 
 
@@ -93,6 +97,42 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
         function ( callback ) {
 
             this._callbackUserNodeSelected = callback;
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        UserNodeListView.prototype.onBack =
+        function ( callback ) {
+
+            this._callbackBack = callback;
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        UserNodeListView.prototype.enableBackButton =
+        function ( isEnabled )  {
+
+            if ( isEnabled ) {
+                this._buttonBack.removeClass("disabled");
+            } else {
+                this._buttonBack.addClass("disabled");
+            }
         }
 
 
@@ -203,7 +243,7 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
 
 /**************************************************************************
  *
- * 
+ * Called when a node in the friends list is selected.
  *
  **************************************************************************/
 
@@ -217,6 +257,24 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
             var callback = this._callbackUserNodeSelected;
 
             callback && callback(userNode);
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * Called when the "back" button is clicked.
+ *
+ **************************************************************************/
+
+        UserNodeListView.prototype._triggerBack =
+        function () {
+
+            var callback = this._callbackBack;
+
+            callback && callback();
         }
 
 

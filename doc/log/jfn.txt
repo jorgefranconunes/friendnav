@@ -1,3 +1,30 @@
+2012/05/30
+
+Resumo:
+
+1. 
+
+
+
+
+
+Javascript libs for drawing graphs:
+
+https://github.com/jackrusher/jssvggraph - Very simple and basic. It
+might just be enough. (Not really. Nodes can only be text. This is
+just a proof-of-concept.)
+
+http://arborjs.org/
+
+http://thejit.org/ - Even better!
+
+https://github.com/mbostock/d3/wiki/Gallery (http://d3js.org/) - The
+best?
+
+
+
+
+
 2012/05/25
 
 Resumo:

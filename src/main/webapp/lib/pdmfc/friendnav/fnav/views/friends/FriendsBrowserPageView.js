@@ -150,12 +150,28 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
+        FriendsBrowserPageView.prototype.onBack =
+        function ( callback ) {
+
+            this._viewUserNodeList.onBack(callback);
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
         FriendsBrowserPageView.prototype.setInitialUserNode =
         function ( userNode ) {
 
-            this.setUserNode(userNode);
+            var isFirstUserNode = true;
 
-            // TBD - Update navigation buttons.
+            this._doSetUserNode(userNode, isFirstUserNode);
         }
 
 
@@ -171,14 +187,34 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
         FriendsBrowserPageView.prototype.setUserNode =
         function ( userNode ) {
 
-            this._logger.info("Showing node for {0} ({1})",
-                              userNode.name,
-                              userNode.id);
+            var isFirstUserNode = false;
+
+            this._doSetUserNode(userNode, isFirstUserNode);
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        FriendsBrowserPageView.prototype._doSetUserNode =
+        function ( userNode,
+                   isFirstUserNode ) {
+
+            this._logger.info("Showing node {0} ({1})",
+                              userNode.id,
+                              userNode.name);
 
             this._currentUserNodeId = userNode.id;
 
             this._viewUserNodeDetail.setUserNode(userNode);
             this._viewUserNodeList.clear();
+            this._viewUserNodeList.enableBackButton(!isFirstUserNode);
         }
 
 
@@ -200,7 +236,7 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
             if ( currentUserNodeId == userId ) {
                 this._viewUserNodeList.setUserNodeList(userNodeList);
             } else {
-                this._logger.info("Friends list for user {0} ignored...",
+                this._logger.info("Friends list for old node {0} ignored...",
                                   userId);
             }
         }

@@ -68,3 +68,4 @@ Foursquare and passed to the FnavView:
 * Last name.
 * Email.
 * URL for image with picture of user.
+

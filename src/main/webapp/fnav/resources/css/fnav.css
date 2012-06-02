@@ -108,6 +108,10 @@ html, body {
     overflow-y : auto;
 }
 
+#fnvFriendsBrowser > div > .span3 > div + div {
+    margin-top : 0.83em;
+}
+
 
 
 
