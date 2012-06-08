@@ -277,6 +277,12 @@ pdmfc.friendnav.foursquare.Foursquare = (function() {
                 }
             }
 
+            userNodeList.sort(function ( a, b ) {
+                    var s1 = a.name.toLocaleLowerCase();
+                    var s2 = b.name.toLocaleLowerCase();
+                    return s1.localeCompare(s2);
+                });
+
             return userNodeList;
         }
 

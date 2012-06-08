@@ -19,22 +19,28 @@ pdmfc.namespace("pdmfc.friendnav.fnav.views.friends");
  *
  **************************************************************************/
 
-pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
+pdmfc.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
 
         var SimpleLogger = pdmfc.util.logging.SimpleLogger;
         var JQueryUtils  = pdmfc.util.jquery.JQueryUtils;
 
-        var UserNodeNavigatorView =
-            pdmfc.friendnav.fnav.views.friends.UserNodeNavigatorView;
+        var UserNodeDetailView =
+            pdmfc.friendnav.fnav.views.friends.UserNodeDetailView;
+        var UserNodeListView =
+            pdmfc.friendnav.fnav.views.friends.UserNodeListView;
 
 
 
 
 
-        FriendsBrowserPageView.prototype._logger        = null;
-        FriendsBrowserPageView.prototype._panel         = null;
-        FriendsBrowserPageView.prototype._callbackShow  = null;
-        FriendsBrowserPageView.prototype._viewNavigator = null;
+        UserNodeNavigatorView.prototype._logger             = null;
+        UserNodeNavigatorView.prototype._panel              = null;
+        UserNodeNavigatorView.prototype._callbackShow       = null;
+        UserNodeNavigatorView.prototype._viewUserNodeDetail = null;
+        UserNodeNavigatorView.prototype._viewUserNodeList   = null;
+
+        // The ID of the user node currently being displayed.
+        UserNodeNavigatorView.prototype._currentUserNodeId = null;
 
 
 
@@ -46,17 +52,21 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
-        function FriendsBrowserPageView ( panelId ) {
+        function UserNodeNavigatorView ( panelId ) {
 
-            var logger = SimpleLogger.createFor("FriendsBrowserPageView");
+            var logger = SimpleLogger.createFor("UserNodeNavigatorView");
 
             logger.info("Seting up with panel \"{0}\"...", panelId);
 
-            var viewNavigator = new UserNodeNavigatorView(panelId);
+            var viewUserNodeDetail = new UserNodeDetailView(panelId + "Detail");
+            var viewUserNodeList   = new UserNodeListView(panelId + "List");
 
-            this._logger        = logger;
-            this._panel         = JQueryUtils.getOne(panelId);
-            this._viewNavigator = viewNavigator;
+            
+
+            this._logger             = logger;
+            this._panel              = JQueryUtils.getOne(panelId);
+            this._viewUserNodeDetail = viewUserNodeDetail;
+            this._viewUserNodeList   = viewUserNodeList;
         }
 
 
@@ -69,7 +79,7 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageView.prototype.getElement =
+        UserNodeNavigatorView.prototype.getElement =
         function () {
 
             var result = this._panel;
@@ -87,7 +97,7 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageView.prototype.showEvent =
+        UserNodeNavigatorView.prototype.showEvent =
         function ( isVisible ) {
 
             this._logger.info("View is now {0}",
@@ -108,7 +118,7 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageView.prototype.onShow =
+        UserNodeNavigatorView.prototype.onShow =
         function ( callback ) {
 
             this._callbackShow = callback;
@@ -124,10 +134,10 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageView.prototype.onUserNodeSelected =
+        UserNodeNavigatorView.prototype.onUserNodeSelected =
         function ( callback ) {
 
-            this._viewNavigator.onUserNodeSelected(callback);
+            this._viewUserNodeList.onUserNodeSelected(callback);
         }
 
 
@@ -140,10 +150,10 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageView.prototype.onBack =
+        UserNodeNavigatorView.prototype.onBack =
         function ( callback ) {
 
-            this._viewNavigator.onBack(callback);
+            this._viewUserNodeList.onBack(callback);
         }
 
 
@@ -156,10 +166,12 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageView.prototype.setInitialUserNode =
+        UserNodeNavigatorView.prototype.setInitialUserNode =
         function ( userNode ) {
 
-            this._viewNavigator.setInitialUserNode(userNode);
+            var isFirstUserNode = true;
+
+            this._doSetUserNode(userNode, isFirstUserNode);
         }
 
 
@@ -172,10 +184,12 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageView.prototype.setUserNode =
+        UserNodeNavigatorView.prototype.setUserNode =
         function ( userNode ) {
 
-            this._viewNavigator.setUserNode(userNode);
+            var isFirstUserNode = false;
+
+            this._doSetUserNode(userNode, isFirstUserNode);
         }
 
 
@@ -188,18 +202,50 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageView.prototype.setFriendsList =
+        UserNodeNavigatorView.prototype._doSetUserNode =
+        function ( userNode,
+                   isFirstUserNode ) {
+
+            this._logger.info("Showing node {0} ({1})",
+                              userNode.id,
+                              userNode.name);
+
+            this._currentUserNodeId = userNode.id;
+
+            this._viewUserNodeDetail.setUserNode(userNode);
+            this._viewUserNodeList.clear();
+            this._viewUserNodeList.enableBackButton(!isFirstUserNode);
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        UserNodeNavigatorView.prototype.setFriendsList =
         function ( userId,
                    userNodeList ) {
 
-            this._viewNavigator.setFriendsList(userId, userNodeList);
+            var currentUserNodeId = this._currentUserNodeId;
+
+            if ( currentUserNodeId == userId ) {
+                this._viewUserNodeList.setUserNodeList(userNodeList);
+            } else {
+                this._logger.info("Friends list for old node {0} ignored...",
+                                  userId);
+            }
         }
 
 
 
 
 
-        return FriendsBrowserPageView;
+        return UserNodeNavigatorView;
 
     })();
 

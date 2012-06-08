@@ -61,7 +61,9 @@ pdmfc.friendnav.fnav.views.friends.UserNodeListView = (function() {
 
             buttonBack.click(function ( event ) {
                     event.preventDefault();
-                    self._triggerBack();
+                    if ( !buttonBack.hasClass("disabled") ) {
+                        self._triggerBack();
+                    }
                 });
 
             this._logger      = logger;

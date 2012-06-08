@@ -52,7 +52,7 @@ pdmfc.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
             logger.info("Seting up...");
 
             view.onUserNodeSelected(function ( userNode ) {
-                    self._setUserNode(userNode);
+                    self._pushUserNode(userNode);
                 });
             view.onBack(function () {
                     self._doBack();
@@ -94,7 +94,7 @@ pdmfc.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageController.prototype._setUserNode =
+        FriendsBrowserPageController.prototype._pushUserNode =
         function ( userNode ) {
 
             this._depth = this._depth + 1;

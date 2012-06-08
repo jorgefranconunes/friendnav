@@ -45,7 +45,7 @@ pdmfc.friendnav.fnav.controllers.UserNodeCache = (function() {
 
             var logger = SimpleLogger.createFor("UserNodeCache");
 
-            this._logger     = logger;
+            this._logger = logger;
         }
 
 
@@ -88,25 +88,26 @@ pdmfc.friendnav.fnav.controllers.UserNodeCache = (function() {
 
             var userNodeId   = userNode.id;
             var userNodeData = this._userNodeDataById[userNodeId];
+            var newCounter   = null;
 
             if ( userNodeData == null ) {
+                newCounter   = 1;
                 userNodeData = {
                     userNode    : userNode,
                     friendsList : null,
                     counter     : 1
                 };
                 this._userNodeDataById[userNodeId] = userNodeData;
-
-                this._logger.info("User node {0} added to cache", userNodeId);
             } else {
-                this._logger.info("User node {0} already in cache ({1} times)",
-                                  userNodeId,
-                                  userNodeData.counter);
-
-                userNodeData.counter = 1+userNodeData.counter;
+                newCounter = 1+userNodeData.counter;
+                userNodeData.counter = newCounter;
             }
 
             this._userNodeIdList.unshift(userNodeId);
+
+            this._logger.info("Pushed user node {0} ({1} total)",
+                              userNodeId,
+                              newCounter);
         }
 
 
@@ -133,16 +134,13 @@ pdmfc.friendnav.fnav.controllers.UserNodeCache = (function() {
 
             if ( newCounter == 0 ) {
                 delete this._userNodeDataById[userNodeId];
-
-                this._logger.info("User node {0} removed from cache",
-                                  userNodeId);
             } else {
                 userNodeData.counter = newCounter;
-
-                this._logger.info("User node {0} kept in cache ({1} times)",
-                                  userNodeId,
-                                  newCounter);
             }
+
+            this._logger.info("Poped user node {0} ({1} total)",
+                              userNodeId,
+                              newCounter);
         }
 
 
