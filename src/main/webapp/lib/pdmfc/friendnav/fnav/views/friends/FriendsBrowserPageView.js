@@ -24,8 +24,10 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
         var SimpleLogger = pdmfc.util.logging.SimpleLogger;
         var JQueryUtils  = pdmfc.util.jquery.JQueryUtils;
 
-        var UserNodeNavigatorView =
+        var UserNodeNavigatorView   =
             pdmfc.friendnav.fnav.views.friends.UserNodeNavigatorView;
+        var UserNodeForceLayoutView =
+            pdmfc.friendnav.fnav.views.friends.UserNodeForceLayoutView;
 
 
 
@@ -35,6 +37,8 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
         FriendsBrowserPageView.prototype._panel         = null;
         FriendsBrowserPageView.prototype._callbackShow  = null;
         FriendsBrowserPageView.prototype._viewNavigator = null;
+        FriendsBrowserPageView.prototype._viewGraph     = null;
+        FriendsBrowserPageView.prototype._depth         = -1;
 
 
 
@@ -53,10 +57,12 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
             logger.info("Seting up with panel \"{0}\"...", panelId);
 
             var viewNavigator = new UserNodeNavigatorView(panelId);
+            var viewGraph     = new UserNodeForceLayoutView(panelId+"Graph");
 
             this._logger        = logger;
             this._panel         = JQueryUtils.getOne(panelId);
             this._viewNavigator = viewNavigator;
+            this._viewGraph     = viewGraph;
         }
 
 
@@ -160,6 +166,7 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
         function ( userNode ) {
 
             this._viewNavigator.setInitialUserNode(userNode);
+            this._viewGraph.pushUserNode(userNode);
         }
 
 
@@ -172,10 +179,46 @@ pdmfc.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageView.prototype.setUserNode =
+        FriendsBrowserPageView.prototype.pushAndShow =
         function ( userNode ) {
 
-            this._viewNavigator.setUserNode(userNode);
+            var depth = this._depth + 1;
+
+            this._depth = depth;
+
+            if ( depth == 0 ) {
+                this._viewNavigator.setInitialUserNode(userNode);
+            } else {
+                this._viewNavigator.setUserNode(userNode);
+            }
+
+            this._viewGraph.pushUserNode(userNode);
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        FriendsBrowserPageView.prototype.popAndShow =
+        function ( userNode ) {
+
+            var depth = this._depth - 1;
+
+            this._depth = depth;
+
+            if ( depth == 0 ) {
+                this._viewNavigator.setInitialUserNode(userNode);
+            } else {
+                this._viewNavigator.setUserNode(userNode);
+            }
+
+            this._viewGraph.popUserNode();
         }
 
 

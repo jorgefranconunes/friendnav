@@ -6,3 +6,68 @@ Some notes on using the D3js API
 
 https://github.com/mbostock/d3/wiki/Force-Layout
 
+
+
+
+
+Steps:
+
+* Resize container to occupy available space.
+
+* ???
+
+* Profit!
+
+
+Array of nodes.
+
+Array of links.
+
+
+Node attributes:
+
+* userNode - The corresponding UserNode.
+
+* isCurrent - True if this node is the currently selected node. The
+  selected node is drawn with a bold border.
+
+* All remaining attributes are managed by the D3js API.
+
+
+
+
+
+Add (pushd) a user node
+
+To cases are possible:
+
+* Case 1 - The is a user node not yet being displayed in the graph.
+
+* Case 2 - The user node is alreay being displayed in the graph.
+
+
+Case 1 - The is a user node not yet being displayed in the graph.
+
+Create a new D3js node for the user node being pushed. This will
+become the current node.
+
+Create a new D3js link. It will connect the previous current node to
+the new current node.
+
+
+
+
+
+Classes
+
+class UserNodeForceLayoutView
+
+
+method pushUserNode ( userNode )
+
+If this user node has not yet been added then add a new node to the
+graph and make it the selected one. Else, make the corresponding node
+the selected node.
+
+
+method popUserNode ()

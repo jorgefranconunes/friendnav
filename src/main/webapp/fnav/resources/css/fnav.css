@@ -156,3 +156,13 @@ html, body {
     margin-right : 1em;
     margin-bottom : 1em;
 }
+
+
+
+
+
+#fnvFriendsBrowserGraph {
+     height : 100%;
+    border-radius : 8px;
+    overflow : hidden;
+}

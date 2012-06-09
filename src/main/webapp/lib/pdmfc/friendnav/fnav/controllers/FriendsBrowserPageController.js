@@ -31,7 +31,6 @@ pdmfc.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
         FriendsBrowserPageController.prototype._fsqManager = null;
         FriendsBrowserPageController.prototype._view       = null;
         FriendsBrowserPageController.prototype._cache      = null;
-        FriendsBrowserPageController.prototype._depth      = 0;
 
 
 
@@ -55,7 +54,7 @@ pdmfc.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
                     self._pushUserNode(userNode);
                 });
             view.onBack(function () {
-                    self._doBack();
+                    self._popUserNode();
                 });
 
             this._logger     = logger;
@@ -77,11 +76,7 @@ pdmfc.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
         FriendsBrowserPageController.prototype.setInitialUserNode =
         function ( userNode ) {
 
-            this._depth = 0;
-            this._cache.push(userNode);
-
-            this._view.setInitialUserNode(userNode);
-            this._retrieveFriendsList(userNode);
+            this._pushUserNode(userNode);
         }
 
 
@@ -97,10 +92,9 @@ pdmfc.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
         FriendsBrowserPageController.prototype._pushUserNode =
         function ( userNode ) {
 
-            this._depth = this._depth + 1;
             this._cache.push(userNode);
 
-            this._view.setUserNode(userNode);
+            this._view.pushAndShow(userNode);
             this._retrieveFriendsList(userNode);
         }
 
@@ -114,19 +108,14 @@ pdmfc.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
  *
  **************************************************************************/
 
-        FriendsBrowserPageController.prototype._doBack =
-        function ( userNode ) {
+        FriendsBrowserPageController.prototype._popUserNode =
+        function () {
 
-            this._depth = this._depth - 1;
             this._cache.pop();
 
             var userNode = this._cache.getCurrent();
 
-            if ( this._depth == 0 ) {
-                this._view.setInitialUserNode(userNode);
-            } else {
-                this._view.setUserNode(userNode);
-            }
+            this._view.popAndShow(userNode);
 
             this._retrieveFriendsList(userNode);
         }
