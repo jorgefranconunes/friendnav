@@ -4,7 +4,9 @@ Some notes on using the D3js API
 
 
 
-https://github.com/mbostock/d3/wiki/Force-Layout
+D3 - https://github.com/mbostock/d3/wiki/Force-Layout
+
+SVG - http://www.w3.org/TR/SVG11/
 
 
 
@@ -41,18 +43,39 @@ Add (pushd) a user node
 
 To cases are possible:
 
-* Case 1 - The is a user node not yet being displayed in the graph.
+* Case 1 - The user node not yet being displayed in the graph.
 
 * Case 2 - The user node is alreay being displayed in the graph.
 
 
-Case 1 - The is a user node not yet being displayed in the graph.
+Case 1 - The user node not yet being displayed in the graph.
 
 Create a new D3js node for the user node being pushed. This will
 become the current node.
 
 Create a new D3js link. It will connect the previous current node to
 the new current node.
+
+
+Case 2 - The user node is alreay being displayed in the graph.
+
+Do nothing.
+
+
+
+
+
+Link management
+
+Case 1 - The user node not yet being displayed in the graph.
+
+Create link with "source" the previous active node and "target" the
+new node.
+
+
+Case 2 - The user node is alreay being displayed in the graph.
+
+???
 
 
 

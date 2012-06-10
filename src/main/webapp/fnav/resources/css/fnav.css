@@ -162,7 +162,13 @@ html, body {
 
 
 #fnvFriendsBrowserGraph {
-     height : 100%;
+    height : 100%;
     border-radius : 8px;
     overflow : hidden;
+}
+
+.fnvGraphPhotoBox {
+    fill : none;
+    stroke : lightgray;
+    stroke-width : 2px;
 }

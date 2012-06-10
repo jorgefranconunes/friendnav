@@ -27,17 +27,36 @@ pdmfc.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
 
 
 
-        var IMAGE_WIDTH = 32;
-        var IMAGE_HEIGHT = 32;
+        var IMAGE_WIDTH  = 48;
+        var IMAGE_HEIGHT = 48;
+
+        var D3_LINK_DISTANCE =
+            2*Math.sqrt(IMAGE_WIDTH*IMAGE_WIDTH + IMAGE_HEIGHT*IMAGE_HEIGHT);
+
+        var D3_CHARGE = -D3_LINK_DISTANCE;
 
         UserNodeForceLayoutView.prototype._logger      = null;
         UserNodeForceLayoutView.prototype._panel       = null;
         UserNodeForceLayoutView.prototype._isFirstTime = true;
 
+        UserNodeForceLayoutView.prototype._nodeIdList = [];
+
+        // Keys are UserNode.id, values are corresponding D3Node
+        // instances. This is used to ensure there are no duplicate
+        // UserNode to display.
         UserNodeForceLayoutView.prototype._d3NodesById   = {};
+
+        // Array of D3Node to be updated by the D3 force layout
+        // process.
         UserNodeForceLayoutView.prototype._d3Nodes       = null;
+
         UserNodeForceLayoutView.prototype._d3Links       = null;
+
+        // The <svg:svg> element where DOM elements for the nodes are
+        // created.
         UserNodeForceLayoutView.prototype._d3Canvas      = null;
+
+        // Manages the D3 force layout process.
         UserNodeForceLayoutView.prototype._d3ForceLayout = null;
 
 
@@ -121,6 +140,8 @@ pdmfc.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
                                   d3Node.refCount);
             }
 
+            this._nodeIdList.push(nodeId);
+
             this._update();
         }
 
@@ -139,7 +160,8 @@ pdmfc.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
 
             this._logger.info("Poping user node...");
 
-            var d3Node = this._d3Nodes[this._d3Nodes.length-1];
+            var nodeId = this._nodeIdList.pop();
+            var d3Node = this._d3NodesById[nodeId];
 
             d3Node.refCount = d3Node.refCount - 1;
 
@@ -180,13 +202,11 @@ pdmfc.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
 
             var d3Nodes       = [];
             var d3Links       = [];
-            var d3Canvas      =
-                d3.select(panel.get(0))
-                .append("svg:svg")
-                .attr("width", width)
-                .attr("height", height);
+            var d3Canvas      = this._createSvgCanvas(panel.get(0));
             var d3ForceLayout =
                 d3.layout.force()
+                .linkDistance(D3_LINK_DISTANCE)
+                .charge(D3_CHARGE)
                 .nodes(d3Nodes)
                 .links(d3Links)
                 .size([width, height]);
@@ -199,6 +219,57 @@ pdmfc.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
             this._d3Links       = d3Links;
             this._d3Canvas      = d3Canvas;
             this._d3ForceLayout = d3ForceLayout;
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        UserNodeForceLayoutView.prototype._createSvgCanvas =
+        function ( element,
+                   width,
+                   height ) {
+
+            var d3Canvas =
+                d3.select(element)
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            // And now we define a clipping area to be used on the
+            // node photos. That clipping area is used to get rounded
+            // corners.
+
+            var boxX      = -IMAGE_WIDTH/2;
+            var boxY      = -IMAGE_HEIGHT/2;
+            var boxWidth  = IMAGE_WIDTH;
+            var boxHeight = IMAGE_HEIGHT;
+            var borderRadius = "4px";
+
+            var svgDefs = d3Canvas.append("svg:defs");
+
+            // The rectangle to be used for clipping area.
+            svgDefs.append("svg:rect")
+            .attr("id", "fnvGraphPhotoClipRect")
+            .attr("x", boxX + "px")
+            .attr("y", boxY + "px")
+            .attr("width", boxWidth + "px")
+            .attr("height", boxHeight + "px")
+            .attr("rx", borderRadius);
+
+            // The actual clipping area, based on the above rectangle.
+            svgDefs.append("svg:clipPath")
+            .attr("id", "fnvGraphPhotoClipPath")
+            .append("svg:use")
+            .attr("xlink:href", "#fnvGraphPhotoClipRect");
+
+            return d3Canvas;
         }
 
 
@@ -251,12 +322,7 @@ pdmfc.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
                 .attr("class", "fnvNode")
                 .call(this._d3ForceLayout.drag);
 
-            svgNewNodeList.append("svg:image")
-            .attr("xlink:href", getD3NodeImage)
-            .attr("x", (-IMAGE_WIDTH/2) + "px")
-            .attr("y", (-IMAGE_HEIGHT/2) + "px")
-            .attr("width", IMAGE_WIDTH + "px")
-            .attr("height", IMAGE_HEIGHT + "px");
+            this._createNodeElements(svgNewNodeList);
 
             // And remove SVG nodes no longer used.
             nodeList.exit().remove();
@@ -269,6 +335,44 @@ pdmfc.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
 
         function getD3NodeImage ( d ) {
             return d.userNode.photoUrl;
+        }
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+        UserNodeForceLayoutView.prototype._createNodeElements =
+        function ( svgNodeList ) {
+
+            var boxX      = -IMAGE_WIDTH/2;
+            var boxY      = -IMAGE_HEIGHT/2;
+            var boxWidth  = IMAGE_WIDTH;
+            var boxHeight = IMAGE_HEIGHT;
+
+            svgNodeList
+            .append("svg:image")
+            .attr("xlink:href", getD3NodeImage)
+            .attr("x", boxX + "px")
+            .attr("y", boxY + "px")
+            .attr("width", boxWidth + "px")
+            .attr("height", boxHeight + "px")
+            .attr("clip-path", "url(#fnvGraphPhotoClipPath)");
+
+            svgNodeList
+            .append("svg:rect")
+            .attr("class", "fnvGraphPhotoBox")
+            .attr("x", boxX + "px")
+            .attr("y", boxY + "px")
+            .attr("width", boxWidth + "px")
+            .attr("height", boxHeight + "px")
+            .attr("rx", "4px")
+            .attr("ry", "4px");
         }
 
 
