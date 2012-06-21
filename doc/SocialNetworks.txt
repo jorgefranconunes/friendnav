@@ -1,0 +1,65 @@
+Social networks to support
+
+* Foursquare - 
+
+* Instagram - 
+
+Twitter
+
+Facebook
+
+
+
+
+
+Foursquare
+
+https://developer.foursquare.com/
+
+
+
+
+
+Instagram
+
+http://instagram.com/developer/
+
+Rate limits: 5000 requests per hour per user.
+
+X-RateLimit-Limit     : HTTP response header. Maximum number of
+requests per hour.
+
+X-RateLimit-Remaining : HTTP response header. Remaining number of
+requests. This is updated in a moving window.
+
+
+
+
+
+Twitter
+
+https://dev.twitter.com/docs
+
+
+Rate limits: 35' requests per hour per user.
+
+The Twitter API also returns the "X-Ratelimit-Limit",
+"X-Ratelimit-Remaining" HTTP response headers.
+
+
+User photo:
+
+https://si0.twimg.com/profile_images/1527926577/jfn-edited_reasonably_small.jpg
+https://si0.twimg.com/profile_images/1527926577/jfn-edited_reasonably.jpg
+
+
+* Fetch details of list of users: users/lookup.json
+
+* Fetch list of friends: friends/ids.json
+
+
+
+
+
+Facebook
+

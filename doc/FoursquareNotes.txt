@@ -1,5 +1,40 @@
 Some notes on using the Foursquare API
 
+https://developer.foursquare.com/
+
+
+
+
+
+Rate limits
+
+See https://developer.foursquare.com/overview/ratelimits for all
+details
+
+Rate limits: 500 requests per hour per user.
+
+
+HTTP response headers with information on rate limits:
+
+X-Ratelimit-Limit - Maximum number of requests per hour.
+
+X-Ratelimit-Remaining - Remaining number of requests. This is updated
+in a moving time window.
+
+
+Accessing HTTP response headers
+
+The "complete" callback passed to "jQuery.ajax(...)" is called having
+as first argument a XMLHttpRequest instance corresponding to the
+request just made. The XMLHttpRequest has a method
+"getResponseHeader(...)" for retrieving the value of one of the HTTP
+response headers.
+
+For full details:
+
+* http://api.jquery.com/jQuery.ajax/
+* https://developer.mozilla.org/en/DOM/XMLHttpRequest#getResponseHeader()
+
 
 
 

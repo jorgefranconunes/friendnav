@@ -104,7 +104,7 @@ pdmfc.friendnav.foursquare.FsqJsonCaller = (function () {
 
             var self            = this;
             var url             = this._urlPrefix + endpoint;
-            var successCallback = function(data) {
+            var successCallback = function ( data ) {
                 self._handleSuccess(endpoint, data, callback);
             };
             var errorCallback   = function(jqXHR, status, error) {
