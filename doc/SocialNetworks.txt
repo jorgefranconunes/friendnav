@@ -1,18 +1,26 @@
-Social networks to support
-
-* Foursquare - 
-
-* Instagram - 
-
-Twitter
-
-Facebook
+= Social networks to support
 
 
 
 
 
-Foursquare
+Candidates:
+
+* Foursquare
+
+* Instagram
+
+* Twitter
+
+* Facebook
+
+* Google+
+
+
+
+
+
+== Foursquare
 
 https://developer.foursquare.com/
 
@@ -20,7 +28,62 @@ https://developer.foursquare.com/
 
 
 
-Instagram
+=== Authentication on Foursquare with OAuth2
+
+Documentation on the Foursquare API:
+https://developer.foursquare.com/overview/
+
+The purpose of the authentication is to obtain the access token. This
+access token is needed when making requests (invoking operations) on
+the Foursquare API.
+
+
+Preparation
+
+A "CLIENT_ID" needs to be obtained from Foursquare. Just go to and
+register the dev environment application.
+
+Client ID    : YWDNHROEVRQYDVY0QMFEBANSS43AMHPALDB3Z31HRX3KLAP3
+Callback url : http://localhost/friendnav/fnav/index.html
+
+This Client ID is actually used by Foursquare as a unique identifier
+of our application.
+
+
+Obtaining the access token
+
+https://foursquare.com/oauth2/authenticate
+?client_id=YWDNHROEVRQYDVY0QMFEBANSS43AMHPALDB3Z31HRX3KLAP3
+&response_type=token
+&redirect_uri=http:%2f%2flocalhost%2ffriendnav%2ffnav%2findex.html
+
+If the user accepts the browser will get redirected to
+http://localhost/friendnav/fnav/index.html#access_token=ACCESS_TOKEN
+
+If the user does not accept the browser will ge redirected to
+http://localhost/friendnav/fnav/index.html (*** we need to confirm
+this ***).
+
+
+When the application starts one of the following scenarios will occur:
+
+* The URL has no "access_token" hash and the user has not logged in -
+  The pre-login page is displayed.
+
+* The URL has no "access_token" hash and the user has already logged
+  in - The post-login page is displayed.
+
+* The URL has the "access_token" hash and it does not matter if the
+  user has already logged in - The access token is stored for later
+  use when invoking Foursquare web services. The post-login page is
+  displayed. The URL on the browser should also be changed to not
+  contain the hash.
+
+
+
+
+
+== Instagram
 
 http://instagram.com/developer/
 
@@ -36,7 +99,7 @@ requests. This is updated in a moving window.
 
 
 
-Twitter
+== Twitter
 
 https://dev.twitter.com/docs
 
@@ -61,5 +124,5 @@ https://si0.twimg.com/profile_images/1527926577/jfn-edited_reasonably.jpg
 
 
 
-Facebook
+== Facebook
 

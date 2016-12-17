@@ -1,12 +1,12 @@
-FriendNav GUI
+= FriendNav GUI
+
+
+
+
 
 This document describes the GUI of the FriendNav application. This
 application is intended for navigating the network of nodes (friends)
 in a social network.
-
-
-
-
 
 There are two main panels in the application:
 
@@ -20,7 +20,7 @@ There are two main panels in the application:
 
 
 
-Friend list panel
+== Friend list panel
 
 Shows the following information:
 
@@ -41,7 +41,7 @@ Available actions:
 
 
 
-Friend map panel
+== Friend map panel
 
 Shows a map with two sets of markers.
 

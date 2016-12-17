@@ -1,0 +1,32 @@
+= Development environment setup
+
+
+
+
+The following instructions apply to a Debian (jessie) system. In
+particular, they will work with Raspbian 8.0.
+
+----
+apt-get install telnet
+apt-get install apache2
+----
+
+Create `/etc/apache2/conf-available/friendnav-dev.conf` with the following
+contents:
+
+----
+Alias /friendnav "YOUR_WORKSPACE/src/main/webapp"
+
+<Directory "YOUR_WORKSPACE/src/main/webapp">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+----
+
+And notify the Apache daemon of the changes:
+
+----
+a2enconf friendnav-dev
+service apache2 reload
+----
