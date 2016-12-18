@@ -6,23 +6,15 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.util.logging");
 
-
-
-
-
-/**************************************************************************
+/**
  *
- * 
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.util.logging.SimpleLogger = (function() {
+"varmateo.util.logging.SimpleLogger",
 
-
-
-
+function() {
 
     // Format of logging messages.
     // 0 - Time.
@@ -35,37 +27,23 @@ varmateo.util.logging.SimpleLogger = (function() {
     var LEVEL_INFO = "INFO";
 
 
-
-
-
     // Private members.
     SimpleLogger.prototype._moduleName = null;
 
 
-
-
-
-/**************************************************************************
- *
- * The constructor.
- *
- **************************************************************************/
-
+    /**
+     * The constructor.
+     *
+     */
     function SimpleLogger(moduleName) {
 
         this._moduleName = moduleName;
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Logs a message.
- *
- **************************************************************************/
-
+    /**
+     * Logs a message.
+     */
     SimpleLogger.prototype.info = function() {
 
         this._logMessage({
@@ -75,30 +53,18 @@ varmateo.util.logging.SimpleLogger = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Logs the fields of an object.
- *
- **************************************************************************/
-
+    /**
+     * Logs the fields of an object.
+     */
     SimpleLogger.prototype.infoObj = function ( object ) {
 
         this._logObject(LEVEL_INFO, object);
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Logs a message.
- *
- **************************************************************************/
-
+    /**
+     * Logs a message.
+     */
     SimpleLogger.prototype._logMessage = function ( msgData ) {
 
         var output = window.console;
@@ -117,15 +83,9 @@ varmateo.util.logging.SimpleLogger = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Logs a message.
- *
- **************************************************************************/
-
+    /**
+     * Logs a message.
+     */
     SimpleLogger.prototype._logObject = function (
         logLevel,
         object ) {
@@ -150,16 +110,10 @@ varmateo.util.logging.SimpleLogger = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * First argument is format string. Remaining arguments are formating
- * arguments.
- *
- **************************************************************************/
-
+    /**
+     * First argument is format string. Remaining arguments are
+     * formating arguments.
+     */
     function _format() {
 
         var fmt     = arguments[0];
@@ -173,15 +127,9 @@ varmateo.util.logging.SimpleLogger = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     * 
+     */
     function _formatTime(time) {
 
         var hours   = time.getHours();
@@ -201,15 +149,9 @@ varmateo.util.logging.SimpleLogger = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     var ZEROS = "00000000";
 
     function _padWithZeros(value, width) {
@@ -224,15 +166,9 @@ varmateo.util.logging.SimpleLogger = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function _createFor(moduleName) {
 
         var result = new SimpleLogger(moduleName);
@@ -241,23 +177,12 @@ varmateo.util.logging.SimpleLogger = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Define the public static methods.
- *
- **************************************************************************/
-
+    /**
+     * Define the public static methods.
+     */
     SimpleLogger.createFor = _createFor;
 
 
-
-
-
     return SimpleLogger;
-
-
-})();
+});
 

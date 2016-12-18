@@ -3,47 +3,41 @@
  * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
  *
  *
- * Contest Admin application main entry point.
+ * FriendNav application main entry point.
  *
  **************************************************************************/
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * The Fnav application.
  *
  * Its main work is seting up the dependency injections for the
  * components (views, controllers, façades) that make up the
  * application.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.Fnav = (function() {
+"varmateo.friendnav.fnav.Fnav",
 
-    var SimpleLogger   = varmateo.util.logging.SimpleLogger;
+function() {
 
-    var FnavController               =
-        varmateo.friendnav.fnav.controllers.FnavController;
+    var SimpleLogger   = varmateo.load("varmateo.util.logging.SimpleLogger");
+
+    var FnavController =
+        varmateo.load("varmateo.friendnav.fnav.controllers.FnavController");
     var FriendsBrowserPageController =
-        varmateo.friendnav.fnav.controllers.FriendsBrowserPageController;
+        varmateo.load("varmateo.friendnav.fnav.controllers.FriendsBrowserPageController");
 
-    var FnavView               =
-        varmateo.friendnav.fnav.views.main.FnavView;
-    var HomePageView           =
-        varmateo.friendnav.fnav.views.home.HomePageView;
+    var FnavView =
+        varmateo.load("varmateo.friendnav.fnav.views.main.FnavView");
+    var HomePageView =
+        varmateo.load("varmateo.friendnav.fnav.views.home.HomePageView");
     var FriendsBrowserPageView =
-        varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView;
-    var Foursquare             =
-        varmateo.friendnav.foursquare.Foursquare;
-
-
+        varmateo.load("varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView");
+    var Foursquare =
+        varmateo.load("varmateo.friendnav.foursquare.Foursquare");
 
 
     var APP_NAME              = "Fnav";
@@ -51,8 +45,8 @@ varmateo.friendnav.fnav.Fnav = (function() {
     var PANEL_HOME            = "#fnvPanelHome";
     var PANEL_FRIENDS_BROWSER = "#fnvFriendsBrowser";
 
-    var _logger     = SimpleLogger.createFor(APP_NAME);
-    var _config     = null;
+    var _logger = null;
+    var _config = null;
 
     var _viewFnav               = null;
     var _viewHomePage           = null;
@@ -64,18 +58,23 @@ varmateo.friendnav.fnav.Fnav = (function() {
     var _foursquareManager = null;
 
 
+    /**
+     *
+     */
+    function Fnav() {
+        throw "Private constructor...";
+    }
 
 
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function initialize() {
 
+        _logger = SimpleLogger.createFor(APP_NAME);
+
         _logger.info("Initializing {0}...", APP_NAME);
+        _logger.info("    Scripts URL prefix : {0}", _config.classUrlPrefix);
 
         fetchControllerFriendsBrowserPage();
 
@@ -87,15 +86,9 @@ varmateo.friendnav.fnav.Fnav = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function fetchViewFnav() {
 
         if ( _viewFnav == null ) {
@@ -116,15 +109,9 @@ varmateo.friendnav.fnav.Fnav = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function fetchViewHomePage() {
 
         if ( _viewHomePage == null ) {
@@ -135,15 +122,9 @@ varmateo.friendnav.fnav.Fnav = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function fetchViewFriendsBrowserPage() {
 
         if ( _viewFriendsBrowserPage == null ) {
@@ -155,15 +136,9 @@ varmateo.friendnav.fnav.Fnav = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function fetchControllerFnav() {
 
         if ( _controllerFnav == null ) {
@@ -177,15 +152,9 @@ varmateo.friendnav.fnav.Fnav = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function fetchControllerFriendsBrowserPage() {
 
         if ( _controllerFriendsBrowserPage == null ) {
@@ -207,15 +176,9 @@ varmateo.friendnav.fnav.Fnav = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function fetchFoursquareManager() {
 
         if ( _foursquareManager == null ) {
@@ -226,31 +189,30 @@ varmateo.friendnav.fnav.Fnav = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * The main program.
- *
- **************************************************************************/
-
+    /**
+     * The main program.
+     */
     function main ( config ) {
-
-        _logger.info("Starting {0}...", APP_NAME);
 
         _config = config;
 
-        $(document).ready(initialize);
+        var startFunction = function () {
+            jQuery(document).ready(initialize);
+        };
+
+        varmateo.start({
+            startFunction : startFunction,
+            classUrlPrefix : config.classUrlPrefix,
+        });
     }
 
 
+    /**
+     * Class static methods.
+     */
+    Fnav.main = main;
 
 
-
-    return {
-        main : main
-    };
-
-})();
+    return Fnav;
+});
 
