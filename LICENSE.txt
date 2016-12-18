@@ -1,0 +1,4 @@
+FriendNav is copyrighted software by Jorge Nunes
+
+You can use it free of charge, redistribute it and/or modify it under
+the terms of the MIT License (see COPYING.txt file).
