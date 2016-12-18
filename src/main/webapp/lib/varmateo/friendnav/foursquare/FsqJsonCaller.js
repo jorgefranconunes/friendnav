@@ -6,42 +6,32 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.foursquare");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * Manages the REST calls for the Foursquare API.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.foursquare.FsqJsonCaller = (function () {
+"varmateo.friendnav.foursquare.FsqJsonCaller",
 
-    var SimpleLogger = varmateo.util.logging.SimpleLogger;
+function () {
+
+    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
 
 
-
-
-    var URL_PREFIX        = "https://api.foursquare.com/v2/";
+    var URL_PREFIX = "https://api.foursquare.com/v2/";
     var PARAM_API_VERSION = "v";
-    var API_VERSION       = "20120505";
+    var API_VERSION = "20120610";
+    var PARAM_API_MODE = "m";
+    var API_MODE = "foursquare";
 
     FsqJsonCaller.prototype._logger    = null;
     FsqJsonCaller.prototype._urlPrefix = null;
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function FsqJsonCaller () {
 
         var logger = SimpleLogger.createFor("FsqJsonCaller");
@@ -51,15 +41,9 @@ varmateo.friendnav.foursquare.FsqJsonCaller = (function () {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FsqJsonCaller.prototype.doGet = function (
         endpoint,
         params,
@@ -69,15 +53,9 @@ varmateo.friendnav.foursquare.FsqJsonCaller = (function () {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FsqJsonCaller.prototype.doPost = function (
         endpoint,
         params,
@@ -87,15 +65,9 @@ varmateo.friendnav.foursquare.FsqJsonCaller = (function () {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * @param type One of "GET", "POST".
- *
- **************************************************************************/
-
+    /**
+     * @param type One of "GET", "POST".
+     */
     FsqJsonCaller.prototype._submitRequest = function (
         type,
         endpoint,
@@ -113,6 +85,7 @@ varmateo.friendnav.foursquare.FsqJsonCaller = (function () {
 
         var requestParams = jQuery.extend({}, params);
         requestParams[PARAM_API_VERSION] = API_VERSION;
+        requestParams[PARAM_API_MODE] = API_MODE;
 
         var ajaxData = {
             url      : url,
@@ -130,15 +103,9 @@ varmateo.friendnav.foursquare.FsqJsonCaller = (function () {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Called when the AJAX request is successfull.
- *
- **************************************************************************/
-
+    /**
+     * Called when the AJAX request is successfull.
+     */
     FsqJsonCaller.prototype._handleSuccess = function (
         endpoint,
         data,
@@ -150,8 +117,9 @@ varmateo.friendnav.foursquare.FsqJsonCaller = (function () {
         var responseCode = data.meta && data.meta.code;
 
         if ( responseCode == "200" ) {
-            this._logger.info("Response from \"{0}\" signals success",
-                                  endpoint);
+            this._logger.info(
+                "Response from \"{0}\" signals success",
+                endpoint);
             response = data.response;
         } else {
             var meta        = data.meta;
@@ -169,15 +137,9 @@ varmateo.friendnav.foursquare.FsqJsonCaller = (function () {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Called when the AJAX request fails.
- *
- **************************************************************************/
-
+    /**
+     * Called when the AJAX request fails.
+     */
     FsqJsonCaller.prototype._handleError = function (
         endpoint,
         jqXHR,
@@ -194,10 +156,5 @@ varmateo.friendnav.foursquare.FsqJsonCaller = (function () {
     }
 
 
-
-
-
     return FsqJsonCaller;
-
-})();
-
+});

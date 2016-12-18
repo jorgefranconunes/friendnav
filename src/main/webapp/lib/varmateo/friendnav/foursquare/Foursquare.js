@@ -6,11 +6,6 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.foursquare");
-
-
-
-
 
 /**************************************************************************
  *
@@ -19,13 +14,16 @@ varmateo.namespace("varmateo.friendnav.foursquare");
  *
  **************************************************************************/
 
-varmateo.friendnav.foursquare.Foursquare = (function() {
+varmateo.defineClass(
 
-    var SimpleLogger  = varmateo.util.logging.SimpleLogger;
-    var FsqJsonCaller = varmateo.friendnav.foursquare.FsqJsonCaller;
+"varmateo.friendnav.foursquare.Foursquare",
 
+function() {
 
-
+    var SimpleLogger =
+        varmateo.load("varmateo.util.logging.SimpleLogger");
+    var FsqJsonCaller =
+        varmateo.load("varmateo.friendnav.foursquare.FsqJsonCaller");
 
 
     var PARAM_ACCESS_TOKEN = "oauth_token";
@@ -35,15 +33,9 @@ varmateo.friendnav.foursquare.Foursquare = (function() {
     Foursquare.prototype._jsonCaller  = null;
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function Foursquare () {
 
         var logger = SimpleLogger.createFor("Foursquare");
@@ -53,35 +45,23 @@ varmateo.friendnav.foursquare.Foursquare = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Sets the OAuth acess token to be used on all API calls that require
- * authentication.
- *
- **************************************************************************/
-
+    /**
+     * Sets the OAuth acess token to be used on all API calls that
+     * require authentication.
+     */
     Foursquare.prototype.setAccessToken = function ( accessToken ) {
 
         this._accessToken = accessToken;
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Retrieves data on the user currently signed-in.
- *
- * @param callback Function called when the user data is retrieved
- * from Foursquare. This function will be called with a single
- * UserNode instance.
- *
- **************************************************************************/
-
+    /**
+     * Retrieves data on the user currently signed-in.
+     *
+     * @param callback Function called when the user data is retrieved
+     * from Foursquare. This function will be called with a single
+     * UserNode instance.
+     */
     Foursquare.prototype.retrieveSelfUserNode = function ( callback ) {
 
         var self            = this;
@@ -102,20 +82,14 @@ varmateo.friendnav.foursquare.Foursquare = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Retrieves the list of friends for the given user.
- *
- * @param userId
- *
- * @param callback Function called when data is retrieved. Will be
- * called a list of UserNode as argument.
- *
- **************************************************************************/
-
+    /**
+     * Retrieves the list of friends for the given user.
+     *
+     * @param userId
+     *
+     * @param callback Function called when data is retrieved. Will be
+     * called a list of UserNode as argument.
+     */
     Foursquare.prototype.retrieveFriendsList = function (
         userId,
         callback ) {
@@ -139,15 +113,9 @@ varmateo.friendnav.foursquare.Foursquare = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     Foursquare.prototype._doGetAuth = function (
         endpoint,
         params,
@@ -162,15 +130,9 @@ varmateo.friendnav.foursquare.Foursquare = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     Foursquare.prototype._checkAccessToken = function () {
 
         if ( this._accessToken == null ) {
@@ -180,23 +142,15 @@ varmateo.friendnav.foursquare.Foursquare = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function buildUserNodeFromFsqUser ( fsqUser ) {
 
-        var name          = buildName(fsqUser);
-        var photoUrl      = fsqUser.photo;
-
-        // This is a hack. We should have an official procedure for
-        // obtaining the lasr photo for the user...
-        var largePhotoUrl = photoUrl.replace("/userpix_thumbs/", "/userpix/");
+        var name = buildName(fsqUser);
+        var photo = fsqUser.photo;
+        var photoUrl = photo.prefix + "100x100" + photo.suffix;
+        var largePhotoUrl = photo.prefix + "300x300" + photo.suffix;
 
         var result = {
             id            : fsqUser.id,
@@ -204,7 +158,7 @@ varmateo.friendnav.foursquare.Foursquare = (function() {
             lastName      : fsqUser.lastName,
             name          : name,
             email         : fsqUser.contact ? fsqUser.contact.email : null,
-            photoUrl      : fsqUser.photo,
+            photoUrl      : photoUrl,
             largePhotoUrl : largePhotoUrl
         };
 
@@ -212,15 +166,9 @@ varmateo.friendnav.foursquare.Foursquare = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function buildName ( fsqUser ) {
 
         var firstName = fsqUser.firstName;
@@ -245,15 +193,9 @@ varmateo.friendnav.foursquare.Foursquare = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function buildUserNodeListFromFsqUserList ( fsqUserList ) {
 
         var userNodeList = [];
@@ -282,10 +224,5 @@ varmateo.friendnav.foursquare.Foursquare = (function() {
     }
 
 
-
-
-
     return Foursquare;
-
-})();
-
+});

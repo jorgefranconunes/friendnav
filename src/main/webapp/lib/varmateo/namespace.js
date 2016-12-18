@@ -85,7 +85,7 @@ var varmateo = (function ( myPackage ) {
 
         var klass = _findClassWithName(className);
 
-        if ( klass === undefined ) {
+        if ( klass == null ) {
             klass = _lazyClassLoad(className);
             _defineRealOrWrapperClass(className, function() { return klass; });
         }
