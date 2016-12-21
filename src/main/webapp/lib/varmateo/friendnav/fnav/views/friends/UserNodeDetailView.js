@@ -92,8 +92,7 @@ varmateo.friendnav.fnav.views.friends.UserNodeDetailView = (function() {
             var photoUrl = userNode.largePhotoUrl;
 
             this._divName.text(name);
-            this._divPhoto.css("background-image",
-                               "url(" + photoUrl + ")");
+            this._divPhoto.css("background-image", "url(" + photoUrl + ")");
         }
 
 

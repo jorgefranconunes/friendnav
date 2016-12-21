@@ -6,47 +6,30 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.util.text");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * Provides utility functions for formating messages.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.util.text.MessageFormat = (function() {
+"varmateo.util.text.MessageFormat",
+
+function() {
 
 
-
-
-
-/**************************************************************************
- *
- * The constructor.
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function MessageFormat() {
-
         throw "MessageFormat private constructor...";
     }
 
 
-
-
-
-/**************************************************************************
- *
- * First argument is format string. Remaining arguments are formating
- * arguments.
- *
- **************************************************************************/
-
-    function _format() {
+    /**
+     * First argument is format string. Remaining arguments are
+     * formating arguments.
+     */
+    function format() {
 
         var fmt     = arguments[0];
         var fmtArgs = Array.prototype.slice.call(arguments, 1);
@@ -59,22 +42,11 @@ varmateo.util.text.MessageFormat = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Define the public static methods.
- *
- **************************************************************************/
-
-    MessageFormat.format = _format;
-
-
-
+    /**
+     * Static methods.
+     */
+    MessageFormat.format = format;
 
 
     return MessageFormat;
-
-})();
-
+});

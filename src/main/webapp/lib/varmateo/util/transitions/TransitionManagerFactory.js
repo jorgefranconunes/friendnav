@@ -6,24 +6,17 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.util.transitions");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * Factory for transition managers.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.util.transitions.TransitionManagerFactory = (function() {
+"varmateo.util.transitions.TransitionManagerFactory",
 
-    var MessageFormat = varmateo.util.text.MessageFormat;
+function() {
 
-
-
+    var MessageFormat = varmateo.load("varmateo.util.text.MessageFormat");
 
 
     // Keys are transition types. Values are Objects implementing the
@@ -31,46 +24,28 @@ varmateo.util.transitions.TransitionManagerFactory = (function() {
     var _transitionManagerMap = {};
 
 
-
-
-
-/**************************************************************************
- *
- * The static constructor.
- *
- **************************************************************************/
-
+    /**
+     * The static constructor.
+     */
     (function () {
         var noneTransitionManager = new NoneTransitionManager();
-        _register("none", noneTransitionManager);
+        register("none", noneTransitionManager);
     })();
 
 
-
-
-
-/**************************************************************************
- *
- * The constructor.
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function TransitionManagerFactory() {
 
         throw "TransitionManagerFactory private constructor...";
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    function _register (
+    /**
+     *
+     */
+    function register (
         transitionType,
         transitionManager ) {
 
@@ -86,16 +61,10 @@ varmateo.util.transitions.TransitionManagerFactory = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    function _get ( transitionType ) {
+    /**
+     *
+     */
+    function get ( transitionType ) {
 
         var transitionManager = _transitionManagerMap[transitionType];
 
@@ -109,42 +78,24 @@ varmateo.util.transitions.TransitionManagerFactory = (function() {
     }
 
 
+    /**
+     * Static methods.
+     */
+    TransitionManagerFactory.get = get;
+    TransitionManagerFactory.register = register;
 
 
-
-/**************************************************************************
- *
- * Define the public static methods for the TransactionManagerFactory
- * class.
- *
- **************************************************************************/
-
-    TransitionManagerFactory.get      = _get;
-    TransitionManagerFactory.register = _register;
-
-
-
-
-
-/**************************************************************************
- *
- * A transition manager that uses no transitions.
- *
- **************************************************************************/
-
+    /**
+     * A transition manager that uses no transitions.
+     */
     function NoneTransitionManager () {
+        // Nothing to do.
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     NoneTransitionManager.prototype.transition = function (
         panelContainer,
         panelFrom,
@@ -164,15 +115,9 @@ varmateo.util.transitions.TransitionManagerFactory = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function _maybeCall (
         object,
         methodName ) {
@@ -187,9 +132,5 @@ varmateo.util.transitions.TransitionManagerFactory = (function() {
     }
 
 
-
-
     return TransitionManagerFactory;
-
-})();
-
+});

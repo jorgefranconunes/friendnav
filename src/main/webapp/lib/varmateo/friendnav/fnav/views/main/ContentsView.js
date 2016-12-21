@@ -6,14 +6,8 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav.views.main");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * A panel for managing transitions between panels on the main
  * contents area.
  *
@@ -24,18 +18,17 @@ varmateo.namespace("varmateo.friendnav.fnav.views.main");
  *
  * * showEvent(isVisible) - Will be called when the view has just been
  *   made visible or invisible. The "isVisible" flag is a boolean.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.views.main.ContentsView = (function() {
+"varmateo.friendnav.fnav.views.main.ContentsView",
 
-    var JQueryUtils               =
-        varmateo.util.jquery.JQueryUtils;
-    var TransitionManagerFactory  =
-        varmateo.util.transitions.TransitionManagerFactory;
+function() {
 
-
-
+    var JQueryUtils =
+        varmateo.load("varmateo.util.jquery.JQueryUtils");
+    var TransitionManagerFactory =
+        varmateo.load("varmateo.util.transitions.TransitionManagerFactory");
 
 
     var DEFAULT_TRANSITION_TYPE = "fadeoutin";
@@ -45,16 +38,10 @@ varmateo.friendnav.fnav.views.main.ContentsView = (function() {
     ContentsView.prototype._currentPage       = null;
 
 
-
-
-
-/**************************************************************************
- *
- * @param panelId - The ID of the DOM element that will contain the
- * panels to display.
- *
- **************************************************************************/
-
+    /**
+     * @param panelId - The ID of the DOM element that will contain
+     * the panels to display.
+     */
     function ContentsView ( panelId ) {
 
         this._transitionManager =
@@ -64,15 +51,9 @@ varmateo.friendnav.fnav.views.main.ContentsView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     ContentsView.prototype.showPage = function ( nextPage ) {
 
         if ( nextPage !== this._currentPage ) {
@@ -93,15 +74,9 @@ varmateo.friendnav.fnav.views.main.ContentsView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Handles the transition between pages.
- *
- **************************************************************************/
-
+    /**
+     * Handles the transition between pages.
+     */
     ContentsView.prototype._showPage = function (
         container,
         fromPanel,
@@ -129,10 +104,5 @@ varmateo.friendnav.fnav.views.main.ContentsView = (function() {
     }
 
 
-
-
-
     return ContentsView;
-
-}) ();
-
+});

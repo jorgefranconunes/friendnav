@@ -6,31 +6,25 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav.views.friends");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * The view for the page displaying the friend navigator widget and
  * the map with the social network connections.
- *
- **************************************************************************/
+*/
 
-varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
+varmateo.defineClass(
 
-    var SimpleLogger = varmateo.util.logging.SimpleLogger;
-    var JQueryUtils  = varmateo.util.jquery.JQueryUtils;
+"varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView",
+
+function() {
+
+    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var JQueryUtils  = varmateo.load("varmateo.util.jquery.JQueryUtils");
 
     var UserNodeNavigatorView   =
-        varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView;
+        varmateo.load("varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView");
     var UserNodeForceLayoutView =
-        varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView;
-
-
-
+        varmateo.load("varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView");
 
 
     FriendsBrowserPageView.prototype._logger        = null;
@@ -41,15 +35,9 @@ varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
     FriendsBrowserPageView.prototype._depth         = -1;
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function FriendsBrowserPageView ( panelId ) {
 
         var logger = SimpleLogger.createFor("FriendsBrowserPageView");
@@ -66,15 +54,9 @@ varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FriendsBrowserPageView.prototype.getElement = function () {
 
         var result = this._panel;
@@ -83,15 +65,9 @@ varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FriendsBrowserPageView.prototype.showEvent = function ( isVisible ) {
 
         this._logger.info("View is now {0}",
@@ -103,76 +79,48 @@ varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Defines the callback for the "show" event.
- *
- **************************************************************************/
-
+    /**
+     * Defines the callback for the "show" event.
+     */
     FriendsBrowserPageView.prototype.onShow = function ( callback ) {
 
         this._callbackShow = callback;
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    FriendsBrowserPageView.prototype.onUserNodeSelected = function ( callback ) {
+    /**
+     *
+     */
+    FriendsBrowserPageView.prototype.setOnUserNodeSelectedListener = function (
+        callback ) {
 
         this._viewNavigator.onUserNodeSelected(callback);
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    FriendsBrowserPageView.prototype.onBack = function ( callback ) {
+    /**
+     *
+     */
+    FriendsBrowserPageView.prototype.setOnBackListener = function ( callback ) {
 
         this._viewNavigator.onBack(callback);
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    FriendsBrowserPageView.prototype.setInitialUserNode = function ( userNode ) {
+    /**
+     *
+     */
+    FriendsBrowserPageView.prototype.setInitialUserNode = function (
+        userNode ) {
 
         this._viewNavigator.setInitialUserNode(userNode);
         this._viewGraph.pushUserNode(userNode);
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FriendsBrowserPageView.prototype.pushAndShow = function ( userNode ) {
 
         var depth = this._depth + 1;
@@ -189,15 +137,9 @@ varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FriendsBrowserPageView.prototype.popAndShow = function ( userNode ) {
 
         var depth = this._depth - 1;
@@ -214,15 +156,9 @@ varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FriendsBrowserPageView.prototype.setFriendsList = function (
         userId,
         userNodeList ) {
@@ -231,10 +167,5 @@ varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView = (function() {
     }
 
 
-
-
-
     return FriendsBrowserPageView;
-
-})();
-
+});

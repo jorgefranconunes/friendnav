@@ -6,25 +6,20 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav.controllers");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * The controller for the outermost view of the FriendNav application.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
+"varmateo.friendnav.fnav.controllers.FriendsBrowserPageController",
 
-    var SimpleLogger  = varmateo.util.logging.SimpleLogger;
-    var UserNodeCache = varmateo.friendnav.fnav.controllers.UserNodeCache;
+function() {
 
-
-
+    var SimpleLogger =
+        varmateo.load("varmateo.util.logging.SimpleLogger");
+    var UserNodeCache =
+        varmateo.load("varmateo.friendnav.fnav.controllers.UserNodeCache");
 
 
     FriendsBrowserPageController.prototype._logger     = null;
@@ -33,30 +28,19 @@ varmateo.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
     FriendsBrowserPageController.prototype._cache      = null;
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function FriendsBrowserPageController (
         fsqManager,
         view ) {
 
-        var self   = this;
         var logger = SimpleLogger.createFor("FriendsBrowserPageController");
 
         logger.info("Seting up...");
 
-        view.onUserNodeSelected(function ( userNode ) {
-            self._pushUserNode(userNode);
-        });
-        view.onBack(function () {
-            self._popUserNode();
-        });
+        view.setOnUserNodeSelectedListener(this._pushUserNode.bind(this));
+        view.setOnBackListener(this._popUserNode.bind(this));
 
         this._logger     = logger;
         this._fsqManager = fsqManager;
@@ -65,15 +49,9 @@ varmateo.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FriendsBrowserPageController.prototype.setInitialUserNode = function (
         userNode ) {
 
@@ -81,34 +59,21 @@ varmateo.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FriendsBrowserPageController.prototype._pushUserNode = function (
         userNode ) {
 
         this._cache.push(userNode);
-
         this._view.pushAndShow(userNode);
         this._retrieveFriendsList(userNode);
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FriendsBrowserPageController.prototype._popUserNode = function () {
 
         this._cache.pop();
@@ -120,15 +85,9 @@ varmateo.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FriendsBrowserPageController.prototype._retrieveFriendsList = function (
         userNode ) {
 
@@ -149,15 +108,9 @@ varmateo.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FriendsBrowserPageController.prototype._setFriendsList = function (
         userNodeId,
         userNodeList ) {
@@ -176,10 +129,5 @@ varmateo.friendnav.fnav.controllers.FriendsBrowserPageController = (function() {
     }
 
 
-
-
-
     return FriendsBrowserPageController;
-
-})();
-
+});

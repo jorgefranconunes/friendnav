@@ -6,11 +6,6 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.util.transitions");
-
-
-
-
 
 /**************************************************************************
  *
@@ -19,59 +14,33 @@ varmateo.namespace("varmateo.util.transitions");
  *
  **************************************************************************/
 
-varmateo.util.transitions.FadeOutInTransitionManager = (function() {
+varmateo.defineClass(
+
+"varmateo.util.transitions.FadeOutInTransitionManager",
+
+function() {
 
     var SimpleLogger             =
-        varmateo.util.logging.SimpleLogger;
+        varmateo.load("varmateo.util.logging.SimpleLogger");
     var TransitionManagerFactory =
-        varmateo.util.transitions.TransitionManagerFactory;
+        varmateo.load("varmateo.util.transitions.TransitionManagerFactory");
 
 
+    FadeOutInTransitionManager.prototype._logger = null;
 
 
-
-    var _logger = SimpleLogger.createFor("FadeOutInTransitionManager");
-
-
-
-
-
-/**************************************************************************
- *
- * The static constructor.
- *
- **************************************************************************/
-
-    (function () {
-        var transitionManager = new FadeOutInTransitionManager();
-        TransitionManagerFactory.register("fadeoutin", transitionManager);
-    })();
-
-
-
-
-
-/**************************************************************************
- *
- * The constructor.
- *
- **************************************************************************/
-
+    /**
+     * The constructor.
+     */
     function FadeOutInTransitionManager() {
 
-        // Nothing to do...
+        this._logger = SimpleLogger.createFor("FadeOutInTransitionManager");
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FadeOutInTransitionManager.prototype.transition = function (
         panelContainer,
         panelFrom,
@@ -79,37 +48,33 @@ varmateo.util.transitions.FadeOutInTransitionManager = (function() {
         callbacks ) {
 
         if ( panelFrom != null ) {
-            _startFadeOut(panelContainer, panelFrom, panelTo, callbacks);
+            this._startFadeOut(panelContainer, panelFrom, panelTo, callbacks);
         } else {
-            _startFadeIn(panelContainer, panelFrom, panelTo, callbacks);
+            this._startFadeIn(panelContainer, panelFrom, panelTo, callbacks);
         }
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    function _startFadeOut(
+    /**
+     *
+     */
+    FadeOutInTransitionManager.prototype._startFadeOut = function (
         panelContainer,
         panelFrom,
         panelTo,
         callbacks ) {
 
+        var self = this;
+
         if ( panelFrom != null ) {
-            _logger.info("Starting fade out...");
+            this._logger.info("Starting fade out...");
             _maybeCall(callbacks, "fromStartedTransition");
 
             var callbackEndFadeOut = function () {
-                _logger.info("Ended fadeout.");
+                self._logger.info("Ended fadeout.");
                 panelFrom.detach();
                 _maybeCall(callbacks, "fromEndedTransition");
-                _startFadeIn(panelContainer, panelFrom, panelTo, callbacks);
+                self._startFadeIn(panelContainer, panelFrom, panelTo, callbacks);
             };
 
             panelFrom.fadeOut(callbackEndFadeOut);
@@ -117,28 +82,24 @@ varmateo.util.transitions.FadeOutInTransitionManager = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    function _startFadeIn(
+    /**
+     *
+     */
+    FadeOutInTransitionManager.prototype._startFadeIn = function (
         panelContainer,
         panelFrom,
         panelTo,
         callbacks ) {
 
-        _logger.info("Starting fade in...");
+        var self = this;
+
+        this._logger.info("Starting fade in...");
         panelTo.appendTo(panelContainer);
 
         _maybeCall(callbacks, "toStartedTransition");
 
         var callbackEndFadeIn = function () {
-            _logger.info("Ended fade in.");
+            self._logger.info("Ended fade in.");
             _maybeCall(callbacks, "toEndedTransition");
         };
 
@@ -146,15 +107,9 @@ varmateo.util.transitions.FadeOutInTransitionManager = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function _maybeCall (
         object,
         methodName ) {
@@ -168,11 +123,5 @@ varmateo.util.transitions.FadeOutInTransitionManager = (function() {
         }
     }
 
-
-
-
     return FadeOutInTransitionManager;
-
-
-})();
-
+});

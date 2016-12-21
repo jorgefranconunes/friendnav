@@ -39,6 +39,11 @@ function() {
     var Foursquare =
         varmateo.load("varmateo.friendnav.foursquare.Foursquare");
 
+    var TransitionManagerFactory =
+        varmateo.load("varmateo.util.transitions.TransitionManagerFactory");
+    var FadeOutInTransitionManager =
+        varmateo.load("varmateo.util.transitions.FadeOutInTransitionManager");
+
 
     var APP_NAME              = "Fnav";
     var PANEL_TOP_CONTENTS    = "#fnvContents";
@@ -76,13 +81,26 @@ function() {
         _logger.info("Initializing {0}...", APP_NAME);
         _logger.info("    Scripts URL prefix : {0}", _config.classUrlPrefix);
 
+        _initializeTransitions();
+
+        // Hack to force instantation...
         fetchControllerFriendsBrowserPage();
 
         var controllerFnav = fetchControllerFnav();
-
         controllerFnav.initialize();
 
         _logger.info("Done initializing {0}.", APP_NAME);
+    }
+
+
+    /**
+     *
+     */
+    function _initializeTransitions () {
+
+        var fadeOutIn = new FadeOutInTransitionManager();
+
+        TransitionManagerFactory.register("fadeoutin", fadeOutIn);
     }
 
 
