@@ -6,25 +6,18 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav.views.friends");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * Details of a user node.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
+"varmateo.friendnav.fnav.views.friends.UserNodeListView",
 
-    var SimpleLogger = varmateo.util.logging.SimpleLogger;
-    var JQueryUtils  = varmateo.util.jquery.JQueryUtils;
+function() {
 
-
-
+    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var JQueryUtils  = varmateo.load("varmateo.util.jquery.JQueryUtils");
 
 
     var LABEL_COUNTER_CLEAR = "...";
@@ -39,15 +32,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
     UserNodeListView.prototype._callbackBack             = null;
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function UserNodeListView ( panelId ) {
 
         var self   = this;
@@ -62,7 +49,7 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
         buttonBack.click(function ( event ) {
             event.preventDefault();
             if ( !buttonBack.hasClass("disabled") ) {
-                self._triggerBack();
+                self._onBack();
             }
         });
 
@@ -74,15 +61,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeListView.prototype.getElement = function () {
 
         var result = this._panel;
@@ -91,45 +72,28 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    UserNodeListView.prototype.onUserNodeSelected = function ( callback ) {
+    /**
+     *
+     */
+    UserNodeListView.prototype.setOnUserNodeSelectedListener = function (
+        callback ) {
 
         this._callbackUserNodeSelected = callback;
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    UserNodeListView.prototype.onBack = function ( callback ) {
+    /**
+     *
+     */
+    UserNodeListView.prototype.setOnBackListener = function ( callback ) {
 
         this._callbackBack = callback;
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeListView.prototype.enableBackButton = function ( isEnabled )  {
 
         if ( isEnabled ) {
@@ -140,15 +104,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeListView.prototype.clear = function () {
 
         this._spanCounter.text(LABEL_COUNTER_CLEAR);
@@ -156,15 +114,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeListView.prototype.setUserNodeList = function ( userNodeList ) {
 
         var divList          = this._divList;
@@ -182,15 +134,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeListView.prototype._buildUserNodeElem = function ( userNode ) {
 
         var self      = this;
@@ -204,7 +150,7 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
 
         anchor.click(function ( event ) {
             event.preventDefault();
-            self._triggerUserNodeSelected(userNode);
+            self._onUserNodeSelected(userNode);
         });
 
         var elem = jQuery("<div>").addClass("fnvUserNodeItem");
@@ -217,15 +163,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeListView.prototype._buildPhotoElem = function ( userNode ) {
 
         var photoUrl = userNode.photoUrl;
@@ -238,16 +178,11 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Called when a node in the friends list is selected.
- *
- **************************************************************************/
-
-    UserNodeListView.prototype._triggerUserNodeSelected = function ( userNode ) {
+    /**
+     * Called when a node in the friends list is selected.
+     */
+    UserNodeListView.prototype._onUserNodeSelected = function (
+        userNode ) {
 
         this._logger.info("Selected node {0} ({1})",
                           userNode.id,
@@ -259,16 +194,10 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Called when the "back" button is clicked.
- *
- **************************************************************************/
-
-    UserNodeListView.prototype._triggerBack = function () {
+    /**
+     * Called when the "back" button is clicked.
+     */
+    UserNodeListView.prototype._onBack = function () {
 
         var callback = this._callbackBack;
 
@@ -276,10 +205,5 @@ varmateo.friendnav.fnav.views.friends.UserNodeListView = (function() {
     }
 
 
-
-
-
     return UserNodeListView;
-
-})();
-
+});

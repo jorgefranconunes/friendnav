@@ -17,13 +17,13 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger = varmateo.util.logging.SimpleLogger;
-    var JQueryUtils  = varmateo.util.jquery.JQueryUtils;
+    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var JQueryUtils  = varmateo.load("varmateo.util.jquery.JQueryUtils");
 
     var UserNodeDetailView =
-        varmateo.friendnav.fnav.views.friends.UserNodeDetailView;
+        varmateo.load("varmateo.friendnav.fnav.views.friends.UserNodeDetailView");
     var UserNodeListView =
-        varmateo.friendnav.fnav.views.friends.UserNodeListView;
+        varmateo.load("varmateo.friendnav.fnav.views.friends.UserNodeListView");
 
 
     UserNodeNavigatorView.prototype._logger             = null;
@@ -95,7 +95,7 @@ function() {
     UserNodeNavigatorView.prototype.setOnUserNodeSelectedListener = function (
         callback ) {
 
-        this._viewUserNodeList.onUserNodeSelected(callback);
+        this._viewUserNodeList.setOnUserNodeSelectedListener(callback);
     }
 
 
@@ -104,7 +104,7 @@ function() {
      */
     UserNodeNavigatorView.prototype.setOnBackListener = function ( callback ) {
 
-        this._viewUserNodeList.onBack(callback);
+        this._viewUserNodeList.setOnBackListener(callback);
     }
 
 
