@@ -6,20 +6,16 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav.views.friends");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * The view for the page displaying the friend navigator widget and
  * the map with the social network connections.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
+"varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView",
+
+function() {
 
     var SimpleLogger = varmateo.util.logging.SimpleLogger;
     var JQueryUtils  = varmateo.util.jquery.JQueryUtils;
@@ -28,9 +24,6 @@ varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
         varmateo.friendnav.fnav.views.friends.UserNodeDetailView;
     var UserNodeListView =
         varmateo.friendnav.fnav.views.friends.UserNodeListView;
-
-
-
 
 
     UserNodeNavigatorView.prototype._logger             = null;
@@ -43,15 +36,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
     UserNodeNavigatorView.prototype._currentUserNodeId = null;
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function UserNodeNavigatorView ( panelId ) {
 
         var logger = SimpleLogger.createFor("UserNodeNavigatorView");
@@ -68,15 +55,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeNavigatorView.prototype.getElement = function () {
 
         var result = this._panel;
@@ -85,15 +66,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeNavigatorView.prototype.showEvent = function ( isVisible ) {
 
         this._logger.info("View is now {0}",
@@ -105,60 +80,37 @@ varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Defines the callback for the "show" event.
- *
- **************************************************************************/
-
+    /**
+     * Defines the callback for the "show" event.
+     */
     UserNodeNavigatorView.prototype.onShow = function ( callback ) {
 
         this._callbackShow = callback;
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    UserNodeNavigatorView.prototype.onUserNodeSelected = function ( callback ) {
+    /**
+     *
+     */
+    UserNodeNavigatorView.prototype.setOnUserNodeSelectedListener = function (
+        callback ) {
 
         this._viewUserNodeList.onUserNodeSelected(callback);
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    UserNodeNavigatorView.prototype.onBack = function ( callback ) {
+    /**
+     *
+     */
+    UserNodeNavigatorView.prototype.setOnBackListener = function ( callback ) {
 
         this._viewUserNodeList.onBack(callback);
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeNavigatorView.prototype.setInitialUserNode = function ( userNode ) {
 
         var isFirstUserNode = true;
@@ -167,15 +119,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeNavigatorView.prototype.setUserNode = function ( userNode ) {
 
         var isFirstUserNode = false;
@@ -184,22 +130,14 @@ varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeNavigatorView.prototype._doSetUserNode = function (
         userNode,
         isFirstUserNode ) {
 
-        this._logger.info("Showing node {0} ({1})",
-                          userNode.id,
-                          userNode.name);
+        this._logger.info("Showing node {0} ({1})", userNode.id, userNode.name);
 
         this._currentUserNodeId = userNode.id;
 
@@ -209,15 +147,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeNavigatorView.prototype.setFriendsList = function (
         userId,
         userNodeList ) {
@@ -227,16 +159,11 @@ varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView = (function() {
         if ( currentUserNodeId == userId ) {
             this._viewUserNodeList.setUserNodeList(userNodeList);
         } else {
-            this._logger.info("Friends list for old node {0} ignored...",
-                              userId);
+            this._logger.info(
+                "Friends list for old node {0} ignored...", userId);
         }
     }
 
 
-
-
-
     return UserNodeNavigatorView;
-
-})();
-
+});

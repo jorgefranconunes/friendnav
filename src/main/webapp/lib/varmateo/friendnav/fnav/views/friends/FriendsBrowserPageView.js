@@ -94,7 +94,7 @@ function() {
     FriendsBrowserPageView.prototype.setOnUserNodeSelectedListener = function (
         callback ) {
 
-        this._viewNavigator.onUserNodeSelected(callback);
+        this._viewNavigator.setOnUserNodeSelectedListener(callback);
     }
 
 
@@ -103,7 +103,7 @@ function() {
      */
     FriendsBrowserPageView.prototype.setOnBackListener = function ( callback ) {
 
-        this._viewNavigator.onBack(callback);
+        this._viewNavigator.setOnBackListener(callback);
     }
 
 
