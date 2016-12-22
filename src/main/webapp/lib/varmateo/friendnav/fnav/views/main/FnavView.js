@@ -6,34 +6,27 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav.views.main");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * The outermost view of the application. Manages the decorations that
  * are always visible.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.views.main.FnavView = (function() {
+"varmateo.friendnav.fnav.views.main.FnavView",
 
-    var JQueryUtils               =
-        varmateo.util.jquery.JQueryUtils;
-    var SimpleLogger              =
-        varmateo.util.logging.SimpleLogger;
-    var MessageFormat             =
-        varmateo.util.text.MessageFormat;
-    var ContentsView       =
-        varmateo.friendnav.fnav.views.main.ContentsView;
-    var UserDataView        =
-        varmateo.friendnav.fnav.views.main.UserDataView;
+function() {
 
-
-
+    var JQueryUtils =
+        varmateo.load("varmateo.util.jquery.JQueryUtils");
+    var SimpleLogger =
+        varmateo.load("varmateo.util.logging.SimpleLogger");
+    var MessageFormat =
+        varmateo.load("varmateo.util.text.MessageFormat");
+    var ContentsView =
+        varmateo.load("varmateo.friendnav.fnav.views.main.ContentsView");
+    var UserDataView =
+        varmateo.load("varmateo.friendnav.fnav.views.main.UserDataView");
 
 
     FnavView.prototype._logger        = null;
@@ -46,39 +39,38 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
 
     // Keys are view codes. Values are the corresponding views
     // received in the constructor.
-    FnavView.prototype._viewsMap = {};
+    FnavView.prototype._viewsMap = null;
 
 
-
-
-
-/**************************************************************************
- *
- * The config object is expected to contain the following fields:
- *
- * * containerPanelId - The ID of the DOM element that will contain
- *   the panels to display.
- *
- * * pageViewsMap - The views selected by ".fnvPageLink" links. Keys
- *   are view codes. Values are corresponding view objects.
- *
- * * preLoginViewCode - The code for the view that is made visible
- *   when the user is not logged in. This is also the view shown at
- *   the start. This code has to be one of the keys in "viewsMap".
- *
- * * postLoginViewCode - The code for the view that is to be displayed
- *   when the "showPostLoginView" method is invoked. This code has to
- *   be one of the keys in "viewsMap".
- *
- * The view objects are expected to respond to two methods:
- *
- * * getElement() - Returns the jQuery or DOM object to display inside
- *   the container panel.
- *
- * * showEvent(isVisible) - Will be called when the view has just been
- *   made visible or invisible. The "isVisible" flag is a boolean.
- *
- **************************************************************************/
+    /**
+     * The config object is expected to contain the following fields:
+     *
+     * * containerPanelId - The ID of the DOM element that will
+     *   contain the panels to display.
+     *
+     * * pageViewsMap - The views selected by ".fnvPageLink"
+     *   links. Keys are view codes. Values are corresponding view
+     *   objects.
+     *
+     * * preLoginViewCode - The code for the view that is made visible
+     *   when the user is not logged in. This is also the view shown
+     *   at the start. This code has to be one of the keys in
+     *   "viewsMap".
+     *
+     * * postLoginViewCode - The code for the view that is to be
+     *   displayed when the "showPostLoginView" method is
+     *   invoked. This code has to be one of the keys in "viewsMap".
+     *
+     * The view objects are expected to respond to two methods:
+     *
+     * * getElement() - Returns the jQuery or DOM object to display
+     *   inside the container panel.
+     *
+     * * showEvent(isVisible) - Will be called when the view has just
+     *   been made visible or invisible. The "isVisible" flag is a
+     *   boolean.
+     *
+     **************************************************************************/
 
     function FnavView ( config ) {
 
@@ -108,15 +100,9 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FnavView.prototype._setupPageViewLinks = function ( containerPanelId ) {
 
         var self = this;
@@ -129,15 +115,9 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FnavView.prototype._setupOnePageViewLink = function ( linkElem ) {
 
         var self     = this;
@@ -145,25 +125,19 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
         var viewCode = viewHref.substring(1);
         var pageView = this._getViewWithCode(viewCode);
 
-        this._logger.info("Seting up page view link \"{0}\"", viewCode);
+        this._logger.info("Setting up page view link \"{0}\"", viewCode);
 
         linkElem.click(function(event) {
             event.preventDefault();
-            self._triggerViewSelectedEvent(viewCode, pageView);
+            self._onViewSelected(viewCode, pageView);
         });
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    FnavView.prototype._triggerViewSelectedEvent = function (
+    /**
+     *
+     */
+    FnavView.prototype._onViewSelected = function (
         viewCode,
         view ) {
 
@@ -173,15 +147,9 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FnavView.prototype._setupLocalLinks = function () {
 
         var self         = this;
@@ -207,15 +175,9 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FnavView.prototype._setupOneLocalLink = function (
         anchor,
         localPageMap ) {
@@ -233,15 +195,9 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FnavView.prototype._setupLogoutLinks = function () {
 
         var self        = this;
@@ -252,21 +208,15 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
         logoutLinks.each(function(index, element) {
             $(element).click(function ( e ) {
                 e.preventDefault();
-                self._triggerLogoutSelectedEvent();
+                self._onLogoutSelected();
             });
         });
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FnavView.prototype._setupHomeLinks = function () {
 
         var self        = this;
@@ -283,15 +233,9 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * @param viewCode - One the the keys in _viewsMap.
- *
- **************************************************************************/
-
+    /**
+     * @param viewCode - One the the keys in _viewsMap.
+     */
     FnavView.prototype._getViewWithCode = function ( viewCode ) {
 
         var view  = this._viewsMap[viewCode];
@@ -307,15 +251,9 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FnavView.prototype._showHomeView = function () {
 
         var homeView = null;
@@ -330,16 +268,10 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    FnavView.prototype._triggerLogoutSelectedEvent = function ( viewCode ) {
+    /**
+     *
+     */
+    FnavView.prototype._onLogoutSelected = function () {
 
         this._logger.info("Logout was selected");
 
@@ -349,30 +281,18 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    FnavView.prototype.onLogoutSelected = function ( callback ) {
+    /**
+     *
+     */
+    FnavView.prototype.setOnLogoutSelectedListener = function ( callback ) {
 
         this._callbackLogoutSelected = callback;
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FnavView.prototype.showPostLoginView = function ( userProfile ) {
 
         this._isLoggedIn = true;
@@ -382,15 +302,9 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FnavView.prototype.showPreLoginView = function () {
 
         this._isLoggedIn = false;
@@ -400,46 +314,28 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * @param nextView - A page view.
- *
- **************************************************************************/
-
+    /**
+     * @param nextView - A page view.
+     */
     FnavView.prototype.showPage = function ( nextView ) {
 
         this._viewContents.showPage(nextView);
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Class LocalPageView. Represents a page view where the contents
- * correspond to an existing element in the DOM tree.
- *
- **************************************************************************/
-
+    /**
+     * Class LocalPageView. Represents a page view where the contents
+     * correspond to an existing element in the DOM tree.
+     */
     LocalPageView.prototype._logger       = null;
     LocalPageView.prototype._panelId      = null;
     LocalPageView.prototype._panel        = null;
     LocalPageView.prototype._callbackShow = null;
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function LocalPageView ( panelId ) {
 
         var logger = SimpleLogger.createFor("LocalPageView");
@@ -452,15 +348,9 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     LocalPageView.prototype.getElement = function () {
 
         var result = this._panel;
@@ -469,27 +359,17 @@ varmateo.friendnav.fnav.views.main.FnavView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     LocalPageView.prototype.showEvent = function ( isVisible ) {
 
-        this._logger.info("View {0} is now {1}",
-                          this._panelId,
-                          (isVisible ? "shown" : "hidden"));
+        this._logger.info(
+            "View {0} is now {1}",
+            this._panelId,
+            (isVisible ? "shown" : "hidden"));
     }
 
 
-
-
-
     return FnavView;
-
-}) ();
-
+});

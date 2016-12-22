@@ -6,23 +6,17 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav.controllers");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * The controller for the outermost view of the FriendNav application.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.controllers.FnavController = (function() {
+"varmateo.friendnav.fnav.controllers.FnavController",
 
-    var SimpleLogger = varmateo.util.logging.SimpleLogger;
+function() {
 
-
+    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
 
 
     var COOKIE_ACCESS_TOKEN = "FnavAccessToken";
@@ -36,27 +30,18 @@ varmateo.friendnav.fnav.controllers.FnavController = (function() {
     FnavController.prototype._callbackInitialUserNode = null;
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function FnavController (
         fsqManager,
         viewFnav ) {
 
-        var self   = this;
         var logger = SimpleLogger.createFor("FnavController");
 
         logger.info("Seting up...");
 
-        viewFnav.onLogoutSelected(function () {
-            self._logoutSelectedEvent();
-        });
+        viewFnav.setOnLogoutSelectedListener(this._onLogoutSelected.bind(this));
 
         this._logger      = logger;
         this._fsqManager  = fsqManager;
@@ -66,16 +51,10 @@ varmateo.friendnav.fnav.controllers.FnavController = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Decides which page view to show depending on the hash on the
- * current URL.
- *
- **************************************************************************/
-
+    /**
+     * Decides which page view to show depending on the hash on the
+     * current URL.
+     */
     FnavController.prototype.initialize = function () {
 
         var hash           = window.location.hash;
@@ -102,9 +81,8 @@ varmateo.friendnav.fnav.controllers.FnavController = (function() {
             var self = this;
 
             this._fsqManager.setAccessToken(this._accessToken);
-            this._fsqManager.retrieveSelfUserNode(function ( node ) {
-                self._setSelfUserNode(node);
-            });
+            this._fsqManager.retrieveSelfUserNode(
+                this._setSelfUserNode.bind(this));
         } else {
             this._logger.info("User is not yet signed in.");
 
@@ -113,31 +91,20 @@ varmateo.friendnav.fnav.controllers.FnavController = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    FnavController.prototype.onInitialUserNode = function ( callback ) {
+    /**
+     *
+     */
+    FnavController.prototype.setOnInitialUserNodeListener = function (
+        callback ) {
 
         this._callbackInitialUserNode = callback;
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    FnavController.prototype._logoutSelectedEvent = function () {
+    /**
+     *
+     */
+    FnavController.prototype._onLogoutSelected = function () {
 
         deleteCookie(COOKIE_ACCESS_TOKEN);
 
@@ -148,15 +115,9 @@ varmateo.friendnav.fnav.controllers.FnavController = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     FnavController.prototype._setSelfUserNode = function ( userNode ) {
 
         if ( userNode != null ) {
@@ -174,15 +135,9 @@ varmateo.friendnav.fnav.controllers.FnavController = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Retrieves the value of a cookie.
- *
- **************************************************************************/
-
+    /**
+     * Retrieves the value of a cookie.
+     */
     function getCookieValue ( cookieName ) {
 
         var cookieValue = jaaulde.utils.cookies.get(cookieName);
@@ -191,15 +146,9 @@ varmateo.friendnav.fnav.controllers.FnavController = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Retrieves the value of a cookie.
- *
- **************************************************************************/
-
+    /**
+     * Sets the value of a cookie.
+     */
     function setCookieValue (
         cookieName,
         cookieValue) {
@@ -215,31 +164,19 @@ varmateo.friendnav.fnav.controllers.FnavController = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Retrieves the value of a cookie.
- *
- **************************************************************************/
-
+    /**
+     * Deletes a cookie.
+     */
     function deleteCookie ( cookieName ) {
 
         jaaulde.utils.cookies.del(cookieName);
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Retrieves the value of the access token from the given hash, if it
- * is present.
- *
- **************************************************************************/
-
+    /**
+     * Retrieves the value of the access token from the given hash, if
+     * it is present.
+     */
     function parseAccessTokenFromHash ( hash ) {
 
         var result = null;
@@ -258,10 +195,5 @@ varmateo.friendnav.fnav.controllers.FnavController = (function() {
     }
 
 
-
-
-
-        return FnavController;
-
-})();
-
+    return FnavController;
+});

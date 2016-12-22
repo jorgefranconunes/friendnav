@@ -187,7 +187,7 @@ function() {
                 _controllerFriendsBrowserPage.setInitialUserNode(userNode);
             };
 
-            fnavController.onInitialUserNode(callback);
+            fnavController.setOnInitialUserNodeListener(callback);
         }
 
         return _controllerFriendsBrowserPage;
