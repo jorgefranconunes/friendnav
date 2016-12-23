@@ -6,110 +6,38 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav.views.home");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * The view for the entry of the application.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.views.home.HomePageView = (function() {
+"varmateo.friendnav.fnav.views.home.HomePageView",
 
-    var SimpleLogger = varmateo.util.logging.SimpleLogger;
-    var JQueryUtils  = varmateo.util.jquery.JQueryUtils;
+function() {
 
-
-
-
-
-    HomePageView.prototype._logger       = null;
-    HomePageView.prototype._panel        = null;
-    HomePageView.prototype._callbackShow = null;
+    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var JQueryUtils  = varmateo.load("varmateo.util.jquery.JQueryUtils");
+    var PageViewTrait = varmateo.load("varmateo.friendnav.views.PageViewTrait");
 
 
+    var LABEL_TITLE = "Friend Navigator";
 
 
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function HomePageView ( panelId ) {
 
         var logger = SimpleLogger.createFor("HomePageView");
+        var panel = JQueryUtils.getOne(panelId);
+        var trait = new PageViewTrait(logger, LABEL_TITLE, panel);
 
-        logger.info("Seting up with panel \"{0}\"...", panelId);
+        trait.addTo(this);
 
-        this._logger      = logger;
-        this._panel       = JQueryUtils.getOne(panelId);
+        logger.info("Setting up with panel \"{0}\"...", panelId);
     }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    HomePageView.prototype.getElement = function () {
-
-        var result = this._panel;
-
-        return result;
-    }
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-    HomePageView.prototype.showEvent = function ( isVisible ) {
-
-        this._logger.info("View is now {0}",
-                          (isVisible ? "shown" : "hidden"));
-
-        var callback = this._callbackShow;
-
-        if ( callback != null ) {
-            callback(isVisible);
-        }
-    }
-
-
-
-
-
-/**************************************************************************
- *
- * Defines the callback for the "show" event.
- *
- **************************************************************************/
-
-    HomePageView.prototype.onShow = function ( callback ) {
-
-            this._callbackShow = callback;
-        }
-
-
-
 
 
     return HomePageView;
-
-})();
-
+});

@@ -27,6 +27,8 @@ function() {
         varmateo.load("varmateo.friendnav.fnav.views.main.ContentsView");
     var UserDataView =
         varmateo.load("varmateo.friendnav.fnav.views.main.UserDataView");
+    var PageViewTrait =
+        varmateo.load("varmateo.friendnav.views.PageViewTrait");
 
 
     FnavView.prototype._logger        = null;
@@ -326,11 +328,6 @@ function() {
     /**
      * Class LocalPageView. Represents a page view where the contents
      * correspond to an existing element in the DOM tree.
-     */
-    LocalPageView.prototype._logger       = null;
-    LocalPageView.prototype._panelId      = null;
-    LocalPageView.prototype._panel        = null;
-    LocalPageView.prototype._callbackShow = null;
 
 
     /**
@@ -339,35 +336,13 @@ function() {
     function LocalPageView ( panelId ) {
 
         var logger = SimpleLogger.createFor("LocalPageView");
+        var panel = JQueryUtils.getOne(panelId);
+        var pageTitle = panelId; // HACK
+        var trait = new PageViewTrait(logger, pageTitle, panel);
 
-        logger.info("Seting up with panel \"{0}\"...", panelId);
+        trait.addTo(this);
 
-        this._logger  = logger;
-        this._panelId = panelId;
-        this._panel   = JQueryUtils.getOne(panelId);
-    }
-
-
-    /**
-     *
-     */
-    LocalPageView.prototype.getElement = function () {
-
-        var result = this._panel;
-
-        return result;
-    }
-
-
-    /**
-     *
-     */
-    LocalPageView.prototype.showEvent = function ( isVisible ) {
-
-        this._logger.info(
-            "View {0} is now {1}",
-            this._panelId,
-            (isVisible ? "shown" : "hidden"));
+        logger.info("Setting up with panel \"{0}\"...", panelId);
     }
 
 

@@ -25,11 +25,11 @@ function() {
         varmateo.load("varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView");
     var UserNodeForceLayoutView =
         varmateo.load("varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView");
+    var PageViewTrait = varmateo.load("varmateo.friendnav.views.PageViewTrait");
 
 
-    FriendsBrowserPageView.prototype._logger        = null;
-    FriendsBrowserPageView.prototype._panel         = null;
-    FriendsBrowserPageView.prototype._callbackShow  = null;
+    var LABEL_TITLE = "Friends Browser";
+
     FriendsBrowserPageView.prototype._viewNavigator = null;
     FriendsBrowserPageView.prototype._viewGraph     = null;
     FriendsBrowserPageView.prototype._depth         = -1;
@@ -41,50 +41,18 @@ function() {
     function FriendsBrowserPageView ( panelId ) {
 
         var logger = SimpleLogger.createFor("FriendsBrowserPageView");
+        var panel = JQueryUtils.getOne(panelId);
+        var trait = new PageViewTrait(logger, LABEL_TITLE, panel);
 
-        logger.info("Seting up with panel \"{0}\"...", panelId);
+        trait.addTo(this);
 
         var viewNavigator = new UserNodeNavigatorView(panelId);
         var viewGraph     = new UserNodeForceLayoutView(panelId+"Graph");
 
-        this._logger        = logger;
-        this._panel         = JQueryUtils.getOne(panelId);
+        logger.info("Setting up with panel \"{0}\"...", panelId);
+
         this._viewNavigator = viewNavigator;
-        this._viewGraph     = viewGraph;
-    }
-
-
-    /**
-     *
-     */
-    FriendsBrowserPageView.prototype.getElement = function () {
-
-        var result = this._panel;
-
-        return result;
-    }
-
-
-    /**
-     *
-     */
-    FriendsBrowserPageView.prototype.showEvent = function ( isVisible ) {
-
-        this._logger.info("View is now {0}",
-                          (isVisible ? "shown" : "hidden"));
-
-        var callback = this._callbackShow;
-
-        callback && calback(isVisible);
-    }
-
-
-    /**
-     * Defines the callback for the "show" event.
-     */
-    FriendsBrowserPageView.prototype.onShow = function ( callback ) {
-
-        this._callbackShow = callback;
+        this._viewGraph = viewGraph;
     }
 
 

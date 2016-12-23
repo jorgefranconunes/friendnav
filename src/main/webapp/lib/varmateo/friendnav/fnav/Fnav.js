@@ -74,7 +74,7 @@ function() {
     /**
      *
      */
-    function initialize() {
+    function _initialize() {
 
         _logger = SimpleLogger.createFor(APP_NAME);
 
@@ -84,9 +84,9 @@ function() {
         _initializeTransitions();
 
         // Hack to force instantation...
-        fetchControllerFriendsBrowserPage();
+        _fetchControllerFriendsBrowserPage();
 
-        var controllerFnav = fetchControllerFnav();
+        var controllerFnav = _fetchControllerFnav();
         controllerFnav.initialize();
 
         _logger.info("Done initializing {0}.", APP_NAME);
@@ -107,14 +107,14 @@ function() {
     /**
      *
      */
-    function fetchViewFnav() {
+    function _fetchViewFnav() {
 
         if ( _viewFnav == null ) {
             var viewFnavConfig = {
                 containerPanelId  : PANEL_TOP_CONTENTS,
                 pageViewsMap      : {
-                    "Home"           : fetchViewHomePage(),
-                    "FriendsBrowser" : fetchViewFriendsBrowserPage(),
+                    "Home"           : _fetchViewHomePage(),
+                    "FriendsBrowser" : _fetchViewFriendsBrowserPage(),
                 },
                 preLoginViewCode  : "Home",
                 postLoginViewCode : "FriendsBrowser"
@@ -130,7 +130,7 @@ function() {
     /**
      *
      */
-    function fetchViewHomePage() {
+    function _fetchViewHomePage() {
 
         if ( _viewHomePage == null ) {
             _viewHomePage = new HomePageView(PANEL_HOME);
@@ -143,7 +143,7 @@ function() {
     /**
      *
      */
-    function fetchViewFriendsBrowserPage() {
+    function _fetchViewFriendsBrowserPage() {
 
         if ( _viewFriendsBrowserPage == null ) {
             _viewFriendsBrowserPage =
@@ -157,11 +157,11 @@ function() {
     /**
      *
      */
-    function fetchControllerFnav() {
+    function _fetchControllerFnav() {
 
         if ( _controllerFnav == null ) {
-            var fsqManager = fetchFoursquareManager();
-            var viewFnav   = fetchViewFnav();
+            var fsqManager = _fetchFoursquareManager();
+            var viewFnav   = _fetchViewFnav();
 
             _controllerFnav = new FnavController(fsqManager, viewFnav);
         }
@@ -173,16 +173,16 @@ function() {
     /**
      *
      */
-    function fetchControllerFriendsBrowserPage() {
+    function _fetchControllerFriendsBrowserPage() {
 
         if ( _controllerFriendsBrowserPage == null ) {
-            var fsqManager = fetchFoursquareManager();
-            var view       = fetchViewFriendsBrowserPage();
+            var fsqManager = _fetchFoursquareManager();
+            var view       = _fetchViewFriendsBrowserPage();
 
             _controllerFriendsBrowserPage =
                 new FriendsBrowserPageController(fsqManager, view);
 
-            var fnavController = fetchControllerFnav();
+            var fnavController = _fetchControllerFnav();
             var callback       = function ( userNode ) {
                 _controllerFriendsBrowserPage.setInitialUserNode(userNode);
             };
@@ -197,7 +197,7 @@ function() {
     /**
      *
      */
-    function fetchFoursquareManager() {
+    function _fetchFoursquareManager() {
 
         if ( _foursquareManager == null ) {
             _foursquareManager = new Foursquare();
@@ -215,7 +215,7 @@ function() {
         _config = config;
 
         var startFunction = function () {
-            jQuery(document).ready(initialize);
+            jQuery(document).ready(_initialize);
         };
 
         varmateo.start({

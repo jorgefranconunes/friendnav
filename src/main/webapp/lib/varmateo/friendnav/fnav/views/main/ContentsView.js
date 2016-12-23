@@ -16,7 +16,7 @@
  * * getElement() - Returns the jQuery or DOM object to display inside
  *   the container panel.
  *
- * * showEvent(isVisible) - Will be called when the view has just been
+ * * onShow(isVisible) - Will be called when the view has just been
  *   made visible or invisible. The "isVisible" flag is a boolean.
  */
 varmateo.defineClass(
@@ -87,18 +87,19 @@ function() {
         var transitionCallbacks = {
             fromEndedTransition : function () {
                 if ( fromPage != null ) {
-                    fromPage.showEvent(false);
+                    fromPage.onShow(false);
                 }
             },
             toStartedTransition : function () {
-                nextPage.showEvent(true);
+                nextPage.onShow(true);
             }
         };
 
-        this._transitionManager.transition(container,
-                                           fromPanel,
-                                           nextPanel,
-                                           transitionCallbacks);
+        this._transitionManager.transition(
+            container,
+            fromPanel,
+            nextPanel,
+            transitionCallbacks);
 
         this._currentPage  = nextPage;
     }

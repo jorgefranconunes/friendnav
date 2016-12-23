@@ -9,55 +9,40 @@
 varmateo.namespace("varmateo.friendnav.fnav.controllers");
 
 
-
-
-
-/**************************************************************************
- *
+/**
  * A cache of UserNode providing functionalities usefull for
  * navigating the connections graph.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.controllers.UserNodeCache = (function() {
+"varmateo.friendnav.fnav.controllers.UserNodeCache",
 
-    var SimpleLogger = varmateo.util.logging.SimpleLogger;
+function() {
 
-
-
+    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
 
 
     UserNodeCache.prototype._logger           = null;
-    UserNodeCache.prototype._userNodeDataById = {};
-    UserNodeCache.prototype._userNodeIdList   = [];
+    UserNodeCache.prototype._userNodeDataById = null;
+    UserNodeCache.prototype._userNodeIdList   = null;
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function UserNodeCache () {
 
         var logger = SimpleLogger.createFor("UserNodeCache");
 
         this._logger = logger;
+        this._userNodeDataById = {};
+        this._userNodeIdList = [];
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeCache.prototype.get = function ( userNodeId ) {
 
         var userNode     = null;
@@ -73,15 +58,9 @@ varmateo.friendnav.fnav.controllers.UserNodeCache = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeCache.prototype.push = function ( userNode ) {
 
         var userNodeId   = userNode.id;
@@ -103,21 +82,16 @@ varmateo.friendnav.fnav.controllers.UserNodeCache = (function() {
 
         this._userNodeIdList.unshift(userNodeId);
 
-        this._logger.info("Pushed user node {0} ({1} total)",
-                          userNodeId,
-                          newCounter);
+        this._logger.info(
+            "Pushed user node {0} ({1} total)",
+            userNodeId,
+            newCounter);
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Removes the topmost user node from the cache.
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeCache.prototype.pop = function () {
 
         if ( this._userNodeIdList.length === 0 ) {
@@ -141,15 +115,9 @@ varmateo.friendnav.fnav.controllers.UserNodeCache = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeCache.prototype.getCurrent = function () {
 
         var userNode = null;
@@ -168,15 +136,9 @@ varmateo.friendnav.fnav.controllers.UserNodeCache = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeCache.prototype.setFriendsList = function (
         userNodeId,
         userNodeList) {
@@ -192,15 +154,9 @@ varmateo.friendnav.fnav.controllers.UserNodeCache = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeCache.prototype.getFriendsList = function ( userNodeId ) {
 
         var userNodeList = null;
@@ -225,10 +181,5 @@ varmateo.friendnav.fnav.controllers.UserNodeCache = (function() {
     }
 
 
-
-
-
     return UserNodeCache;
-
-})();
-
+});
