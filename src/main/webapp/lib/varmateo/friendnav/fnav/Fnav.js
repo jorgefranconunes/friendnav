@@ -30,12 +30,9 @@ function() {
     var FriendsBrowserPageController =
         varmateo.load("varmateo.friendnav.fnav.controllers.FriendsBrowserPageController");
 
-    var FnavView =
-        varmateo.load("varmateo.friendnav.fnav.views.main.FnavView");
-    var HomePageView =
-        varmateo.load("varmateo.friendnav.fnav.views.home.HomePageView");
-    var FriendsBrowserPageView =
-        varmateo.load("varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView");
+    var FnavViewFactory =
+        varmateo.load("varmateo.friendnav.fnav.FnavViewFactory");
+
     var Foursquare =
         varmateo.load("varmateo.friendnav.foursquare.Foursquare");
 
@@ -45,17 +42,12 @@ function() {
         varmateo.load("varmateo.util.transitions.FadeOutInTransitionManager");
 
 
-    var APP_NAME              = "Fnav";
-    var PANEL_TOP_CONTENTS    = "#fnvContents";
-    var PANEL_HOME            = "#fnvPanelHome";
-    var PANEL_FRIENDS_BROWSER = "#fnvFriendsBrowser";
+    var APP_NAME = "Fnav";
 
     var _logger = null;
     var _config = null;
 
-    var _viewFnav               = null;
-    var _viewHomePage           = null;
-    var _viewFriendsBrowserPage = null;
+    var _views = null;
 
     var _controllerFnav               = null;
     var _controllerFriendsBrowserPage = null;
@@ -80,6 +72,8 @@ function() {
 
         _logger.info("Initializing {0}...", APP_NAME);
         _logger.info("    Scripts URL prefix : {0}", _config.classUrlPrefix);
+
+        _views = new FnavViewFactory();
 
         _initializeTransitions();
 
@@ -107,61 +101,11 @@ function() {
     /**
      *
      */
-    function _fetchViewFnav() {
-
-        if ( _viewFnav == null ) {
-            var viewFnavConfig = {
-                containerPanelId  : PANEL_TOP_CONTENTS,
-                pageViewsMap      : {
-                    "Home"           : _fetchViewHomePage(),
-                    "FriendsBrowser" : _fetchViewFriendsBrowserPage(),
-                },
-                preLoginViewCode  : "Home",
-                postLoginViewCode : "FriendsBrowser"
-            };
-
-            _viewFnav = new FnavView(viewFnavConfig);
-        }
-
-        return _viewFnav;
-    }
-
-
-    /**
-     *
-     */
-    function _fetchViewHomePage() {
-
-        if ( _viewHomePage == null ) {
-            _viewHomePage = new HomePageView(PANEL_HOME);
-        }
-
-        return _viewHomePage;
-    }
-
-
-    /**
-     *
-     */
-    function _fetchViewFriendsBrowserPage() {
-
-        if ( _viewFriendsBrowserPage == null ) {
-            _viewFriendsBrowserPage =
-                new FriendsBrowserPageView(PANEL_FRIENDS_BROWSER);
-        }
-
-        return _viewFriendsBrowserPage;
-    }
-
-
-    /**
-     *
-     */
     function _fetchControllerFnav() {
 
         if ( _controllerFnav == null ) {
             var fsqManager = _fetchFoursquareManager();
-            var viewFnav   = _fetchViewFnav();
+            var viewFnav   = _views.getFnavView();
 
             _controllerFnav = new FnavController(fsqManager, viewFnav);
         }
@@ -177,7 +121,7 @@ function() {
 
         if ( _controllerFriendsBrowserPage == null ) {
             var fsqManager = _fetchFoursquareManager();
-            var view       = _fetchViewFriendsBrowserPage();
+            var view       = _views.getFriendsBrowserPageView();
 
             _controllerFriendsBrowserPage =
                 new FriendsBrowserPageController(fsqManager, view);
