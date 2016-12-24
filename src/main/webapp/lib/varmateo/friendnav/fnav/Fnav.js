@@ -12,10 +12,6 @@
 
 /**
  * The Fnav application.
- *
- * Its main work is seting up the dependency injections for the
- * components (views, controllers, façades) that make up the
- * application.
  */
 varmateo.defineClass(
 
@@ -23,18 +19,17 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger   = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
 
     var FnavController =
         varmateo.load("varmateo.friendnav.fnav.controllers.FnavController");
     var FriendsBrowserPageController =
         varmateo.load("varmateo.friendnav.fnav.controllers.FriendsBrowserPageController");
 
+    var FnavFacadeFactory =
+        varmateo.load("varmateo.friendnav.fnav.FnavFacadeFactory");
     var FnavViewFactory =
         varmateo.load("varmateo.friendnav.fnav.FnavViewFactory");
-
-    var Foursquare =
-        varmateo.load("varmateo.friendnav.foursquare.Foursquare");
 
     var TransitionManagerFactory =
         varmateo.load("varmateo.util.transitions.TransitionManagerFactory");
@@ -47,6 +42,7 @@ function() {
     var _logger = null;
     var _config = null;
 
+    var _facades = null;
     var _views = null;
 
     var _controllerFnav               = null;
@@ -73,6 +69,7 @@ function() {
         _logger.info("Initializing {0}...", APP_NAME);
         _logger.info("    Scripts URL prefix : {0}", _config.classUrlPrefix);
 
+        _facades = new FnavFacadeFactory();
         _views = new FnavViewFactory();
 
         _initializeTransitions();
@@ -104,10 +101,10 @@ function() {
     function _fetchControllerFnav() {
 
         if ( _controllerFnav == null ) {
-            var fsqManager = _fetchFoursquareManager();
-            var viewFnav   = _views.getFnavView();
+            var friendsFacade = _facades.getFriendsFacade();
+            var viewFnav = _views.getFnavView();
 
-            _controllerFnav = new FnavController(fsqManager, viewFnav);
+            _controllerFnav = new FnavController(friendsFacade, viewFnav);
         }
 
         return _controllerFnav;
@@ -120,11 +117,11 @@ function() {
     function _fetchControllerFriendsBrowserPage() {
 
         if ( _controllerFriendsBrowserPage == null ) {
-            var fsqManager = _fetchFoursquareManager();
-            var view       = _views.getFriendsBrowserPageView();
+            var friendsFacade = _facades.getFriendsFacade();
+            var view = _views.getFriendsBrowserPageView();
 
             _controllerFriendsBrowserPage =
-                new FriendsBrowserPageController(fsqManager, view);
+                new FriendsBrowserPageController(friendsFacade, view);
 
             var fnavController = _fetchControllerFnav();
             var callback       = function ( userNode ) {
@@ -135,19 +132,6 @@ function() {
         }
 
         return _controllerFriendsBrowserPage;
-    }
-
-
-    /**
-     *
-     */
-    function _fetchFoursquareManager() {
-
-        if ( _foursquareManager == null ) {
-            _foursquareManager = new Foursquare();
-        }
-
-        return _foursquareManager;
     }
 
 
