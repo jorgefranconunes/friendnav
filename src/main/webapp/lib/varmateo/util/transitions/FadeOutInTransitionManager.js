@@ -7,13 +7,10 @@
 "use strict";
 
 
-/**************************************************************************
- *
+/**
  * Manages panel transitions where the outgoing panel fades out just
  * before the incoming panel fades in.
- *
- **************************************************************************/
-
+ */
 varmateo.defineClass(
 
 "varmateo.util.transitions.FadeOutInTransitionManager",
@@ -22,8 +19,6 @@ function() {
 
     var SimpleLogger             =
         varmateo.load("varmateo.util.logging.SimpleLogger");
-    var TransitionManagerFactory =
-        varmateo.load("varmateo.util.transitions.TransitionManagerFactory");
 
 
     FadeOutInTransitionManager.prototype._logger = null;
@@ -71,14 +66,26 @@ function() {
             _maybeCall(callbacks, "fromStartedTransition");
 
             var callbackEndFadeOut = function () {
-                self._logger.info("Ended fadeout.");
-                panelFrom.detach();
-                _maybeCall(callbacks, "fromEndedTransition");
-                self._startFadeIn(panelContainer, panelFrom, panelTo, callbacks);
+                self._onEndFadeOut(panelContainer, panelFrom, panelTo,callbacks);
             };
-
             panelFrom.fadeOut(callbackEndFadeOut);
         }
+    }
+
+
+    /**
+     *
+     */
+    FadeOutInTransitionManager.prototype._onEndFadeOut = function (
+        panelContainer,
+        panelFrom,
+        panelTo,
+        callbacks ) {
+
+        this._logger.info("Ended fadeout.");
+        panelFrom.detach();
+        _maybeCall(callbacks, "fromEndedTransition");
+        this._startFadeIn(panelContainer, panelFrom, panelTo, callbacks);
     }
 
 
@@ -99,11 +106,20 @@ function() {
         _maybeCall(callbacks, "toStartedTransition");
 
         var callbackEndFadeIn = function () {
-            self._logger.info("Ended fade in.");
-            _maybeCall(callbacks, "toEndedTransition");
+            self._onEndFadeIn(callbacks);
         };
 
         panelTo.fadeIn(callbackEndFadeIn);
+    }
+
+
+    /**
+     *
+     */
+    FadeOutInTransitionManager.prototype._onEndFadeIn = function ( callbacks ) {
+
+        this._logger.info("Ended fade in.");
+        _maybeCall(callbacks, "toEndedTransition");
     }
 
 
@@ -115,7 +131,7 @@ function() {
         methodName ) {
 
         if ( object != null ) {
-            var method =object[methodName];
+            var method = object[methodName];
 
             if ( method != null ) {
                 method();

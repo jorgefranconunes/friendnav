@@ -24,6 +24,8 @@ function() {
         varmateo.load("varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView");
     var FnavView =
         varmateo.load("varmateo.friendnav.fnav.views.main.FnavView");
+    var FadeOutInTransitionManager =
+        varmateo.load("varmateo.util.transitions.FadeOutInTransitionManager");
 
 
     var PANEL_FRIENDS_BROWSER = "#fnvFriendsBrowser";
@@ -39,21 +41,27 @@ function() {
         var self = this;
         var configList = [
             {
-                name : "FriendsBrowserPageView",
-                builder : function () {
-                    return new FriendsBrowserPageView(PANEL_FRIENDS_BROWSER);
-                },
-            },
-            {
                 name : "FnavView",
                 builder : function () {
                     return self._newFnavView();
                 }
             },
             {
+                name : "FriendsBrowserPageView",
+                builder : function () {
+                    return new FriendsBrowserPageView(PANEL_FRIENDS_BROWSER);
+                },
+            },
+            {
                 name : "HomePageView",
                 builder : function () {
                     return new HomePageView(PANEL_HOME);
+                },
+            },
+            {
+                name : "TransitionManager",
+                builder : function () {
+                    return new FadeOutInTransitionManager();
                 },
             },
         ];
@@ -68,6 +76,7 @@ function() {
      */
     FnavViewFactory.prototype._newFnavView = function () {
 
+        var transitionManager = this.getTransitionManager();
         var fnavViewConfig = {
             containerPanelId  : PANEL_TOP_CONTENTS,
             pageViewsMap      : {
@@ -77,7 +86,7 @@ function() {
             preLoginViewCode  : "Home",
             postLoginViewCode : "FriendsBrowser"
         };
-        var view = new FnavView(fnavViewConfig);
+        var view = new FnavView(fnavViewConfig, transitionManager);
 
         return view;
     }

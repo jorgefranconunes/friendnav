@@ -28,11 +28,6 @@ function() {
     var FnavViewFactory =
         varmateo.load("varmateo.friendnav.fnav.FnavViewFactory");
 
-    var TransitionManagerFactory =
-        varmateo.load("varmateo.util.transitions.TransitionManagerFactory");
-    var FadeOutInTransitionManager =
-        varmateo.load("varmateo.util.transitions.FadeOutInTransitionManager");
-
 
     var APP_NAME = "Fnav";
 
@@ -62,22 +57,9 @@ function() {
         var views = new FnavViewFactory();
         var controllers = new FnavControllerFactory(facades, views);
 
-        _initializeTransitions();
-
         controllers.getFnavController().initialize();
 
         _logger.info("Done initializing {0}.", APP_NAME);
-    }
-
-
-    /**
-     *
-     */
-    function _initializeTransitions () {
-
-        var fadeOutIn = new FadeOutInTransitionManager();
-
-        TransitionManagerFactory.register("fadeoutin", fadeOutIn);
     }
 
 

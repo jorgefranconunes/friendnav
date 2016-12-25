@@ -27,14 +27,10 @@ function() {
 
     var JQueryUtils =
         varmateo.load("varmateo.util.jquery.JQueryUtils");
-    var TransitionManagerFactory =
-        varmateo.load("varmateo.util.transitions.TransitionManagerFactory");
 
 
-    var DEFAULT_TRANSITION_TYPE = "fadeoutin";
-
-    ContentsView.prototype._transitionManager = null;
     ContentsView.prototype._container         = null;
+    ContentsView.prototype._transitionManager = null;
     ContentsView.prototype._currentPage       = null;
 
 
@@ -42,12 +38,12 @@ function() {
      * @param panelId - The ID of the DOM element that will contain
      * the panels to display.
      */
-    function ContentsView ( panelId ) {
-
-        this._transitionManager =
-            TransitionManagerFactory.get(DEFAULT_TRANSITION_TYPE);
+    function ContentsView (
+        panelId,
+        transitionManager ) {
 
         this._container = JQueryUtils.getOne(panelId);
+        this._transitionManager = transitionManager;
     }
 
 

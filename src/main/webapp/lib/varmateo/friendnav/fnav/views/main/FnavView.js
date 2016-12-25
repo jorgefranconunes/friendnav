@@ -74,7 +74,9 @@ function() {
      *
      **************************************************************************/
 
-    function FnavView ( config ) {
+    function FnavView (
+        config,
+        transitionManager ) {
 
         var logger            = SimpleLogger.createFor("FnavView");
         var containerPanelId  = config.containerPanelId;
@@ -90,8 +92,10 @@ function() {
         this._preLoginView  = this._getViewWithCode(preLoginViewCode);
         this._postLoginView = this._getViewWithCode(postLoginViewCode);
 
-        this._viewContents = new ContentsView(containerPanelId);
-        this._viewUserData = new UserDataView("#fnvUserData");
+        this._viewContents =
+            new ContentsView(containerPanelId, transitionManager);
+        this._viewUserData =
+            new UserDataView("#fnvUserData");
 
         this._setupPageViewLinks(containerPanelId);
         this._setupLocalLinks();
