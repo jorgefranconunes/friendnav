@@ -29,6 +29,8 @@ function() {
         varmateo.load("varmateo.friendnav.fnav.views.main.UserDataView");
     var PageViewTrait =
         varmateo.load("varmateo.friendnav.views.PageViewTrait");
+    var StaticPageView =
+        varmateo.load("varmateo.friendnav.views.StaticPageView");
 
 
     FnavView.prototype._logger        = null;
@@ -86,8 +88,8 @@ function() {
 
         logger.info("Seting up view for \"{0}\"", containerPanelId);
 
-        this._logger            = logger;
-        this._viewsMap          = jQuery.extend({}, pageViewsMap);
+        this._logger = logger;
+        this._viewsMap = jQuery.extend({}, pageViewsMap);
 
         this._preLoginView  = this._getViewWithCode(preLoginViewCode);
         this._postLoginView = this._getViewWithCode(postLoginViewCode);
@@ -97,8 +99,7 @@ function() {
         this._viewUserData =
             new UserDataView("#fnvUserData");
 
-        this._setupPageViewLinks(containerPanelId);
-        this._setupLocalLinks();
+        this._setupStaticPageLinks();
         this._setupLogoutLinks();
         this._setupHomeLinks();
 
@@ -109,94 +110,26 @@ function() {
     /**
      *
      */
-    FnavView.prototype._setupPageViewLinks = function ( containerPanelId ) {
+    FnavView.prototype._setupStaticPageLinks = function () {
 
         var self = this;
+        var staticPageLinks = jQuery(".fnvStaticPageLink");
 
-        var viewLinks = $(".fnvPageViewLink");
+        this._logger.info(
+            "Setting up {0} static page links...",
+            staticPageLinks.length);
 
-        viewLinks.each(function(index, element) {
-            self._setupOnePageViewLink($(element));
-        });
-    }
+        staticPageLinks.each(function ( index, element ) {
+            var anchor = jQuery(element);
+            var url = anchor.attr("href");
+            var staticPageView = new StaticPageView(url);
 
+            self._logger.info("Setting up static page link for \"{0}\"", url);
 
-    /**
-     *
-     */
-    FnavView.prototype._setupOnePageViewLink = function ( linkElem ) {
-
-        var self     = this;
-        var viewHref = linkElem.attr("href");
-        var viewCode = viewHref.substring(1);
-        var pageView = this._getViewWithCode(viewCode);
-
-        this._logger.info("Setting up page view link \"{0}\"", viewCode);
-
-        linkElem.click(function(event) {
-            event.preventDefault();
-            self._onViewSelected(viewCode, pageView);
-        });
-    }
-
-
-    /**
-     *
-     */
-    FnavView.prototype._onViewSelected = function (
-        viewCode,
-        view ) {
-
-        this._logger.info("View \"{0}\" selected", viewCode);
-
-        this.showPage(view);
-    }
-
-
-    /**
-     *
-     */
-    FnavView.prototype._setupLocalLinks = function () {
-
-        var self         = this;
-        var localLinks   = $(".fnvLocalLink");
-        var localPageMap = {};
-
-        this._logger.info("Seting up {0} local links...", localLinks.length);
-
-        localLinks.each(function ( index, element ) {
-            var anchor    = $(element);
-            var panelId   = anchor.attr("href");
-            var localPage = localPageMap[panelId];
-
-            if ( localPage === undefined ) {
-                localPage = new LocalPageView(panelId);
-                localPageMap[panelId] = localPage;
-            }
-        });
-
-        localLinks.each(function(index, element) {
-            self._setupOneLocalLink($(element), localPageMap);
-        });
-    }
-
-
-    /**
-     *
-     */
-    FnavView.prototype._setupOneLocalLink = function (
-        anchor,
-        localPageMap ) {
-
-        var self      = this;
-        var panelId   = anchor.attr("href");
-        var localPage = localPageMap[panelId];
-
-        this._logger.info("Seting up local link for target \"{0}\"", panelId);
-
-        anchor.click(function ( event ) {
-            event.preventDefault();
-            self.showPage(localPage);
+            anchor.click(function ( event ) {
+                event.preventDefault();
+                self.showPage(staticPageView);
+            });
         });
     }
 
@@ -326,27 +259,6 @@ function() {
     FnavView.prototype.showPage = function ( nextView ) {
 
         this._viewContents.showPage(nextView);
-    }
-
-
-    /**
-     * Class LocalPageView. Represents a page view where the contents
-     * correspond to an existing element in the DOM tree.
-
-
-    /**
-     *
-     */
-    function LocalPageView ( panelId ) {
-
-        var logger = SimpleLogger.createFor("LocalPageView");
-        var panel = JQueryUtils.getOne(panelId);
-        var pageTitle = panelId; // HACK
-        var trait = new PageViewTrait(logger, pageTitle, panel);
-
-        trait.addTo(this);
-
-        logger.info("Setting up with panel \"{0}\"...", panelId);
     }
 
 
