@@ -12,7 +12,7 @@
  */
 varmateo.defineClass(
 
-"varmateo.friendnav.foursquare.FsqJsonCaller",
+"varmateo.friendnav.foursquare.FoursquareJsonCaller",
 
 function () {
 
@@ -25,16 +25,16 @@ function () {
     var PARAM_API_MODE = "m";
     var API_MODE = "foursquare";
 
-    FsqJsonCaller.prototype._logger    = null;
-    FsqJsonCaller.prototype._urlPrefix = null;
+    FoursquareJsonCaller.prototype._logger    = null;
+    FoursquareJsonCaller.prototype._urlPrefix = null;
 
 
     /**
      *
      */
-    function FsqJsonCaller () {
+    function FoursquareJsonCaller () {
 
-        var logger = SimpleLogger.createFor("FsqJsonCaller");
+        var logger = SimpleLogger.createFor("FoursquareJsonCaller");
 
         this._logger    = logger;
         this._urlPrefix = URL_PREFIX;
@@ -42,45 +42,68 @@ function () {
 
 
     /**
-     *
+     * @return Promise
      */
-    FsqJsonCaller.prototype.doGet = function (
+    FoursquareJsonCaller.prototype.doGet = function (
         endpoint,
-        params,
-        callback ) {
+        params ) {
 
-        this._submitRequest('GET', endpoint, params, callback);
+        var promise = this._submitRequest('GET', endpoint, params);
+
+        return promise;
     }
 
 
     /**
-     *
+     * @return Promise
      */
-    FsqJsonCaller.prototype.doPost = function (
+    FoursquareJsonCaller.prototype.doPost = function (
         endpoint,
-        params,
-        callback ) {
+        params ) {
 
-        this._submitRequest('POST', endpoint, params, callback);
+        var promise = this._submitRequest('POST', endpoint, params);
+
+        return promise;
+    }
+
+
+    /**
+     * @param type One of "GET", "POST".
+     *
+     * @return Promise
+     */
+    FoursquareJsonCaller.prototype._submitRequest = function (
+        type,
+        endpoint,
+        params ) {
+
+        var self = this;
+        var promise =
+            Q.Promise(function ( resolve, reject ) {
+                self._doSubmitRequest(type, endpoint, params, resolve, reject);
+            });
+
+        return promise;
     }
 
 
     /**
      * @param type One of "GET", "POST".
      */
-    FsqJsonCaller.prototype._submitRequest = function (
+    FoursquareJsonCaller.prototype._doSubmitRequest = function (
         type,
         endpoint,
         params,
-        callback ) {
+        promiseResolve,
+        promiseReject) {
 
-        var self            = this;
-        var url             = this._urlPrefix + endpoint;
+        var self = this;
+        var url = this._urlPrefix + endpoint;
         var successCallback = function ( data ) {
-            self._handleSuccess(endpoint, data, callback);
+            self._onSuccess(endpoint, data, promiseResolve, promiseReject);
         };
         var errorCallback   = function(jqXHR, status, error) {
-            self._handleError(endpoint, jqXHR, status, error, callback);
+            self._onError(endpoint, status, error, promiseReject);
         };
 
         var requestParams = jQuery.extend({}, params);
@@ -106,55 +129,53 @@ function () {
     /**
      * Called when the AJAX request is successfull.
      */
-    FsqJsonCaller.prototype._handleSuccess = function (
+    FoursquareJsonCaller.prototype._onSuccess = function (
         endpoint,
         data,
-        callback ) {
+        promiseResolve,
+        promiseReject) {
 
-        var response = null;
-
-        // Check if the response signals success.
         var responseCode = data.meta && data.meta.code;
 
         if ( responseCode == "200" ) {
             this._logger.info(
                 "Response from \"{0}\" signals success",
                 endpoint);
-            response = data.response;
+
+            promiseResolve(data.response);
         } else {
-            var meta        = data.meta;
-            var errorType   = meta && meta.errorType;
+            var meta = data.meta;
+            var errorType = meta && meta.errorType;
             var errorDetail = meta && meta.errorDetail;
 
-            this._logger.info("Response from \"{0}\" signals failure:",
-                                  endpoint);
+            this._logger.info("Request for \"{0}\" failed:", endpoint);
             this._logger.info("\tResponse code : {0}", responseCode);
             this._logger.info("\tError type    : {0}", errorType);
             this._logger.info("\tError detail  : {0}", errorDetail);
-        }
 
-        callback(response);
+            promiseReject(errorDetail);
+        }
     }
 
 
     /**
      * Called when the AJAX request fails.
      */
-    FsqJsonCaller.prototype._handleError = function (
+    FoursquareJsonCaller.prototype._onError = function (
         endpoint,
-        jqXHR,
         status,
         error,
-        callback ) {
+        promiseReject ) {
 
-        this._logger.info("Request for \"{0}\" failed with {1} ({2})",
-                          endpoint,
-                          status,
-                          error);
+        this._logger.info(
+            "Request for \"{0}\" failed with {1} ({2})",
+            endpoint,
+            status,
+            error);
 
-        callback(null);
+        promiseReject(error);
     }
 
 
-    return FsqJsonCaller;
+    return FoursquareJsonCaller;
 });

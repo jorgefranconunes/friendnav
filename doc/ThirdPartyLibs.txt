@@ -1,0 +1,65 @@
+= Third-party libraries used by FriendNav
+
+
+
+
+
+* http://getbootstrap.com/[Bootstrap] -- HTML, CSS, and JS framework.
+
+* https://github.com/JAAulde/cookies[cookies] -- Javascript library
+  for accessing and manipulating HTTP cookies in the web browser.
+
+* https://d3js.org/[D3.js] -- JavaScript library for manipulating
+  documents based on data.
+
+* http://documentup.com/kriskowal/q/[Q] -- Javascript library
+  supporting promises.
+
+
+
+
+
+== Bootstrap
+
+HTML, CSS, and JS framework
+
+Site: http://getbootstrap.com/
+
+Downloaded from: ???
+
+
+
+
+
+== cookies
+
+Javascript library for accessing and manipulating HTTP cookies in the
+web browser.
+
+Site: https://github.com/JAAulde/cookies
+
+Downloaded from: ???
+
+
+
+
+
+== D3.js
+
+JavaScript library for manipulating documents based on data.
+
+Site: https://d3js.org/
+
+Downloaded from: ???
+
+
+
+
+
+== Q
+
+Javascript library supporting promises
+
+Site: http://documentup.com/kriskowal/q/
+
+Library: https://cdnjs.cloudflare.com/ajax/libs/q.js/1.4.1/q.min.js

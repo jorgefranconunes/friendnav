@@ -61,8 +61,9 @@ function() {
         var newAccessToken = parseAccessTokenFromHash(hash);
 
         if ( newAccessToken != null ) {
-            this._logger.info("New access token specified - {0}",
-                              newAccessToken);
+            this._logger.info(
+                "New access token specified - {0}",
+                newAccessToken);
 
             setCookieValue(COOKIE_ACCESS_TOKEN, newAccessToken);
             this._accessToken = newAccessToken;
@@ -78,11 +79,10 @@ function() {
         if ( this._isLoggedIn ) {
             this._logger.info("User is signed in.");
 
-            var self = this;
-
             this._fsqManager.setAccessToken(this._accessToken);
-            this._fsqManager.retrieveSelfUserNode(
-                this._setSelfUserNode.bind(this));
+            this._fsqManager.retrieveSelfUserNode()
+                .then(this._onSetSelfUserNode.bind(this))
+                .fail(this._onFailSetSelfUserNode.bind(this));
         } else {
             this._logger.info("User is not yet signed in.");
 
@@ -118,7 +118,7 @@ function() {
     /**
      *
      */
-    FnavController.prototype._setSelfUserNode = function ( userNode ) {
+    FnavController.prototype._onSetSelfUserNode = function ( userNode ) {
 
         if ( userNode != null ) {
             this._logger.info("Received self user node:");
@@ -132,6 +132,16 @@ function() {
         } else {
             this._logger.info("Failed to receive self user node...");
         }
+    }
+
+
+    /**
+     *
+     */
+    FnavController.prototype._onFailSetSelfUserNode = function ( error ) {
+
+        this._logger.info("Failed to receive self user node - {0}", error);
+
     }
 
 

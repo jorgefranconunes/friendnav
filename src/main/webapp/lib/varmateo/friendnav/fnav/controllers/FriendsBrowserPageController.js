@@ -91,7 +91,7 @@ function() {
     FriendsBrowserPageController.prototype._retrieveFriendsList = function (
         userNode ) {
 
-        var self       = this;
+        var self = this;
         var userNodeId = userNode.id;
 
         var userNodeList = this._cache.getFriendsList(userNodeId);
@@ -99,11 +99,13 @@ function() {
         if ( userNodeList != null ) {
             this._view.setFriendsList(userNodeId, userNodeList);
         } else {
-            var callback = function ( userNodeList ) {
-                self._setFriendsList(userNodeId, userNodeList);
-            };
-
-            this._fsqManager.retrieveFriendsList(userNodeId, callback);
+            this._fsqManager.retrieveFriendsList(userNodeId)
+                .then(function ( newUserNodeList ) {
+                    return self._onSetFriendsList(userNodeId, newUserNodeList);
+                })
+                .fail(function ( error ) {
+                    self._onFailedSetFriendsList(userNodeId, error);
+                });
         }
     }
 
@@ -111,21 +113,36 @@ function() {
     /**
      *
      */
-    FriendsBrowserPageController.prototype._setFriendsList = function (
+    FriendsBrowserPageController.prototype._onSetFriendsList = function (
         userNodeId,
         userNodeList ) {
 
         if ( userNodeList != null ) {
-            this._logger.info("Received {0} friends for user {1}",
-                              userNodeList.length,
-                              userNodeId);
+            this._logger.info(
+                "Received {0} friends for user {1}",
+                userNodeList.length,
+                userNodeId);
 
             this._cache.setFriendsList(userNodeId, userNodeList);
             this._view.setFriendsList(userNodeId, userNodeList);
         } else {
-            this._logger.info("Failed to receive friends list for user {1}",
-                              userNodeId);
+            this._logger.info(
+                "Failed to receive friends list for user {0}", userNodeId);
         }
+    }
+
+
+    /**
+     *
+     */
+    FriendsBrowserPageController.prototype._onFailedSetFriendsList = function (
+        userNodeId,
+        error ) {
+
+        this._logger.info(
+            "Failed to receive friends list for user {0} - {1}", 
+            userNodeId,
+            error);
     }
 
 

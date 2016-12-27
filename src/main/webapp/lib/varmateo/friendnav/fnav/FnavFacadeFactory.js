@@ -18,8 +18,8 @@ function() {
 
     var Memoizer = varmateo.load("varmateo.util.Memoizer");
 
-    var Foursquare =
-        varmateo.load("varmateo.friendnav.foursquare.Foursquare");
+    var FoursquareFriendsFacade =
+        varmateo.load("varmateo.friendnav.foursquare.FoursquareFriendsFacade");
 
 
     /**
@@ -31,7 +31,7 @@ function() {
             {
                 name : "FriendsFacade",
                 builder : function () {
-                    return new Foursquare();
+                    return new FoursquareFriendsFacade();
                 },
             },
         ];
