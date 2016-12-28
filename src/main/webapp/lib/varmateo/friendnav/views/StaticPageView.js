@@ -20,7 +20,7 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var Logger = varmateo.load("varmateo.util.logging.Logger");
     var PageViewTrait = varmateo.load("varmateo.friendnav.views.PageViewTrait");
 
 
@@ -36,7 +36,7 @@ function() {
      */
     function StaticPageView ( contentsUrl ) {
 
-        var log = SimpleLogger.createFor("StaticPageView");
+        var log = Logger.createFor("StaticPageView");
         var panel = _buildContentsPanel();
         var title = "Default Title"; // HACK
         var trait = new PageViewTrait(log, title, panel);

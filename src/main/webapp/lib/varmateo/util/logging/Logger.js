@@ -12,9 +12,12 @@
  */
 varmateo.defineClass(
 
-"varmateo.util.logging.SimpleLogger",
+"varmateo.util.logging.Logger",
 
 function() {
+
+    var MessageFormat = varmateo.load("varmateo.util.text.MessageFormat");
+
 
     // Format of logging messages.
     // 0 - Time.
@@ -28,14 +31,14 @@ function() {
 
 
     // Private members.
-    SimpleLogger.prototype._moduleName = null;
+    Logger.prototype._moduleName = null;
 
 
     /**
      * The constructor.
      *
      */
-    function SimpleLogger(moduleName) {
+    function Logger(moduleName) {
 
         this._moduleName = moduleName;
     }
@@ -44,7 +47,7 @@ function() {
     /**
      * Logs a message.
      */
-    SimpleLogger.prototype.info = function() {
+    Logger.prototype.info = function() {
 
         this._logMessage({
             logLevel    : LEVEL_INFO,
@@ -56,7 +59,7 @@ function() {
     /**
      * Logs the fields of an object.
      */
-    SimpleLogger.prototype.infoObj = function ( object ) {
+    Logger.prototype.infoObj = function ( object ) {
 
         this._logObject(LEVEL_INFO, object);
     }
@@ -65,7 +68,7 @@ function() {
     /**
      * Logs a message.
      */
-    SimpleLogger.prototype._logMessage = function ( msgData ) {
+    Logger.prototype._logMessage = function ( msgData ) {
 
         var output = window.console;
 
@@ -74,9 +77,10 @@ function() {
             var logLevel   = msgData.logLevel;
             var msgArgs    = msgData.messageArgs;
             var moduleName = this._moduleName;
-            var msg        = _format.apply(null, msgArgs);
+            var msg        = MessageFormat.format.apply(null, msgArgs);
             var timeStr    = _formatTime(time);
-            var logMsg     = _format(FORMAT, timeStr, moduleName, logLevel, msg);
+            var logMsg     =
+                MessageFormat.format(FORMAT, timeStr, moduleName, logLevel, msg);
 
             output.log(logMsg);
         }
@@ -86,44 +90,19 @@ function() {
     /**
      * Logs a message.
      */
-    SimpleLogger.prototype._logObject = function (
+    Logger.prototype._logObject = function (
         logLevel,
         object ) {
 
-        var fieldNameList = [];
-
-        for ( var fieldName in object ) {
-            fieldNameList.push(fieldName);
-        }
-
-        fieldNameList.sort();
-
-        for ( var i=0, size=fieldNameList.length; i<size; ++i ) {
-            var fieldName  = fieldNameList[i];
-            var fieldValue = object[fieldName];
-
-            this._logMessage({
-                logLevel    : logLevel,
-                messageArgs : [ "\t{0} : {1}", fieldName, fieldValue ],
-            });
-        }
-    }
-
-
-    /**
-     * First argument is format string. Remaining arguments are
-     * formating arguments.
-     */
-    function _format() {
-
-        var fmt     = arguments[0];
-        var fmtArgs = Array.prototype.slice.call(arguments, 1);
-        var getter  = function() {
-            return fmtArgs[arguments[1]];
-        }
-        var result  = fmt.replace(/\{(\d+)\}/g, getter);
-
-        return result;
+        Object.keys(object)
+            .sort()
+            .forEach(function ( fieldName ) {
+                var fieldValue = object[fieldName];
+                this._logMessage({
+                    logLevel    : logLevel,
+                    messageArgs : [ "\t{0} : {1}", fieldName, fieldValue ],
+                });
+            }, this);
     }
 
 
@@ -132,15 +111,15 @@ function() {
      */
     function _formatTime(time) {
 
-        var hours   = time.getHours();
+        var hours = time.getHours();
         var minutes = time.getMinutes();
         var seconds = time.getSeconds();
-        var millis  = time.getMilliseconds();
+        var millis = time.getMilliseconds();
 
         var hoursStr = _padWithZeros(hours, 2);
         var minutesStr = _padWithZeros(minutes, 2);
         var secondsStr = _padWithZeros(seconds, 2);
-        var millisStr  = _padWithZeros(millis, 3);
+        var millisStr = _padWithZeros(millis, 3);
 
         var result =
             hoursStr + ":" + minutesStr + ":" + secondsStr + "." + millisStr;
@@ -169,20 +148,20 @@ function() {
     /**
      *
      */
-    function _createFor(moduleName) {
+    function createFor(moduleName) {
 
-        var result = new SimpleLogger(moduleName);
+        var result = new Logger(moduleName);
 
         return result;
     }
 
 
     /**
-     * Define the public static methods.
+     * Class static methods.
      */
-    SimpleLogger.createFor = _createFor;
+    Logger.createFor = createFor;
 
 
-    return SimpleLogger;
+    return Logger;
 });
 

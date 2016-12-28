@@ -19,7 +19,7 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var Logger = varmateo.load("varmateo.util.logging.Logger");
 
     var FnavControllerFactory =
         varmateo.load("varmateo.friendnav.fnav.FnavControllerFactory");
@@ -31,7 +31,7 @@ function() {
 
     var APP_NAME = "Fnav";
 
-    var _logger = null;
+    var _log = null;
     var _config = null;
 
 
@@ -48,10 +48,10 @@ function() {
      */
     function _initialize() {
 
-        _logger = SimpleLogger.createFor(APP_NAME);
+        _log = Logger.createFor(APP_NAME);
 
-        _logger.info("Initializing {0}...", APP_NAME);
-        _logger.info("    Scripts URL prefix : {0}", _config.classUrlPrefix);
+        _log.info("Initializing {0}...", APP_NAME);
+        _log.info("    Scripts URL prefix : {0}", _config.classUrlPrefix);
 
         var facades = new FnavFacadeFactory();
         var views = new FnavViewFactory();
@@ -59,7 +59,7 @@ function() {
 
         controllers.getFnavController().initialize();
 
-        _logger.info("Done initializing {0}.", APP_NAME);
+        _log.info("Done initializing {0}.", APP_NAME);
     }
 
 

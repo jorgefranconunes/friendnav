@@ -43,7 +43,7 @@ function() {
 
 
     /**
-     * Static methods.
+     * Class static methods.
      */
     MessageFormat.format = format;
 

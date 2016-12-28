@@ -16,7 +16,7 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger = varmateo.util.logging.SimpleLogger;
+    var Logger = varmateo.util.logging.Logger;
     var JQueryUtils  = varmateo.util.jquery.JQueryUtils;
 
 
@@ -57,7 +57,7 @@ function() {
      */
     function UserNodeForceLayoutView ( panelId ) {
 
-        var logger = SimpleLogger.createFor("UserNodeForceLayoutView");
+        var logger = Logger.createFor("UserNodeForceLayoutView");
 
         logger.info("Seting up with panel \"{0}\"...", panelId);
 

@@ -16,7 +16,7 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var Logger = varmateo.load("varmateo.util.logging.Logger");
 
 
     var COOKIE_ACCESS_TOKEN = "FnavAccessToken";
@@ -37,7 +37,7 @@ function() {
         fsqManager,
         viewFnav ) {
 
-        var logger = SimpleLogger.createFor("FnavController");
+        var logger = Logger.createFor("FnavController");
 
         logger.info("Seting up...");
 

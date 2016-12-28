@@ -16,8 +16,8 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger =
-        varmateo.load("varmateo.util.logging.SimpleLogger");
+    var Logger =
+        varmateo.load("varmateo.util.logging.Logger");
     var UserNodeCache =
         varmateo.load("varmateo.friendnav.fnav.controllers.UserNodeCache");
 
@@ -35,7 +35,7 @@ function() {
         fsqManager,
         view ) {
 
-        var logger = SimpleLogger.createFor("FriendsBrowserPageController");
+        var logger = Logger.createFor("FriendsBrowserPageController");
 
         logger.info("Seting up...");
 

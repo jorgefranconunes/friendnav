@@ -19,8 +19,8 @@ function() {
 
     var JQueryUtils =
         varmateo.load("varmateo.util.jquery.JQueryUtils");
-    var SimpleLogger =
-        varmateo.load("varmateo.util.logging.SimpleLogger");
+    var Logger =
+        varmateo.load("varmateo.util.logging.Logger");
     var MessageFormat =
         varmateo.load("varmateo.util.text.MessageFormat");
     var ContentsView =
@@ -80,7 +80,7 @@ function() {
         config,
         transitionManager ) {
 
-        var logger            = SimpleLogger.createFor("FnavView");
+        var logger            = Logger.createFor("FnavView");
         var containerPanelId  = config.containerPanelId;
         var preLoginViewCode  = config.preLoginViewCode;
         var postLoginViewCode = config.postLoginViewCode;

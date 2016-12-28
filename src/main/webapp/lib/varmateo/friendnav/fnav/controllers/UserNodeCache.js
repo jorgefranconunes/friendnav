@@ -19,7 +19,7 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var Logger = varmateo.load("varmateo.util.logging.Logger");
 
 
     UserNodeCache.prototype._logger           = null;
@@ -32,7 +32,7 @@ function() {
      */
     function UserNodeCache () {
 
-        var logger = SimpleLogger.createFor("UserNodeCache");
+        var logger = Logger.createFor("UserNodeCache");
 
         this._logger = logger;
         this._userNodeDataById = {};

@@ -16,7 +16,7 @@ varmateo.defineClass(
 
 function () {
 
-    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var Logger = varmateo.load("varmateo.util.logging.Logger");
 
 
     var URL_PREFIX = "https://api.foursquare.com/v2/";
@@ -34,7 +34,7 @@ function () {
      */
     function FoursquareJsonCaller () {
 
-        var logger = SimpleLogger.createFor("FoursquareJsonCaller");
+        var logger = Logger.createFor("FoursquareJsonCaller");
 
         this._logger    = logger;
         this._urlPrefix = URL_PREFIX;

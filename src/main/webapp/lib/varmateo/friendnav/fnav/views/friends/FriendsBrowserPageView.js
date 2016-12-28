@@ -18,7 +18,7 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger = varmateo.load("varmateo.util.logging.SimpleLogger");
+    var Logger = varmateo.load("varmateo.util.logging.Logger");
     var JQueryUtils  = varmateo.load("varmateo.util.jquery.JQueryUtils");
 
     var UserNodeNavigatorView   =
@@ -40,7 +40,7 @@ function() {
      */
     function FriendsBrowserPageView ( panelId ) {
 
-        var logger = SimpleLogger.createFor("FriendsBrowserPageView");
+        var logger = Logger.createFor("FriendsBrowserPageView");
         var panel = JQueryUtils.getOne(panelId);
         var trait = new PageViewTrait(logger, LABEL_TITLE, panel);
 

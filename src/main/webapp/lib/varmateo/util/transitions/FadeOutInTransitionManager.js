@@ -17,8 +17,8 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger             =
-        varmateo.load("varmateo.util.logging.SimpleLogger");
+    var Logger             =
+        varmateo.load("varmateo.util.logging.Logger");
 
 
     FadeOutInTransitionManager.prototype._logger = null;
@@ -29,7 +29,7 @@ function() {
      */
     function FadeOutInTransitionManager() {
 
-        this._logger = SimpleLogger.createFor("FadeOutInTransitionManager");
+        this._logger = Logger.createFor("FadeOutInTransitionManager");
     }
 
 

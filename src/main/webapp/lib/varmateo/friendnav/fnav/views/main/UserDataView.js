@@ -6,74 +6,56 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav.views.main");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * View for showing some user data.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.views.main.UserDataView = (function() {
+"varmateo.friendnav.fnav.views.main.UserDataView",
 
-    var SimpleLogger = varmateo.util.logging.SimpleLogger;
+function() {
+
+    var Logger = varmateo.util.logging.Logger;
     var JQueryUtils  = varmateo.util.jquery.JQueryUtils;
 
 
+    UserDataView.prototype._log = null;
+    UserDataView.prototype._panel = null;
+    UserDataView.prototype._name = null;
+    UserDataView.prototype._photo = null;
+    UserDataView.prototype._username = null;
+    UserDataView.prototype._email = null;
 
 
-
-    UserDataView.prototype._logger       = null;
-    UserDataView.prototype._panel        = null;
-    UserDataView.prototype._name         = null;
-    UserDataView.prototype._photo        = null;
-    UserDataView.prototype._username     = null;
-    UserDataView.prototype._email        = null;
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function UserDataView ( panelId ) {
 
-        var logger = SimpleLogger.createFor("UserDataView");
+        var log = Logger.createFor("UserDataView");
 
-        logger.info("Seting up with panel \"{0}\"...", panelId);
+        log.info("Seting up with panel \"{0}\"...", panelId);
 
-        this._logger   = logger;
-        this._panel    = JQueryUtils.getOne(panelId);
-        this._name     = JQueryUtils.getOne(panelId + "Name");
-        this._photo    = JQueryUtils.getOne(panelId + "Photo");
+        this._log = log;
+        this._panel = JQueryUtils.getOne(panelId);
+        this._name = JQueryUtils.getOne(panelId + "Name");
+        this._photo = JQueryUtils.getOne(panelId + "Photo");
         this._username = JQueryUtils.getOne(panelId + "Username");
-        this._email    = JQueryUtils.getOne(panelId + "Email");
+        this._email = JQueryUtils.getOne(panelId + "Email");
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserDataView.prototype.showWithUserData = function ( userData ) {
 
-        var name           = userData.firstName;
-        var email          = userData.email;
-        var username       = userData.firstName + " " + userData.lastName;
-        var photoSize      = this._photo.attr("width");
-        var photoSrc       = userData.photoUrl;
+        var name = userData.firstName;
+        var email = userData.email;
+        var username = userData.firstName + " " + userData.lastName;
+        var photoSize = this._photo.attr("width");
+        var photoSrc = userData.photoUrl;
 
         this._photo.attr("src", photoSrc);
         this._name.text(name);
@@ -83,30 +65,18 @@ varmateo.friendnav.fnav.views.main.UserDataView = (function() {
         }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserDataView.prototype.hide = function () {
 
         this._panel.hide();
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserDataView.prototype.getElement = function () {
 
         var result = this._panel;
@@ -115,10 +85,5 @@ varmateo.friendnav.fnav.views.main.UserDataView = (function() {
     }
 
 
-
-
-
     return UserDataView;
-
-})();
-
+});

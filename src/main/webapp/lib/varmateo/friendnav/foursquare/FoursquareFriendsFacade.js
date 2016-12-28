@@ -17,8 +17,8 @@ varmateo.defineClass(
 
 function() {
 
-    var SimpleLogger =
-        varmateo.load("varmateo.util.logging.SimpleLogger");
+    var Logger =
+        varmateo.load("varmateo.util.logging.Logger");
     var FoursquareJsonCaller =
         varmateo.load("varmateo.friendnav.foursquare.FoursquareJsonCaller");
 
@@ -35,7 +35,7 @@ function() {
      */
     function FoursquareFriendsFacade () {
 
-        var logger = SimpleLogger.createFor("FoursquareFriendsFacade");
+        var logger = Logger.createFor("FoursquareFriendsFacade");
 
         this._logger = logger;
         this._jsonCaller = new FoursquareJsonCaller();
