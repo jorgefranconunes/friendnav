@@ -6,25 +6,18 @@
 
 "use strict";
 
-varmateo.namespace("varmateo.friendnav.fnav.views.friends");
 
-
-
-
-
-/**************************************************************************
- *
+/**
  * Displays connected graph of user nodes.
- *
- **************************************************************************/
+ */
+varmateo.defineClass(
 
-varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
+"varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView",
+
+function() {
 
     var SimpleLogger = varmateo.util.logging.SimpleLogger;
     var JQueryUtils  = varmateo.util.jquery.JQueryUtils;
-
-
-
 
 
     var IMAGE_WIDTH  = 48;
@@ -59,15 +52,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
     UserNodeForceLayoutView.prototype._d3ForceLayout = null;
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     function UserNodeForceLayoutView ( panelId ) {
 
         var logger = SimpleLogger.createFor("UserNodeForceLayoutView");
@@ -79,15 +66,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeForceLayoutView.prototype.getElement = function () {
 
         var result = this._panel;
@@ -96,20 +77,13 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeForceLayoutView.prototype.pushUserNode = function ( userNode ) {
 
-        this._logger.info("Pushing user node {0} ({1})",
-                          userNode.id,
-                          userNode.name);
+        this._logger.info(
+            "Pushing user node {0} ({1})", userNode.id, userNode.name);
 
         if ( this._isFirstTime ) {
             this._isFirstTime = false;
@@ -127,31 +101,24 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
             this._d3NodesById[nodeId] = d3Node;
             this._d3Nodes.push(d3Node);
 
-            this._logger.info("User node {0} added to canvas",
-                              userNode.id);
+            this._logger.info("User node {0} added to canvas", userNode.id);
         } else {
             d3Node.refCount = d3Node.refCount + 1;
 
-            this._logger.info("User node {0} already on canvas ({1} times)",
-                              userNode.id,
-                              d3Node.refCount);
+            this._logger.info(
+                "User node {0} already on canvas ({1} times)",
+                userNode.id,
+                d3Node.refCount);
         }
 
         this._nodeIdList.push(nodeId);
-
         this._update();
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeForceLayoutView.prototype.popUserNode = function ( userNode ) {
 
         this._logger.info("Poping user node...");
@@ -165,27 +132,22 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
             this._d3Nodes.pop();
             delete this._d3NodesById[d3Node.userNode.id];
 
-            this._logger.info("User node {0} removed from canvas",
-                              d3Node.userNode.id);
+            this._logger.info(
+                "User node {0} removed from canvas", d3Node.userNode.id);
         } else {
-            this._logger.info("User node {0} kept on canvas ({1} times)",
-                              d3Node.userNode.id,
-                              d3Node.refCount);
+            this._logger.info(
+                "User node {0} kept on canvas ({1} times)",
+                d3Node.userNode.id,
+                d3Node.refCount);
         }
 
         this._update();
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeForceLayoutView.prototype._firstTimeSetup = function () {
 
         var self   = this;
@@ -197,7 +159,7 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
 
         var d3Nodes       = [];
         var d3Links       = [];
-        var d3Canvas      = this._createSvgCanvas(panel.get(0));
+        var d3Canvas      = this._createSvgCanvas(panel.get(0), width, height);
         var d3ForceLayout =
             d3.layout.force()
             .linkDistance(D3_LINK_DISTANCE)
@@ -217,15 +179,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeForceLayoutView.prototype._createSvgCanvas = function (
         element,
         width,
@@ -237,10 +193,8 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
             .attr("width", width)
             .attr("height", height);
 
-        // And now we define a clipping area to be used on the
-        // node photos. That clipping area is used to get rounded
-        // corners.
-
+        // And now we define a clipping area to be used on the node
+        // photos. That clipping area is used to get rounded corners.
         var boxX      = -IMAGE_WIDTH/2;
         var boxY      = -IMAGE_HEIGHT/2;
         var boxWidth  = IMAGE_WIDTH;
@@ -268,15 +222,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Called by D3 during animation of force layout.
- *
- **************************************************************************/
-
+    /**
+     * Called by D3 during animation of force layout.
+     */
     UserNodeForceLayoutView.prototype._tick = function () {
 
         this._d3Canvas
@@ -292,16 +240,10 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * Updates the nodes in the canvas by creating or removing the
- * appropriate SVG elements.
- *
- **************************************************************************/
-
+    /**
+     * Updates the nodes in the canvas by creating or removing the
+     * appropriate SVG elements.
+     */
     UserNodeForceLayoutView.prototype._update = function () {
 
         var nodeList =
@@ -331,15 +273,9 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
     }
 
 
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
+    /**
+     *
+     */
     UserNodeForceLayoutView.prototype._createNodeElements = function (
         svgNodeList ) {
 
@@ -369,10 +305,5 @@ varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView = (function() {
     }
 
 
-
-
-
     return UserNodeForceLayoutView;
-
-})();
-
+});
