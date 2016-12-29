@@ -16,17 +16,20 @@ varmateo.defineClass(
 
 function() {
 
+    var JQueryUtils = varmateo.load("varmateo.util.jquery.JQueryUtils");
     var Logger = varmateo.load("varmateo.util.logging.Logger");
-    var JQueryUtils  = varmateo.load("varmateo.util.jquery.JQueryUtils");
+    var ActivityIndicatorView =
+        varmateo.load("varmateo.friendnav.views.ActivityIndicatorView");
 
 
     var LABEL_COUNTER_CLEAR = "...";
 
-    UserNodeListView.prototype._logger      = null;
+    UserNodeListView.prototype._log      = null;
     UserNodeListView.prototype._panel       = null;
     UserNodeListView.prototype._spanCounter = null;
     UserNodeListView.prototype._divList     = null;
     UserNodeListView.prototype._buttonBack  = null;
+    UserNodeListView.prototype._activityIndicatorView = null;
 
     UserNodeListView.prototype._callbackUserNodeSelected = null;
     UserNodeListView.prototype._callbackBack             = null;
@@ -53,11 +56,12 @@ function() {
             }
         });
 
-        this._logger      = logger;
-        this._panel       = JQueryUtils.getOne(panelId);
+        this._log = logger;
+        this._panel = JQueryUtils.getOne(panelId);
         this._spanCounter = spanCounter;
-        this._divList     = divList;
-        this._buttonBack  = buttonBack;
+        this._divList = divList;
+        this._buttonBack = buttonBack;
+        this._activityIndicatorView = new ActivityIndicatorView();
     }
 
 
@@ -111,6 +115,7 @@ function() {
 
         this._spanCounter.text(LABEL_COUNTER_CLEAR);
         this._divList.empty();
+        this._divList.append(this._activityIndicatorView.getElement());
     }
 
 
@@ -153,9 +158,9 @@ function() {
             self._onUserNodeSelected(userNode);
         });
 
-        var elem = jQuery("<div>").addClass("fnvUserNodeItem");
-
-        elem
+        var elem =
+            jQuery("<div>")
+            .addClass("fnvUserNodeItem")
             .append(photoElem)
             .append(anchor);
 
@@ -184,9 +189,7 @@ function() {
     UserNodeListView.prototype._onUserNodeSelected = function (
         userNode ) {
 
-        this._logger.info("Selected node {0} ({1})",
-                          userNode.id,
-                          userNode.name);
+        this._log.info("Selected node {0} ({1})", userNode.id, userNode.name);
 
         var callback = this._callbackUserNodeSelected;
 
