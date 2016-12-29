@@ -20,8 +20,12 @@ varmateo.defineClass(
 
 function() {
 
-    var Logger = varmateo.load("varmateo.util.logging.Logger");
-    var PageViewTrait = varmateo.load("varmateo.friendnav.views.PageViewTrait");
+    var Logger =
+        varmateo.load("varmateo.util.logging.Logger");
+    var PageViewTrait =
+        varmateo.load("varmateo.friendnav.views.PageViewTrait");
+    var ActivityIndicatorView =
+        varmateo.load("varmateo.friendnav.views.ActivityIndicatorView");
 
 
     StaticPageView.prototype._log = null;
@@ -59,16 +63,9 @@ function() {
     function _buildContentsPanel() {
 
         var panel = jQuery("<div>");
+        var loaderView = new ActivityIndicatorView();
 
-        var loaderIcon =
-            jQuery("<img>")
-            .attr("src","resources/img/content-loader.gif");
-        var loaderElement =
-            jQuery("<div>")
-            .css("text-align", "center")
-            .append(loaderIcon);
-
-        panel.append(loaderElement);
+        panel.append(loaderView.getElement());
 
         return panel;
     }

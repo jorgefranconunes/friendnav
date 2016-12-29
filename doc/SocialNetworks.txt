@@ -16,6 +16,10 @@ Candidates:
 
 * Google+
 
+* Snapchat (does it have a public API?...)
+
+* Whatsup  (does it have a public API?...)
+
 
 
 
