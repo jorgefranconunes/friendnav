@@ -27,6 +27,8 @@ function() {
         varmateo.load("varmateo.friendnav.fnav.views.main.ContentsView");
     var UserDataView =
         varmateo.load("varmateo.friendnav.fnav.views.main.UserDataView");
+    var Links =
+        varmateo.load("varmateo.friendnav.views.Links");
     var PageViewTrait =
         varmateo.load("varmateo.friendnav.views.PageViewTrait");
     var StaticPageView =
@@ -124,12 +126,11 @@ function() {
             var url = anchor.attr("href");
             var staticPageView = new StaticPageView(url);
 
-            self._logger.info("Setting up static page link for \"{0}\"", url);
-
-            anchor.click(function ( event ) {
-                event.preventDefault();
-                self.showPage(staticPageView);
-            });
+            Links.setOnClickListener(
+                anchor,
+                function () {
+                    self.showPage(staticPageView);
+                });
         });
     }
 
@@ -140,16 +141,15 @@ function() {
     FnavView.prototype._setupLogoutLinks = function () {
 
         var self        = this;
-        var logoutLinks = $(".fnvLogoutLink");
+        var logoutLinks = jQuery(".fnvLogoutLink");
 
         this._logger.info("Seting up {0} logout links", logoutLinks.length);
 
-        logoutLinks.each(function(index, element) {
-            $(element).click(function ( e ) {
-                e.preventDefault();
+        Links.setOnClickListener(
+            logoutLinks,
+            function () {
                 self._onLogoutSelected();
             });
-        });
     }
 
 
@@ -163,12 +163,11 @@ function() {
 
         this._logger.info("Seting up {0} home links", homeLinks.length);
 
-        homeLinks.each(function(index, element) {
-            $(element).click(function ( e ) {
-                e.preventDefault();
+        Links.setOnClickListener(
+            homeLinks,
+            function () {
                 self._showHomeView();
-            });
-        });
+            })
     }
 
 

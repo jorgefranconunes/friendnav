@@ -39,8 +39,6 @@ function() {
         title,
         panel ) {
 
-        logger.info("Setting up...");
-
         this._log = logger;
         this._title = title;
         this._panel = panel;

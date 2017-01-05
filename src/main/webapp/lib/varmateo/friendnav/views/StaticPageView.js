@@ -8,7 +8,7 @@
 
 
 /**
- * A page view that displays static content downloaded from on
+ * A page view that displays static content downloaded from one
  * specific URL.
  *
  * The contents of the URL must be such that they can be added to a

@@ -20,6 +20,8 @@ function() {
     var Logger = varmateo.load("varmateo.util.logging.Logger");
     var ActivityIndicatorView =
         varmateo.load("varmateo.friendnav.views.ActivityIndicatorView");
+    var Links =
+        varmateo.load("varmateo.friendnav.views.Links");
 
 
     var LABEL_COUNTER_CLEAR = "...";
@@ -49,12 +51,13 @@ function() {
         var divList     = JQueryUtils.getOne(panelId + "Listing");
         var buttonBack  = JQueryUtils.getOne(panelId + "Back");
 
-        buttonBack.click(function ( event ) {
-            event.preventDefault();
-            if ( !buttonBack.hasClass("disabled") ) {
-                self._onBack();
-            }
-        });
+        Links.setOnClickListener(
+            buttonBack,
+            function () {
+                if ( !buttonBack.hasClass("disabled") ) {
+                    self._onBack();
+                }
+            });
 
         this._log = logger;
         this._panel = JQueryUtils.getOne(panelId);
@@ -144,18 +147,14 @@ function() {
      */
     UserNodeListView.prototype._buildUserNodeElem = function ( userNode ) {
 
-        var self      = this;
+        var self = this;
         var photoElem = this._buildPhotoElem(userNode);
-        var name      = userNode.name;
-
-        var anchor =
-            jQuery("<a>")
-            .attr("href", "#")
-            .text(name);
-
-        anchor.click(function ( event ) {
-            event.preventDefault();
-            self._onUserNodeSelected(userNode);
+        var name = userNode.name;
+        var anchor = Links.newTextLink({
+            text : name,
+            callback : function () {
+                self._onUserNodeSelected(userNode);
+            },
         });
 
         var elem =
