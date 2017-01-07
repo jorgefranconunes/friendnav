@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes, All Rights Reserved.
  *
  *
  * FriendNav application main entry point.
@@ -21,6 +21,8 @@ function() {
 
     var Logger = varmateo.load("varmateo.util.logging.Logger");
 
+    var FnavAppConfig =
+        varmateo.load("varmateo.friendnav.fnav.FnavAppConfig");
     var FnavControllerFactory =
         varmateo.load("varmateo.friendnav.fnav.FnavControllerFactory");
     var FnavFacadeFactory =
@@ -53,13 +55,26 @@ function() {
         _log.info("Initializing {0}...", APP_NAME);
         _log.info("    Scripts URL prefix : {0}", _config.classUrlPrefix);
 
+        var appConfig = _fetchAppConfig();
         var facades = new FnavFacadeFactory();
-        var views = new FnavViewFactory();
+        var views = new FnavViewFactory(appConfig);
         var controllers = new FnavControllerFactory(facades, views);
 
         controllers.getFnavController().initialize();
 
         _log.info("Done initializing {0}.", APP_NAME);
+    }
+
+
+    /**
+     *
+     */
+    function _fetchAppConfig () {
+
+        var configSetName = window.location.hostname;
+        var config = FnavAppConfig.getConfig(configSetName);
+
+        return config;
     }
 
 
@@ -89,4 +104,3 @@ function() {
 
     return Fnav;
 });
-

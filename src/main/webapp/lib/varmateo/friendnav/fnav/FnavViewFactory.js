@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2016-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -29,14 +29,14 @@ function() {
 
 
     var PANEL_FRIENDS_BROWSER = "#fnvFriendsBrowser";
-    var PANEL_HOME            = "#fnvPanelHome";
+    var PANEL_HOME = "#fnvPanelHome";
     var PANEL_TOP_CONTENTS = "#fnvContents";
 
 
     /**
      *
      */
-    function FnavViewFactory () {
+    function FnavViewFactory ( appConf) {
 
         var self = this;
         var configList = [
@@ -55,7 +55,7 @@ function() {
             {
                 name : "HomePageView",
                 builder : function () {
-                    return new HomePageView(PANEL_HOME);
+                    return new HomePageView(PANEL_HOME, appConf);
                 },
             },
             {

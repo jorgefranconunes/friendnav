@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -75,9 +75,7 @@ function() {
      * * showEvent(isVisible) - Will be called when the view has just
      *   been made visible or invisible. The "isVisible" flag is a
      *   boolean.
-     *
-     **************************************************************************/
-
+     */
     function FnavView (
         config,
         transitionManager ) {
@@ -143,7 +141,7 @@ function() {
         var self        = this;
         var logoutLinks = jQuery(".fnvLogoutLink");
 
-        this._logger.info("Seting up {0} logout links", logoutLinks.length);
+        this._logger.info("Setting up {0} logout links", logoutLinks.length);
 
         Links.setOnClickListener(
             logoutLinks,
@@ -159,9 +157,9 @@ function() {
     FnavView.prototype._setupHomeLinks = function () {
 
         var self        = this;
-        var homeLinks = $(".fnvHomeLink");
+        var homeLinks = jQuery(".fnvHomeLink");
 
-        this._logger.info("Seting up {0} home links", homeLinks.length);
+        this._logger.info("Setting up {0} home links", homeLinks.length);
 
         Links.setOnClickListener(
             homeLinks,
