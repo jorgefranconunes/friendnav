@@ -86,10 +86,10 @@ function() {
         var postLoginViewCode = config.postLoginViewCode;
         var pageViewsMap      = config.pageViewsMap;
 
-        logger.info("Seting up view for \"{0}\"", containerPanelId);
+        logger.info("Setting up view for \"{0}\"", containerPanelId);
 
         this._logger = logger;
-        this._viewsMap = jQuery.extend({}, pageViewsMap);
+        this._viewsMap = pageViewsMap;
 
         this._preLoginView  = this._getViewWithCode(preLoginViewCode);
         this._postLoginView = this._getViewWithCode(postLoginViewCode);

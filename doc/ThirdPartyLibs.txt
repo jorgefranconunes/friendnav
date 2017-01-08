@@ -9,17 +9,23 @@
 * https://github.com/JAAulde/cookies[cookies] -- Javascript library
   for accessing and manipulating HTTP cookies in the web browser.
 
-* https://d3js.org/[D3.js] -- JavaScript library for manipulating
+* https://d3js.org/[D3.js] -- Javascript library for manipulating
   documents based on data.
+
+* https://jquery.com/[jQuery] -- Javascript library for easy DOM
+  manipulation.
 
 * http://documentup.com/kriskowal/q/[Q] -- Javascript library
   supporting promises.
 
+* http://ramdajs.com/[Ramba] -- Javascript library for functional
+  programming.
 
 
 
 
-== Bootstrap
+
+== Bootstrap 2.0.2
 
 HTML, CSS, and JS framework
 
@@ -31,7 +37,7 @@ Downloaded from: ???
 
 
 
-== cookies
+== cookies 2.2.0
 
 Javascript library for accessing and manipulating HTTP cookies in the
 web browser.
@@ -44,9 +50,9 @@ Downloaded from: ???
 
 
 
-== D3.js
+== D3.js 2.9.2
 
-JavaScript library for manipulating documents based on data.
+Javascript library for manipulating documents based on data.
 
 Site: https://d3js.org/
 
@@ -56,10 +62,34 @@ Downloaded from: ???
 
 
 
-== Q
+== jQuery 1.7.1
+
+Javascript library for easy DOM manipulation.
+
+Site: https://jquery.com/
+
+Downloaded from: ???
+
+
+
+
+
+== Q 1.4.1
 
 Javascript library supporting promises
 
 Site: http://documentup.com/kriskowal/q/
 
 Library: https://cdnjs.cloudflare.com/ajax/libs/q.js/1.4.1/q.min.js
+
+
+
+
+
+== Rambda 0.23
+
+Javascript library for functional programming.
+
+Site: http://ramdajs.com/
+
+Library: https://cdnjs.cloudflare.com/ajax/libs/ramda/0.23.0/ramda.min.js

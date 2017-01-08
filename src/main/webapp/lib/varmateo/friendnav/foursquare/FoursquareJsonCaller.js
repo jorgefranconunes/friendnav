@@ -20,9 +20,7 @@ function () {
 
 
     var URL_PREFIX = "https://api.foursquare.com/v2/";
-    var PARAM_API_VERSION = "v";
     var API_VERSION = "20120610";
-    var PARAM_API_MODE = "m";
     var API_MODE = "foursquare";
 
     FoursquareJsonCaller.prototype._logger    = null;
@@ -106,9 +104,11 @@ function () {
             self._onError(endpoint, status, error, promiseReject);
         };
 
-        var requestParams = jQuery.extend({}, params);
-        requestParams[PARAM_API_VERSION] = API_VERSION;
-        requestParams[PARAM_API_MODE] = API_MODE;
+        var requestParams =
+            R.merge(params, {
+                "v" : API_VERSION,
+                "m" : API_MODE
+            });
 
         var ajaxData = {
             url      : url,

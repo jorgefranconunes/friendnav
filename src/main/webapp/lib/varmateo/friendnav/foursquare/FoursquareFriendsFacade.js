@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -22,8 +22,6 @@ function() {
     var FoursquareJsonCaller =
         varmateo.load("varmateo.friendnav.foursquare.FoursquareJsonCaller");
 
-
-    var PARAM_ACCESS_TOKEN = "oauth_token";
 
     FoursquareFriendsFacade.prototype._logger = null;
     FoursquareFriendsFacade.prototype._accessToken = null;
@@ -115,8 +113,10 @@ function() {
 
         this._checkAccessToken();
 
-        var requestParams = jQuery.extend({}, params);
-        requestParams[PARAM_ACCESS_TOKEN] = this._accessToken;
+        var requestParams =
+            R.merge(params, {
+                "oauth_token" : this._accessToken
+            });
 
         return this._jsonCaller.doGet(endpoint, requestParams);
     }

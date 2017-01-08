@@ -37,7 +37,8 @@ function() {
 
 
     /**
-     *
+     * Extends the given object with the metods provided by this
+     * trait.
      */
     ConfigTrait.prototype.addTo = function ( object ) {
 

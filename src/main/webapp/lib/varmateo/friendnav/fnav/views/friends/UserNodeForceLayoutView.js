@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -16,8 +16,8 @@ varmateo.defineClass(
 
 function() {
 
-    var Logger = varmateo.util.logging.Logger;
-    var JQueryUtils  = varmateo.util.jquery.JQueryUtils;
+    var Logger = varmateo.load("varmateo.util.logging.Logger");
+    var JQueryUtils  = varmateo.load("varmateo.util.jquery.JQueryUtils");
 
 
     var IMAGE_WIDTH  = 48;
