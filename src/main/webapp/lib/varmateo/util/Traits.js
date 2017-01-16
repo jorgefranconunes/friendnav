@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2016-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -38,26 +38,19 @@ function() {
         traitObject,
         traitMethodList) {
 
-        for ( var i=0, count=traitMethodList.length; i<count; ++i ) {
-            var methodName  = traitMethodList[i];
+        // We WILL NOT override methods on the object that have the
+        // same name as methods in the trait object. That means the
+        // given object methods always override the trait methods.
+        var isMethodOverridable = R.compose(R.not, R.hasIn(R.__, object));
 
-            if ( methodName in object ) {
-                // The given object already has a method with that
-                // name. We WILL NOT override that object method with
-                // the corresponding trait method.
-            } else {
+        R.filter(isMethodOverridable, traitMethodList)
+            .forEach(function ( methodName ) {
                 var traitMethod = traitObject[methodName];
-
-                var proxyMethod =  (function ( traitMethod ) {
-                    return function () {
-                        var result = traitMethod.apply(traitObject, arguments);
-                        return result;
-                    }
-                })(traitMethod);
-
+                var proxyMethod =  function () {
+                    return traitMethod.apply(traitObject, arguments);
+                };
                 object[methodName] = proxyMethod;
-            }
-        }
+            });
     }
 
 

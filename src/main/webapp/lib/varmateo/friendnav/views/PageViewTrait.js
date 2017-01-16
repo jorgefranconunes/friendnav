@@ -42,6 +42,7 @@ function() {
         this._log = logger;
         this._title = title;
         this._panel = panel;
+        this._callbackShow = function () { /* Do nothing. */ };
     }
 
 
@@ -82,12 +83,7 @@ function() {
     PageViewTrait.prototype.onShow = function ( isVisible ) {
 
         this._log.info("View is now {0}", (isVisible ? "shown" : "hidden"));
-
-        var callback = this._callbackShow;
-
-        if ( callback != null ) {
-            callback(isVisible);
-        }
+        this._callbackShow(isVisible);
     }
 
 

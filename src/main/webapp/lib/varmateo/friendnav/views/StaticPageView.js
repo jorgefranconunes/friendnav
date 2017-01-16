@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2016-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -121,9 +121,10 @@ function() {
      */
     StaticPageView.prototype._onLoadFailure = function ( status) {
 
-        this._log.info("Failed to load \"{0}\" with status \"{1}\"",
-                       this._contentsUrl,
-                       status);
+        this._log.info(
+            "Failed to load \"{0}\" with status \"{1}\"",
+            this._contentsUrl,
+            status);
 
         // TODO: We should make this abnormal scenario visible to the
         // user somehow.

@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -21,12 +21,13 @@ function() {
 
     var COOKIE_ACCESS_TOKEN = "FnavAccessToken";
 
-    FnavController.prototype._logger     = null;
-    FnavController.prototype._fsqManager = null;
-    FnavController.prototype._viewFnav   = null;
+    FnavController.prototype._log = null;
+    FnavController.prototype._friendsFacade = null;
+    FnavController.prototype._viewFnav = null;
+    FnavController.prototype._cookie = null;
 
-    FnavController.prototype._isLoggedIn              = false;
-    FnavController.prototype._accessToken             = null;
+    FnavController.prototype._isLoggedIn = false;
+    FnavController.prototype._accessToken = null;
     FnavController.prototype._callbackInitialUserNode = null;
 
 
@@ -34,8 +35,9 @@ function() {
      *
      */
     function FnavController (
-        fsqManager,
-        viewFnav ) {
+        friendsFacade,
+        viewFnav,
+        cookieManager ) {
 
         var logger = Logger.createFor("FnavController");
 
@@ -43,11 +45,12 @@ function() {
 
         viewFnav.setOnLogoutSelectedListener(this._onLogoutSelected.bind(this));
 
-        this._logger      = logger;
-        this._fsqManager  = fsqManager;
-        this._viewFnav    = viewFnav;
-        this._accessToken = getCookieValue(COOKIE_ACCESS_TOKEN);
-        this._isLoggedIn  = (this._accessToken != null );
+        this._log = logger;
+        this._friendsFacade = friendsFacade;
+        this._viewFnav = viewFnav;
+        this._cookie = cookieManager.getCookie(COOKIE_ACCESS_TOKEN);
+        this._accessToken = null;
+        this._isLoggedIn  = null;
     }
 
 
@@ -57,15 +60,18 @@ function() {
      */
     FnavController.prototype.initialize = function () {
 
+        this._accessToken = this._cookie.get();
+        this._isLoggedIn  = (this._accessToken != null );
+
         var hash           = window.location.hash;
         var newAccessToken = parseAccessTokenFromHash(hash);
 
         if ( newAccessToken != null ) {
-            this._logger.info(
+            this._log.info(
                 "New access token specified - {0}",
                 newAccessToken);
 
-            setCookieValue(COOKIE_ACCESS_TOKEN, newAccessToken);
+            this._cookie.set(newAccessToken);
             this._accessToken = newAccessToken;
             this._isLoggedIn  = true;
 
@@ -73,18 +79,18 @@ function() {
             // the browser is displaying.
             window.location.hash = "";
         } else {
-            this._logger.info("No access token specified.");
+            this._log.info("No access token specified.");
         }
 
         if ( this._isLoggedIn ) {
-            this._logger.info("User is signed in.");
+            this._log.info("User is signed in.");
 
-            this._fsqManager.setAccessToken(this._accessToken);
-            this._fsqManager.retrieveSelfUserNode()
+            this._friendsFacade.setAccessToken(this._accessToken);
+            this._friendsFacade.retrieveSelfUserNode()
                 .then(this._onSetSelfUserNode.bind(this))
                 .fail(this._onFailSetSelfUserNode.bind(this));
         } else {
-            this._logger.info("User is not yet signed in.");
+            this._log.info("User is not yet signed in.");
 
             this._viewFnav.showPreLoginView();
         }
@@ -106,7 +112,7 @@ function() {
      */
     FnavController.prototype._onLogoutSelected = function () {
 
-        deleteCookie(COOKIE_ACCESS_TOKEN);
+        this._cookie.remove();
 
         this._accessToken = null;
         this._isLoggedIn  = false;
@@ -121,8 +127,8 @@ function() {
     FnavController.prototype._onSetSelfUserNode = function ( userNode ) {
 
         if ( userNode != null ) {
-            this._logger.info("Received self user node:");
-            this._logger.infoObj(userNode);
+            this._log.info("Received self user node:");
+            this._log.infoObj(userNode);
 
             this._viewFnav.showPostLoginView(userNode);
 
@@ -130,7 +136,7 @@ function() {
 
             callback && callback(userNode);
         } else {
-            this._logger.info("Failed to receive self user node...");
+            this._log.info("Failed to receive self user node...");
         }
     }
 
@@ -140,46 +146,7 @@ function() {
      */
     FnavController.prototype._onFailSetSelfUserNode = function ( error ) {
 
-        this._logger.info("Failed to receive self user node - {0}", error);
-
-    }
-
-
-    /**
-     * Retrieves the value of a cookie.
-     */
-    function getCookieValue ( cookieName ) {
-
-        var cookieValue = jaaulde.utils.cookies.get(cookieName);
-
-        return cookieValue;
-    }
-
-
-    /**
-     * Sets the value of a cookie.
-     */
-    function setCookieValue (
-        cookieName,
-        cookieValue) {
-
-        var now           = new Date();
-        var expiration    =
-            new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        var cookieOptions = {
-            expiration : expiration,
-        };
-
-        jaaulde.utils.cookies.set(cookieName, cookieValue, cookieOptions);
-    }
-
-
-    /**
-     * Deletes a cookie.
-     */
-    function deleteCookie ( cookieName ) {
-
-        jaaulde.utils.cookies.del(cookieName);
+        this._log.info("Failed to receive self user node - {0}", error);
     }
 
 

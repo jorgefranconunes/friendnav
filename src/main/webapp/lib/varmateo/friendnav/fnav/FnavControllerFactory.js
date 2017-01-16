@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2016-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -22,6 +22,8 @@ function() {
         varmateo.load("varmateo.friendnav.fnav.controllers.FnavController");
     var FriendsBrowserPageController =
         varmateo.load("varmateo.friendnav.fnav.controllers.FriendsBrowserPageController");
+    var CookieManager =
+        varmateo.load("varmateo.util.CookieManager");
 
 
     FnavControllerFactory.prototype._facades = null;
@@ -47,6 +49,12 @@ function() {
                 name : "FnavController",
                 builder : function () {
                     return self._newFnavController();
+                }
+            },
+            {
+                name : "CookieManager",
+                builder : function () {
+                    return new CookieManager();
                 }
             },
         ];
@@ -79,7 +87,8 @@ function() {
         var self = this;
         var facade = this._facades.getFriendsFacade()
         var view = this._views.getFnavView();
-        var controller = new FnavController(facade, view);
+        var cookieManager = this.getCookieManager();
+        var controller = new FnavController(facade, view, cookieManager);
 
         var callback = function ( userNode ) {
             self.getFriendsBrowserPageController().setInitialUserNode(userNode);
