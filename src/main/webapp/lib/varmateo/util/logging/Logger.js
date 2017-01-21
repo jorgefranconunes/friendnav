@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2011-2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2011-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -10,13 +10,9 @@
 /**
  *
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.util.logging.Logger",
-
-function() {
-
-    var MessageFormat = varmateo.load("varmateo.util.text.MessageFormat");
+    var MessageFormat = require("varmateo/util/text/MessageFormat");
 
 
     // Format of logging messages.

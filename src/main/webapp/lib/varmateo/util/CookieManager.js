@@ -10,13 +10,9 @@
 /**
  *
 */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.util.CookieManager",
-
-function() {
-
-    var CookieHandler = varmateo.load("varmateo.util.CookieHandler");
+    var CookieHandler = require("varmateo/util/CookieHandler");
 
 
     /**

@@ -11,14 +11,10 @@
  * Provides functionality common to most classes representing a set of
  * configuration parameters.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.util.ConfigTrait",
-
-function() {
-
-    var Traits = varmateo.load("varmateo.util.Traits");
-    var MessageFormat = varmateo.load("varmateo.util.text.MessageFormat");
+    var Traits = require("varmateo/util/Traits");
+    var MessageFormat = require("varmateo/util/text/MessageFormat");
 
 
     var TRAIT_METHOD_LIST =

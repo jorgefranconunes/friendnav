@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2011-2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2011-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -11,14 +11,9 @@
  * Manages panel transitions where the outgoing panel fades out just
  * before the incoming panel fades in.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.util.transitions.FadeOutInTransitionManager",
-
-function() {
-
-    var Logger             =
-        varmateo.load("varmateo.util.logging.Logger");
+    var Logger = require("varmateo/util/logging/Logger");
 
 
     FadeOutInTransitionManager.prototype._logger = null;

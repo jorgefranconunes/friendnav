@@ -10,7 +10,7 @@
 /**
  * Utility functions for working with traits.
  */
-define(function() {
+define(function () {
 
     /**
      * Extends an existing object with additional methods implemented

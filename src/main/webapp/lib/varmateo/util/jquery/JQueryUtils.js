@@ -10,13 +10,9 @@
 /**
  * Utility functions related with jQuery.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.util.jquery.JQueryUtils",
-
-function() {
-
-    var MessageFormat = varmateo.load("varmateo.util.text.MessageFormat");
+    var MessageFormat = require("varmateo/util/text/MessageFormat");
 
 
     /**

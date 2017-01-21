@@ -8,7 +8,8 @@
 
 
 /**
- * A simple Assynchrouns Module Definition implementation.
+ * A simple Assynchrouns Module Definition implementation. Intended
+ * only for use in browsers.
  */
 var varmateo = (function ( topContext ) {
 
@@ -37,14 +38,14 @@ var varmateo = (function ( topContext ) {
     /**
      *
      */
-    function define ( classBuilderFunction ) {
+    function define ( classBuilder ) {
 
         if ( _lastDefineClassBuilder != null ) {
             var msg = "Called twice inside the same module.";
             throw msg
         }
 
-        _lastDefineClassBuilder = classBuilderFunction;
+        _lastDefineClassBuilder = classBuilder;
     }
 
 
@@ -53,10 +54,10 @@ var varmateo = (function ( topContext ) {
      */
     function defineClass (
         className,
-        classBuilderFunction ) {
+        classBuilder ) {
 
         var classFunction =
-            _defineRealOrWrapperClass(className, classBuilderFunction);
+            _defineRealOrWrapperClass(className, classBuilder);
 
         _loadedClassesByName[className] = classFunction;
         _allClassesByName[className] = classFunction;
@@ -68,7 +69,22 @@ var varmateo = (function ( topContext ) {
      */
     function _defineRealOrWrapperClass (
         className,
-        classBuilderFunction ) {
+        classBuilder ) {
+
+        var classFunction = classBuilder();
+
+        _createPackageObjects(className, classFunction);
+
+        return classFunction;
+    }
+
+
+    /**
+     * TBD - Soon to be removed...
+     */
+    function _createPackageObjects(
+        className,
+        classFunction ) {
 
         var context = window;
         var itemList = className.split(".");
@@ -88,11 +104,7 @@ var varmateo = (function ( topContext ) {
         }
 
         var classSimpleName = itemList[itemCount-1];
-        var classFunction = classBuilderFunction();
-
         context[classSimpleName] = classFunction;
-
-        return classFunction;
     }
 
 
@@ -196,9 +208,35 @@ var varmateo = (function ( topContext ) {
     function _processIfDefineWasCalled ( className ) {
 
         if ( _lastDefineClassBuilder != null ) {
-            defineClass(className, _lastDefineClassBuilder);
+            _defineComplete(className, _lastDefineClassBuilder);
             _lastDefineClassBuilder = null;
         }
+    }
+
+
+    /**
+     *
+     */
+    function _defineComplete(
+        className,
+        defineClassBuilder ) {
+
+        var classBuilder = function () {
+            return defineClassBuilder(_require);
+        };
+
+        defineClass(className, classBuilder);
+    }
+
+
+    /**
+     *
+     */
+    function _require ( classPath ) {
+
+        var className = classPath.replace("/", ".");
+
+        return load(className);
     }
 
 

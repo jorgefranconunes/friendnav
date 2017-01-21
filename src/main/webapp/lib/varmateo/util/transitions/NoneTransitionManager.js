@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2011-2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2011-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -11,11 +11,7 @@
  * Manages panel transitions where the outgoing panel fades out just
  * before the incoming panel fades in.
  */
-varmateo.defineClass(
-
-"varmateo.util.transitions.NoneTransitionManager",
-
-function() {
+define(function () {
 
 
     /**

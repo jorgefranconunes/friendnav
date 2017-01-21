@@ -11,13 +11,9 @@
  * Development environment set of configuration parameters for the
  * FNav application.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.FnavAppConfigDev",
-
-function() {
-
-    var ConfigTrait = varmateo.load("varmateo.util.ConfigTrait");
+    var ConfigTrait = require("varmateo.util.ConfigTrait");
 
 
     var _params = {
