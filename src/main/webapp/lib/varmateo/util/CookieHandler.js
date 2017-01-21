@@ -10,11 +10,7 @@
 /**
  *
 */
-varmateo.defineClass(
-
-"varmateo.util.CookieHandler",
-
-function() {
+define(function () {
 
 
     CookieHandler.prototype._cookieName = null;

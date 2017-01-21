@@ -1,12 +1,10 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
 "use strict";
-
-varmateo.namespace("varmateo.friendnav.fnav.controllers");
 
 
 /**

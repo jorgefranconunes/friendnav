@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -10,8 +10,9 @@
 /**
  * A simple Assynchrouns Module Definition implementation.
  */
-var varmateo = (function ( myPackage ) {
+var varmateo = (function ( topContext ) {
 
+    var _myPackage = topContext.varmateo || {};
 
     var _isStarted = false;
     var _classUrlPrefix = null;
@@ -28,6 +29,23 @@ var varmateo = (function ( myPackage ) {
 
     // Number of classes still waiting to be loaded.
     var _loadInProgressCount = 0;
+
+    // Populated by the "define(...)" function.
+    var _lastDefineClassBuilder = null;
+
+
+    /**
+     *
+     */
+    function define ( classBuilderFunction ) {
+
+        if ( _lastDefineClassBuilder != null ) {
+            var msg = "Called twice inside the same module.";
+            throw msg
+        }
+
+        _lastDefineClassBuilder = classBuilderFunction;
+    }
 
 
     /**
@@ -150,6 +168,8 @@ var varmateo = (function ( myPackage ) {
         wrapperClass,
         scriptUrl ) {
 
+        _processIfDefineWasCalled(className);
+
         var klass = _findClassWithName(className);
 
         if ( klass == null ) {
@@ -167,6 +187,17 @@ var varmateo = (function ( myPackage ) {
         if ( _loadInProgressCount == 0 ) {
             // All asynchronous loads have completed by now.
             _startFunction();
+        }
+    }
+
+    /**
+     *
+     */
+    function _processIfDefineWasCalled ( className ) {
+
+        if ( _lastDefineClassBuilder != null ) {
+            defineClass(className, _lastDefineClassBuilder);
+            _lastDefineClassBuilder = null;
         }
     }
 
@@ -272,42 +303,22 @@ var varmateo = (function ( myPackage ) {
 
 
     /**
-     * To be removed soon.
-     */
-    function namespace ( packageName ) {
-
-        var object   = null;
-        var context  = window;
-        var itemList = packageName.split(".");
-
-        for ( var i=0, size=itemList.length; i<size; ++i ) {
-            var item       = itemList[i];
-            var thePackage = context[item];
-
-            if ( thePackage === undefined ) {
-                thePackage    = {}
-                context[item] = thePackage;
-            }
-
-            context = thePackage;
-        }
-    }
-
-
-    /**
      *
      */
-    var thePackage = myPackage || {};
+    var thePackage = _myPackage || {};
     var methodMap  = {
         defineClass : defineClass,
         load        : load,
         start       : start,
-        namespace   : namespace, // To be removed soon.
     };
-
     _extend(thePackage, methodMap);
+
+    var topContextMethodMap = {
+        define : define,
+    }
+    _extend(topContext, topContextMethodMap);
 
     return thePackage;
 
-})(window.varmateo);
+})(window);
 

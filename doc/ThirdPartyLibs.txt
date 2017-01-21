@@ -21,6 +21,8 @@
 * http://ramdajs.com/[Ramba] -- Javascript library for functional
   programming.
 
+* http://requirejs.org/[RequireJS] -- AMD library.
+
 
 
 
@@ -56,7 +58,7 @@ Javascript library for manipulating documents based on data.
 
 Site: https://d3js.org/
 
-Downloaded from: ???
+Downloaded from: https://github.com/mbostock/d3/zipball/master
 
 
 
@@ -86,10 +88,38 @@ Library: https://cdnjs.cloudflare.com/ajax/libs/q.js/1.4.1/q.min.js
 
 
 
+== Mocha 3.2.0
+
+Javascript test framework.
+
+Site: https://mochajs.org/
+
+Library: https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.min.js
+
+
+
+
+
 == Rambda 0.23
 
 Javascript library for functional programming.
 
 Site: http://ramdajs.com/
 
-Library: https://cdnjs.cloudflare.com/ajax/libs/ramda/0.23.0/ramda.min.js
+Library:
+https://cdnjs.cloudflare.com/ajax/libs/ramda/0.23.0/ramda.min.js
+
+
+
+
+
+== Require JS 2.3.2
+
+AMD library
+
+Site: http://requirejs.org/
+
+Library files (`lib/javascript/requirejs-2.3.2`)
+
+* http://requirejs.org/docs/release/2.3.2/minified/require.js
+* http://requirejs.org/docs/release/2.3.2/r.js

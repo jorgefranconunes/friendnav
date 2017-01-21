@@ -1,4 +1,4 @@
-Some notes on using the Foursquare API
+= Some notes on using the Foursquare API
 
 https://developer.foursquare.com/
 
@@ -6,7 +6,7 @@ https://developer.foursquare.com/
 
 
 
-Rate limits
+== Rate limits
 
 See https://developer.foursquare.com/overview/ratelimits for all
 details
@@ -22,7 +22,10 @@ X-Ratelimit-Remaining - Remaining number of requests. This is updated
 in a moving time window.
 
 
-Accessing HTTP response headers
+
+
+
+== Accessing HTTP response headers
 
 The "complete" callback passed to "jQuery.ajax(...)" is called having
 as first argument a XMLHttpRequest instance corresponding to the
@@ -39,7 +42,7 @@ For full details:
 
 
 
-Authentication on Foursquare with OAuth2
+== Authentication on Foursquare with OAuth2
 
 Documentation on the Foursquare API:
 https://developer.foursquare.com/overview/
@@ -49,7 +52,10 @@ access token is needed when making requests (invoking operations) on
 the Foursquare API.
 
 
-Preparation
+
+
+
+=== Preparation
 
 A "CLIENT_ID" needs to be obtained from Foursquare. Just go to and
 register the dev environment application.
@@ -61,14 +67,19 @@ This Client ID is actually used by Foursquare as a unique identifier
 of our application.
 
 
-Obtaining the access token
 
+
+
+== Obtaining the access token
+
+----
 https://foursquare.com/oauth2/authenticate
 ?client_id=YWDNHROEVRQYDVY0QMFEBANSS43AMHPALDB3Z31HRX3KLAP3
 &response_type=token
 &redirect_uri=http:%2f%2flocalhost%2ffriendnav%2ffnav%2findex.html
+----
 
-If the user accepts the browser will get redirected to
+If the user accepts, the browser will get redirected to
 http://localhost/friendnav/fnav/index.html#access_token=ACCESS_TOKEN
 
 If the user does not accept the browser will ge redirected to
@@ -94,7 +105,7 @@ When the application starts one of the following scenarios will occur:
 
 
 
-User is signed-in at application startup.
+== User is signed-in at application startup.
 
 The following attributes of the user need to be retrieved from
 Foursquare and passed to the FnavView:
@@ -103,4 +114,3 @@ Foursquare and passed to the FnavView:
 * Last name.
 * Email.
 * URL for image with picture of user.
-

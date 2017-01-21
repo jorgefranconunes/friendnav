@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2011-2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2011-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -16,7 +16,7 @@ varmateo.defineClass(
 
 function() {
 
-    var MessageFormat = varmateo.util.text.MessageFormat;
+    var MessageFormat = varmateo.load("varmateo.util.text.MessageFormat");
 
 
     /**

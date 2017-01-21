@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2011-2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2011-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -10,11 +10,7 @@
 /**
  * Provides utility functions for formating messages.
  */
-varmateo.defineClass(
-
-"varmateo.util.text.MessageFormat",
-
-function() {
+define(function () {
 
 
     /**
@@ -26,7 +22,7 @@ function() {
 
 
     /**
-     * First argument is format string. Remaining arguments are
+     * First argument is the format string. Remaining arguments are
      * formating arguments.
      */
     function format() {

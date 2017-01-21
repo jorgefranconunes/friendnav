@@ -10,12 +10,7 @@
 /**
  * Utility functions for working with traits.
  */
-varmateo.defineClass(
-
-"varmateo.util.Traits",
-
-function() {
-
+define(function() {
 
     /**
      * Extends an existing object with additional methods implemented

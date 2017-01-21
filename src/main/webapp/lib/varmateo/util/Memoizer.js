@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2016-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -10,11 +10,7 @@
 /**
  *
 */
-varmateo.defineClass(
-
-"varmateo.util.Memoizer",
-
-function() {
+define(function () {
 
 
     Memoizer.prototype._fetchersByName = null;
