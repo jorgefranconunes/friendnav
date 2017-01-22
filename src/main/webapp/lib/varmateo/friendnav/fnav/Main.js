@@ -13,34 +13,27 @@
 /**
  * The Fnav application.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.Fnav",
-
-function() {
-
-    var Logger = varmateo.load("varmateo.util.logging.Logger");
+    var Logger = require("varmateo/util/logging/Logger");
 
     var FnavAppConfig =
-        varmateo.load("varmateo.friendnav.fnav.FnavAppConfig");
+        require("varmateo/friendnav/fnav/FnavAppConfig");
     var FnavControllerFactory =
-        varmateo.load("varmateo.friendnav.fnav.FnavControllerFactory");
+        require("varmateo/friendnav/fnav/FnavControllerFactory");
     var FnavFacadeFactory =
-        varmateo.load("varmateo.friendnav.fnav.FnavFacadeFactory");
+        require("varmateo/friendnav/fnav/FnavFacadeFactory");
     var FnavViewFactory =
-        varmateo.load("varmateo.friendnav.fnav.FnavViewFactory");
+        require("varmateo/friendnav/fnav/FnavViewFactory");
 
 
     var APP_NAME = "Fnav";
-
-    var _log = null;
-    var _config = null;
 
 
     /**
      *
      */
-    function Fnav() {
+    function Main() {
         throw "Private constructor...";
     }
 
@@ -50,10 +43,9 @@ function() {
      */
     function _initialize() {
 
-        _log = Logger.createFor(APP_NAME);
+        var log = Logger.createFor("Main");
 
-        _log.info("Initializing {0}...", APP_NAME);
-        _log.info("    Scripts URL prefix : {0}", _config.classUrlPrefix);
+        log.info("Initializing {0}...", APP_NAME);
 
         var appConfig = _fetchAppConfig();
         var facades = new FnavFacadeFactory();
@@ -62,7 +54,7 @@ function() {
 
         controllers.getFnavController().initialize();
 
-        _log.info("Done initializing {0}.", APP_NAME);
+        log.info("Done initializing {0}.", APP_NAME);
     }
 
 
@@ -81,26 +73,17 @@ function() {
     /**
      * The main program.
      */
-    function main ( config ) {
+    function main () {
 
-        _config = config;
-
-        var startFunction = function () {
-            jQuery(document).ready(_initialize);
-        };
-
-        varmateo.start({
-            startFunction : startFunction,
-            classUrlPrefix : config.classUrlPrefix,
-        });
+        jQuery(document).ready(_initialize);
     }
 
 
     /**
      * Class static methods.
      */
-    Fnav.main = main;
+    Main.main = main;
 
 
-    return Fnav;
+    return Main;
 });

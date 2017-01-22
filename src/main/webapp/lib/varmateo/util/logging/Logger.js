@@ -160,4 +160,3 @@ define(function ( require ) {
 
     return Logger;
 });
-

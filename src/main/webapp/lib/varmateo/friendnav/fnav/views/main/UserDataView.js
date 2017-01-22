@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -10,14 +10,10 @@
 /**
  * View for showing some user data.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.views.main.UserDataView",
-
-function() {
-
-    var Logger = varmateo.util.logging.Logger;
-    var JQueryUtils  = varmateo.util.jquery.JQueryUtils;
+    var Logger = require("varmateo.util.logging.Logger");
+    var JQueryUtils  = require("varmateo.util.jquery.JQueryUtils");
 
 
     UserDataView.prototype._log = null;

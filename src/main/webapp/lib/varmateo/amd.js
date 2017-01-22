@@ -8,21 +8,15 @@
 
 
 /**
- * A simple Assynchrouns Module Definition implementation. Intended
+ * A simple Assynchronous Module Definition implementation. Intended
  * only for use in browsers.
  */
-var varmateo = (function ( topContext ) {
-
-    var _myPackage = topContext.varmateo || {};
+(function ( topContext ) {
 
     var _isStarted = false;
     var _classUrlPrefix = null;
     var _startFunction = null;
     var _pendingLoads = [];
-
-    // Contains only classes that have been loaded up to now. Keys are
-    // the classes fully qualified names.
-    var _loadedClassesByName = {};
 
     // Used as cache for speeding access to class objects. Keys are
     // the classes fully qualified names.
@@ -48,6 +42,9 @@ var varmateo = (function ( topContext ) {
         _lastDefineClassBuilder = classBuilder;
     }
 
+    // Emulate a RequireJS environment.
+    define.amd = true;
+
 
     /**
      *
@@ -56,11 +53,9 @@ var varmateo = (function ( topContext ) {
         className,
         classBuilder ) {
 
-        var classFunction =
-            _defineRealOrWrapperClass(className, classBuilder);
+        var klass = _defineRealOrWrapperClass(className, classBuilder);
 
-        _loadedClassesByName[className] = classFunction;
-        _allClassesByName[className] = classFunction;
+        _allClassesByName[className] = klass;
     }
 
 
@@ -71,11 +66,11 @@ var varmateo = (function ( topContext ) {
         className,
         classBuilder ) {
 
-        var classFunction = classBuilder();
+        var klass = classBuilder();
 
-        _createPackageObjects(className, classFunction);
+//        _createPackageObjects(className, klass);
 
-        return classFunction;
+        return klass;
     }
 
 
@@ -84,7 +79,7 @@ var varmateo = (function ( topContext ) {
      */
     function _createPackageObjects(
         className,
-        classFunction ) {
+        klass ) {
 
         var context = window;
         var itemList = className.split(".");
@@ -104,7 +99,7 @@ var varmateo = (function ( topContext ) {
         }
 
         var classSimpleName = itemList[itemCount-1];
-        context[classSimpleName] = classFunction;
+        context[classSimpleName] = klass;
     }
 
 
@@ -130,7 +125,7 @@ var varmateo = (function ( topContext ) {
     function _lazyClassLoad ( className ) {
 
         var wrapperClass = function () {
-            var klass = _loadedClassesByName[className];
+            var klass = _allClassesByName[className];
 
             if ( klass == null ) {
                 var msg = "Class \"" + className + "\" is not loaded yet";
@@ -162,20 +157,20 @@ var varmateo = (function ( topContext ) {
 
         var scriptUrl = _buildScriptUrl(className);
 
-        var loadCallback = function () {
-            _postLoadCallback(className, wrapperClass, scriptUrl);
+        var loadCompletedCallback = function () {
+            _onLoadCompleted(className, wrapperClass, scriptUrl);
         };
 
         ++_loadInProgressCount;
 
-        _scheduleScriptLoad(scriptUrl, loadCallback);
+        _scheduleScriptLoad(scriptUrl, loadCompletedCallback);
     }
 
 
     /**
      *
      */
-    function _postLoadCallback (
+    function _onLoadCompleted (
         className,
         wrapperClass,
         scriptUrl ) {
@@ -208,7 +203,7 @@ var varmateo = (function ( topContext ) {
     function _processIfDefineWasCalled ( className ) {
 
         if ( _lastDefineClassBuilder != null ) {
-            _defineComplete(className, _lastDefineClassBuilder);
+            _onDefineCompleted(className, _lastDefineClassBuilder);
             _lastDefineClassBuilder = null;
         }
     }
@@ -217,7 +212,7 @@ var varmateo = (function ( topContext ) {
     /**
      *
      */
-    function _defineComplete(
+    function _onDefineCompleted(
         className,
         defineClassBuilder ) {
 
@@ -234,7 +229,7 @@ var varmateo = (function ( topContext ) {
      */
     function _require ( classPath ) {
 
-        var className = classPath.replace("/", ".");
+        var className = classPath.split("/").join(".");
 
         return load(className);
     }
@@ -246,21 +241,7 @@ var varmateo = (function ( topContext ) {
      */
     function _findClassWithName ( className ) {
 
-        var klass = _allClassesByName[className];
-
-        if ( klass === undefined ) {
-            var itemList  = className.split(".");
-
-            klass = itemList.reduce(function (context, item) {
-                return (context!=null) ? context[item] : null;
-            }, window);
-
-            if ( klass != null ) {
-                _allClassesByName[className] = klass;
-            }
-        }
-
-        return klass;
+        return _allClassesByName[className];
     }
 
 
@@ -281,7 +262,7 @@ var varmateo = (function ( topContext ) {
      */
     function _scheduleScriptLoad (
         scriptUrl,
-        loadCallback ) {
+        loadCompletedCallback ) {
 
         var tag = document.createElement('script');
         var isDone = false;
@@ -291,10 +272,12 @@ var varmateo = (function ( topContext ) {
         tag.async  = "true";
         tag.onload =  function() {
             var readyState = this.readyState;
-            var isLoaded =
-                readyState && (readyState!="complete") && (readyState!="loaded");
+            var isLoaded = true
+                && readyState
+                && (readyState!="complete")
+                && (readyState!="loaded");
             if ( !isLoaded && !isDone ) {
-                loadCallback();
+                loadCompletedCallback();
                 isDone = true;
             }
         };
@@ -324,9 +307,27 @@ var varmateo = (function ( topContext ) {
      */
     function start ( config ) {
 
-        _isStarted      = true;
-        _classUrlPrefix = config.classUrlPrefix;
-        _startFunction  = config.startFunction;
+        _amdConfig({ baseUrl : config.classUrlPrefix });
+        _bootstrap(config.startFunction);
+    }
+
+
+    /**
+     *
+     */
+    function _amdConfig ( config ) {
+
+        _classUrlPrefix = config.baseUrl;
+    }
+
+
+    /**
+     *
+     */
+    function _bootstrap ( loadCompletedCallback ) {
+
+        _startFunction = loadCompletedCallback;
+        _isStarted = true;
 
         _pendingLoads.forEach(function ( item ) {
             _scheduleClassLoad(item.className, item.wrapperClass);
@@ -343,20 +344,36 @@ var varmateo = (function ( topContext ) {
     /**
      *
      */
-    var thePackage = _myPackage || {};
+    function amd (
+        classPathList,
+        mainFunction ) {
+
+        var classList = classPathList.map(_require);
+        var onLoadCompleted = function () {
+            mainFunction.apply(null, classList);
+        };
+
+        _bootstrap(onLoadCompleted);
+    }
+    amd.config = _amdConfig;
+
+
+    /**
+     *
+     */
     var methodMap  = {
+        amd         : amd,
         defineClass : defineClass,
         load        : load,
         start       : start,
     };
-    _extend(thePackage, methodMap);
+    topContext.varmateo = topContext.varmateo ? topContext.varmateo : {};
+    _extend(topContext.varmateo, methodMap);
 
     var topContextMethodMap = {
         define : define,
     }
     _extend(topContext, topContextMethodMap);
-
-    return thePackage;
 
 })(window);
 

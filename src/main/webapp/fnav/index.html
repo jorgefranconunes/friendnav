@@ -64,18 +64,16 @@
     </script>
 
 
-    <!-- Our application. -->
-    <script
-       src="../lib/varmateo/friendnav/fnav/Fnav.js"
-       type="text/javascript">
-    </script>
-
-
     <!-- Main entry point. -->
     <script type="text/javascript">
-      varmateo.friendnav.fnav.Fnav.main({
-          classUrlPrefix : "../lib/",
+      varmateo.amd.config({
+          baseUrl : "../lib/",
       });
+      varmateo.amd(
+          ["varmateo/friendnav/fnav/Main"],
+          function ( Main ) {
+              Main.main();
+          });
     </script>
 
   </head>
