@@ -10,16 +10,10 @@
 /**
  * Set of configuration parameters for the FNav application.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.FnavAppConfig",
-
-function() {
-
-    var MessageFormat =
-        varmateo.load("varmateo.util.text.MessageFormat");
-    var FnavAppConfigDev =
-        varmateo.load("varmateo.friendnav.fnav.FnavAppConfigDev");
+    var MessageFormat = require("varmateo/util/text/MessageFormat");
+    var FnavAppConfigDev = require("varmateo/friendnav/fnav/FnavAppConfigDev");
 
 
     var _configBuilders = {

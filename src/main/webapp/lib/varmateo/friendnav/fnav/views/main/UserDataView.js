@@ -12,8 +12,8 @@
  */
 define(function ( require ) {
 
-    var Logger = require("varmateo.util.logging.Logger");
-    var JQueryUtils  = require("varmateo.util.jquery.JQueryUtils");
+    var Logger = require("varmateo/util/logging/Logger");
+    var JQueryUtils  = require("varmateo/util/jquery/JQueryUtils");
 
 
     UserDataView.prototype._log = null;

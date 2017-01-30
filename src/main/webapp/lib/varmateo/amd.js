@@ -49,79 +49,6 @@
     /**
      *
      */
-    function defineClass (
-        className,
-        classBuilder ) {
-
-        var klass = _defineRealOrWrapperClass(className, classBuilder);
-
-        _allClassesByName[className] = klass;
-    }
-
-
-    /**
-     *
-     */
-    function _defineRealOrWrapperClass (
-        className,
-        classBuilder ) {
-
-        var klass = classBuilder();
-
-//        _createPackageObjects(className, klass);
-
-        return klass;
-    }
-
-
-    /**
-     * TBD - Soon to be removed...
-     */
-    function _createPackageObjects(
-        className,
-        klass ) {
-
-        var context = window;
-        var itemList = className.split(".");
-        var itemCount = itemList.length;
-
-        // Create all the intermediate package objects, if they do not
-        // yet exist.
-        for ( var i=0, count=itemCount-1; i<count; ++i ) {
-            var item = itemList[i];
-            var thePackage = context[item];
-
-            if ( thePackage === undefined ) {
-                thePackage = {}
-                context[item] = thePackage;
-            }
-            context = thePackage;
-        }
-
-        var classSimpleName = itemList[itemCount-1];
-        context[classSimpleName] = klass;
-    }
-
-
-    /**
-     *
-     */
-    function load ( className ) {
-
-        var klass = _findClassWithName(className);
-
-        if ( klass == null ) {
-            klass = _lazyClassLoad(className);
-            _defineRealOrWrapperClass(className, function() { return klass; });
-        }
-
-        return klass;
-    }
-
-
-    /**
-     *
-     */
     function _lazyClassLoad ( className ) {
 
         var wrapperClass = function () {
@@ -216,11 +143,7 @@
         className,
         defineClassBuilder ) {
 
-        var classBuilder = function () {
-            return defineClassBuilder(_require);
-        };
-
-        defineClass(className, classBuilder);
+        _allClassesByName[className] = defineClassBuilder(_require);
     }
 
 
@@ -229,9 +152,14 @@
      */
     function _require ( classPath ) {
 
-        var className = classPath.split("/").join(".");
+        var className = classPath;
+        var klass = _findClassWithName(className);
 
-        return load(className);
+        if ( klass == null ) {
+            klass = _lazyClassLoad(className);
+        }
+
+        return klass;
     }
 
 
@@ -250,7 +178,7 @@
      */
     function _buildScriptUrl ( className ) {
 
-        var classPath = className.replace(/\./g, "/");
+        var classPath = className;
         var scriptUrl = _classUrlPrefix + classPath + ".js";
 
         return scriptUrl;
@@ -305,16 +233,6 @@
     /**
      *
      */
-    function start ( config ) {
-
-        _amdConfig({ baseUrl : config.classUrlPrefix });
-        _bootstrap(config.startFunction);
-    }
-
-
-    /**
-     *
-     */
     function _amdConfig ( config ) {
 
         _classUrlPrefix = config.baseUrl;
@@ -363,9 +281,6 @@
      */
     var methodMap  = {
         amd         : amd,
-        defineClass : defineClass,
-        load        : load,
-        start       : start,
     };
     topContext.varmateo = topContext.varmateo ? topContext.varmateo : {};
     _extend(topContext.varmateo, methodMap);

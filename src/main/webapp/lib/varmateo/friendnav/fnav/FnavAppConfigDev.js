@@ -13,7 +13,7 @@
  */
 define(function ( require ) {
 
-    var ConfigTrait = require("varmateo.util.ConfigTrait");
+    var ConfigTrait = require("varmateo/util/ConfigTrait");
 
 
     var _params = {

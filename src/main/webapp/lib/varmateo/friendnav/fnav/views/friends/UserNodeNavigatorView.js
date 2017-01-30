@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -11,19 +11,15 @@
  * The view for the page displaying the friend navigator widget and
  * the map with the social network connections.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.views.friends.UserNodeNavigatorView",
-
-function() {
-
-    var Logger = varmateo.load("varmateo.util.logging.Logger");
-    var JQueryUtils  = varmateo.load("varmateo.util.jquery.JQueryUtils");
+    var Logger = require("varmateo/util/logging/Logger");
+    var JQueryUtils  = require("varmateo/util/jquery/JQueryUtils");
 
     var UserNodeDetailView =
-        varmateo.load("varmateo.friendnav.fnav.views.friends.UserNodeDetailView");
+        require("varmateo/friendnav/fnav/views/friends/UserNodeDetailView");
     var UserNodeListView =
-        varmateo.load("varmateo.friendnav.fnav.views.friends.UserNodeListView");
+        require("varmateo/friendnav/fnav/views/friends/UserNodeListView");
 
 
     UserNodeNavigatorView.prototype._logger             = null;

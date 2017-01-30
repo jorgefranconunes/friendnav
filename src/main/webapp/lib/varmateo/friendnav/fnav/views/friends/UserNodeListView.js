@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -10,18 +10,13 @@
 /**
  * Details of a user node.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.views.friends.UserNodeListView",
-
-function() {
-
-    var JQueryUtils = varmateo.load("varmateo.util.jquery.JQueryUtils");
-    var Logger = varmateo.load("varmateo.util.logging.Logger");
+    var JQueryUtils = require("varmateo/util/jquery/JQueryUtils");
+    var Logger = require("varmateo/util/logging/Logger");
     var ActivityIndicatorView =
-        varmateo.load("varmateo.friendnav.views.ActivityIndicatorView");
-    var Links =
-        varmateo.load("varmateo.friendnav.views.Links");
+        require("varmateo/friendnav/views/ActivityIndicatorView");
+    var Links = require("varmateo/friendnav/views/Links");
 
 
     var LABEL_COUNTER_CLEAR = "...";

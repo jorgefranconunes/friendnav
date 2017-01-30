@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2016-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -10,11 +10,7 @@
 /**
  * Utility functions for creating and manipulating anchor elements.
  */
-varmateo.defineClass(
-
-"varmateo.friendnav.views.Links",
-
-function() {
+define(function ( require ) {
 
 
     /**

@@ -10,22 +10,18 @@
 /**
  *
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.FnavViewFactory",
-
-function() {
-
-    var Memoizer = varmateo.load("varmateo.util.Memoizer");
+    var Memoizer = require("varmateo/util/Memoizer");
 
     var HomePageView =
-        varmateo.load("varmateo.friendnav.fnav.views.home.HomePageView");
+        require("varmateo/friendnav/fnav/views/home/HomePageView");
     var FriendsBrowserPageView =
-        varmateo.load("varmateo.friendnav.fnav.views.friends.FriendsBrowserPageView");
+        require("varmateo/friendnav/fnav/views/friends/FriendsBrowserPageView");
     var FnavView =
-        varmateo.load("varmateo.friendnav.fnav.views.main.FnavView");
+        require("varmateo/friendnav/fnav/views/main/FnavView");
     var FadeOutInTransitionManager =
-        varmateo.load("varmateo.util.transitions.FadeOutInTransitionManager");
+        require("varmateo/util/transitions/FadeOutInTransitionManager");
 
 
     var PANEL_FRIENDS_BROWSER = "#fnvFriendsBrowser";
@@ -39,32 +35,27 @@ function() {
     function FnavViewFactory ( appConf) {
 
         var self = this;
-        var configList = [
-            {
-                name : "FnavView",
-                builder : function () {
-                    return self._newFnavView();
-                }
+        var configList = [{
+            name : "FnavView",
+            builder : function () {
+                return self._newFnavView();
+            }
+        }, {
+            name : "FriendsBrowserPageView",
+            builder : function () {
+                return new FriendsBrowserPageView(PANEL_FRIENDS_BROWSER);
             },
-            {
-                name : "FriendsBrowserPageView",
-                builder : function () {
-                    return new FriendsBrowserPageView(PANEL_FRIENDS_BROWSER);
-                },
+        }, {
+            name : "HomePageView",
+            builder : function () {
+                return new HomePageView(PANEL_HOME, appConf);
             },
-            {
-                name : "HomePageView",
-                builder : function () {
-                    return new HomePageView(PANEL_HOME, appConf);
-                },
+        }, {
+            name : "TransitionManager",
+            builder : function () {
+                return new FadeOutInTransitionManager();
             },
-            {
-                name : "TransitionManager",
-                builder : function () {
-                    return new FadeOutInTransitionManager();
-                },
-            },
-        ];
+        },];
         var memoizer = new Memoizer(configList);
 
         memoizer.extendTo(this);

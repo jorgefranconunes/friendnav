@@ -10,16 +10,12 @@
 /**
  *
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.FnavFacadeFactory",
-
-function() {
-
-    var Memoizer = varmateo.load("varmateo.util.Memoizer");
-
+    var Memoizer =
+        require("varmateo/util/Memoizer");
     var FoursquareFriendsFacade =
-        varmateo.load("varmateo.friendnav.foursquare.FoursquareFriendsFacade");
+        require("varmateo/friendnav/foursquare/FoursquareFriendsFacade");
 
 
     /**

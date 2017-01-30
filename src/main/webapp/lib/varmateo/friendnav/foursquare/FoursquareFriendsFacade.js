@@ -11,16 +11,12 @@
  * A concrete implementation of the SocialNetworkManager that uses
  * FoursquareFriendsFacade as provider.
  */
-varmateo.defineClass(
-
-"varmateo.friendnav.foursquare.FoursquareFriendsFacade",
-
-function() {
+define(function ( require ) {
 
     var Logger =
-        varmateo.load("varmateo.util.logging.Logger");
+        require("varmateo/util/logging/Logger");
     var FoursquareJsonCaller =
-        varmateo.load("varmateo.friendnav.foursquare.FoursquareJsonCaller");
+        require("varmateo/friendnav/foursquare/FoursquareJsonCaller");
 
 
     FoursquareFriendsFacade.prototype._logger = null;

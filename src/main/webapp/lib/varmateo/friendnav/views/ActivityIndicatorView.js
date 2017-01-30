@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2016-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -12,11 +12,7 @@
  * user the application is waiting some background processing to
  * complete (e.g. loading data from the server side).
  */
-varmateo.defineClass(
-
-"varmateo.friendnav.views.ActivityIndicatorView",
-
-function() {
+define(function ( require ) {
 
     ActivityIndicatorView.prototype._panel = null;
 

@@ -16,15 +16,8 @@
 define(function ( require ) {
 
     var Logger = require("varmateo/util/logging/Logger");
-
-    var FnavAppConfig =
-        require("varmateo/friendnav/fnav/FnavAppConfig");
-    var FnavControllerFactory =
-        require("varmateo/friendnav/fnav/FnavControllerFactory");
-    var FnavFacadeFactory =
-        require("varmateo/friendnav/fnav/FnavFacadeFactory");
-    var FnavViewFactory =
-        require("varmateo/friendnav/fnav/FnavViewFactory");
+    var FnavApp = require("varmateo/friendnav/fnav/FnavApp");
+    var FnavAppConfig = require("varmateo/friendnav/fnav/FnavAppConfig");
 
 
     var APP_NAME = "Fnav";
@@ -45,16 +38,12 @@ define(function ( require ) {
 
         var log = Logger.createFor("Main");
 
-        log.info("Initializing {0}...", APP_NAME);
+        log.info("Initializing application {0}...", APP_NAME);
 
         var appConfig = _fetchAppConfig();
-        var facades = new FnavFacadeFactory();
-        var views = new FnavViewFactory(appConfig);
-        var controllers = new FnavControllerFactory(facades, views);
+        (new FnavApp(appConfig)).initialize();
 
-        controllers.getFnavController().initialize();
-
-        log.info("Done initializing {0}.", APP_NAME);
+        log.info("Done initializing application {0}.", APP_NAME);
     }
 
 

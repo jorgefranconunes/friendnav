@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -10,13 +10,9 @@
 /**
  * Manages the REST calls for the Foursquare API.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.foursquare.FoursquareJsonCaller",
-
-function () {
-
-    var Logger = varmateo.load("varmateo.util.logging.Logger");
+    var Logger = require("varmateo/util/logging/Logger");
 
 
     var URL_PREFIX = "https://api.foursquare.com/v2/";

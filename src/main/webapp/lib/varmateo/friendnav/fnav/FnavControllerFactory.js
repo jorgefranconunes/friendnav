@@ -10,20 +10,15 @@
 /**
  *
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.FnavControllerFactory",
-
-function() {
-
-    var Memoizer = varmateo.load("varmateo.util.Memoizer");
+    var CookieManager = require("varmateo/util/CookieManager");
+    var Memoizer = require("varmateo/util/Memoizer");
 
     var FnavController =
-        varmateo.load("varmateo.friendnav.fnav.controllers.FnavController");
+        require("varmateo/friendnav/fnav/controllers/FnavController");
     var FriendsBrowserPageController =
-        varmateo.load("varmateo.friendnav.fnav.controllers.FriendsBrowserPageController");
-    var CookieManager =
-        varmateo.load("varmateo.util.CookieManager");
+        require("varmateo/friendnav/fnav/controllers/FriendsBrowserPageController");
 
 
     FnavControllerFactory.prototype._facades = null;
@@ -38,26 +33,22 @@ function() {
         views ) {
 
         var self = this;
-        var configList = [
-            {
-                name : "FriendsBrowserPageController",
-                builder : function () {
-                    return self._newFriendsBrowserPageController();
-                },
+        var configList = [{
+            name : "FriendsBrowserPageController",
+            builder : function () {
+                return self._newFriendsBrowserPageController();
             },
-            {
-                name : "FnavController",
-                builder : function () {
-                    return self._newFnavController();
-                }
-            },
-            {
-                name : "CookieManager",
-                builder : function () {
-                    return new CookieManager();
-                }
-            },
-        ];
+        }, {
+            name : "FnavController",
+            builder : function () {
+                return self._newFnavController();
+            }
+        }, {
+            name : "CookieManager",
+            builder : function () {
+                return new CookieManager();
+            }
+        },];
         var memoizer = new Memoizer(configList);
 
         memoizer.extendTo(this);

@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -10,16 +10,12 @@
 /**
  * The controller for the outermost view of the FriendNav application.
  */
-varmateo.defineClass(
-
-"varmateo.friendnav.fnav.controllers.FriendsBrowserPageController",
-
-function() {
+define(function ( require ) {
 
     var Logger =
-        varmateo.load("varmateo.util.logging.Logger");
+        require("varmateo/util/logging/Logger");
     var UserNodeCache =
-        varmateo.load("varmateo.friendnav.fnav.controllers.UserNodeCache");
+        require("varmateo/friendnav/fnav/controllers/UserNodeCache");
 
 
     FriendsBrowserPageController.prototype._logger     = null;

@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2012-2016 Jorge Nunes, All Rights Reserved.
+ * Copyright (c) 2012-2017 Jorge Nunes, All Rights Reserved.
  *
  **************************************************************************/
 
@@ -19,14 +19,9 @@
  * * onShow(isVisible) - Will be called when the view has just been
  *   made visible or invisible. The "isVisible" flag is a boolean.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.views.main.ContentsView",
-
-function() {
-
-    var JQueryUtils =
-        varmateo.load("varmateo.util.jquery.JQueryUtils");
+    var JQueryUtils = require("varmateo/util/jquery/JQueryUtils");
 
 
     ContentsView.prototype._container         = null;

@@ -11,13 +11,9 @@
  * A cache of UserNode providing functionalities usefull for
  * navigating the connections graph.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.controllers.UserNodeCache",
-
-function() {
-
-    var Logger = varmateo.load("varmateo.util.logging.Logger");
+    var Logger = require("varmateo/util/logging/Logger");
 
 
     UserNodeCache.prototype._logger           = null;

@@ -1,6 +1,6 @@
 /**************************************************************************
  *
- * Copyright (c) 2016 Jorge Nunes All Rights Reserved.
+ * Copyright (c) 2016-2017 Jorge Nunes All Rights Reserved.
  *
  **************************************************************************/
 
@@ -10,20 +10,17 @@
 /**
  * Implements behaviour common to all page views.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.views.PageViewTrait",
-
-function() {
-
-    var Traits = varmateo.load("varmateo.util.Traits");
+    var Traits = require("varmateo/util/Traits");
 
 
-    var TRAIT_METHOD_LIST =
-        [ "getElement",
-          "getTitle",
-          "onShow",
-          "setOnShowListener", ];
+    var TRAIT_METHOD_LIST = [
+        "getElement",
+        "getTitle",
+        "onShow",
+        "setOnShowListener",
+    ];
 
     PageViewTrait.prototype._log = null;
     PageViewTrait.prototype._title = null;

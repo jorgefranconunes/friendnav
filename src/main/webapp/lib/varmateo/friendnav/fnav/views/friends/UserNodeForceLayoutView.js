@@ -10,14 +10,10 @@
 /**
  * Displays connected graph of user nodes.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.views.friends.UserNodeForceLayoutView",
-
-function() {
-
-    var Logger = varmateo.load("varmateo.util.logging.Logger");
-    var JQueryUtils  = varmateo.load("varmateo.util.jquery.JQueryUtils");
+    var Logger = require("varmateo/util/logging/Logger");
+    var JQueryUtils = require("varmateo/util/jquery/JQueryUtils");
 
 
     var IMAGE_WIDTH  = 48;

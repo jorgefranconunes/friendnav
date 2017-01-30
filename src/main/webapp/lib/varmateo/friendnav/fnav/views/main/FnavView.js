@@ -11,28 +11,16 @@
  * The outermost view of the application. Manages the decorations that
  * are always visible.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.views.main.FnavView",
-
-function() {
-
-    var JQueryUtils =
-        varmateo.load("varmateo.util.jquery.JQueryUtils");
-    var Logger =
-        varmateo.load("varmateo.util.logging.Logger");
-    var MessageFormat =
-        varmateo.load("varmateo.util.text.MessageFormat");
-    var ContentsView =
-        varmateo.load("varmateo.friendnav.fnav.views.main.ContentsView");
-    var UserDataView =
-        varmateo.load("varmateo.friendnav.fnav.views.main.UserDataView");
-    var Links =
-        varmateo.load("varmateo.friendnav.views.Links");
-    var PageViewTrait =
-        varmateo.load("varmateo.friendnav.views.PageViewTrait");
-    var StaticPageView =
-        varmateo.load("varmateo.friendnav.views.StaticPageView");
+    var JQueryUtils = require("varmateo/util/jquery/JQueryUtils");
+    var Logger = require("varmateo/util/logging/Logger");
+    var MessageFormat = require("varmateo/util/text/MessageFormat");
+    var ContentsView = require("varmateo/friendnav/fnav/views/main/ContentsView");
+    var UserDataView = require("varmateo/friendnav/fnav/views/main/UserDataView");
+    var Links = require("varmateo/friendnav/views/Links");
+    var PageViewTrait = require("varmateo/friendnav/views/PageViewTrait");
+    var StaticPageView = require("varmateo/friendnav/views/StaticPageView");
 
 
     FnavView.prototype._logger        = null;

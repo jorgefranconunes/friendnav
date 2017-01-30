@@ -10,13 +10,9 @@
 /**
  * The controller for the outermost view of the FriendNav application.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.controllers.FnavController",
-
-function() {
-
-    var Logger = varmateo.load("varmateo.util.logging.Logger");
+    var Logger = require("varmateo/util/logging/Logger");
 
 
     var COOKIE_ACCESS_TOKEN = "FnavAccessToken";

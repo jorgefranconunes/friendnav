@@ -10,16 +10,12 @@
 /**
  * The view for the entry of the application.
  */
-varmateo.defineClass(
+define(function ( require ) {
 
-"varmateo.friendnav.fnav.views.home.HomePageView",
-
-function() {
-
-    var Logger = varmateo.load("varmateo.util.logging.Logger");
-    var JQueryUtils  = varmateo.load("varmateo.util.jquery.JQueryUtils");
-    var Links = varmateo.load("varmateo.friendnav.views.Links");
-    var PageViewTrait = varmateo.load("varmateo.friendnav.views.PageViewTrait");
+    var Logger = require("varmateo/util/logging/Logger");
+    var JQueryUtils  = require("varmateo/util/jquery/JQueryUtils");
+    var Links = require("varmateo/friendnav/views/Links");
+    var PageViewTrait = require("varmateo/friendnav/views/PageViewTrait");
 
 
     var LABEL_TITLE = "Friend Navigator";

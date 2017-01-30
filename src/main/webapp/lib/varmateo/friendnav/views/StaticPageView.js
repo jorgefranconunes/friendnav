@@ -14,18 +14,14 @@
  * The contents of the URL must be such that they can be added to a
  * DIV element.
  */
-varmateo.defineClass(
-
-"varmateo.friendnav.views.StaticPageView",
-
-function() {
+define(function ( require ) {
 
     var Logger =
-        varmateo.load("varmateo.util.logging.Logger");
+        require("varmateo/util/logging/Logger");
     var PageViewTrait =
-        varmateo.load("varmateo.friendnav.views.PageViewTrait");
+        require("varmateo/friendnav/views/PageViewTrait");
     var ActivityIndicatorView =
-        varmateo.load("varmateo.friendnav.views.ActivityIndicatorView");
+        require("varmateo/friendnav/views/ActivityIndicatorView");
 
 
     StaticPageView.prototype._log = null;
