@@ -46,7 +46,8 @@ define(function ( require ) {
         this._viewFnav = viewFnav;
         this._cookie = cookieManager.getCookie(COOKIE_ACCESS_TOKEN);
         this._accessToken = null;
-        this._isLoggedIn  = null;
+        this._isLoggedIn  = false;
+        this._callbackInitialUserNode = function () { /* Do nothing. */ };
     }
 
 
@@ -63,9 +64,7 @@ define(function ( require ) {
         var newAccessToken = parseAccessTokenFromHash(hash);
 
         if ( newAccessToken != null ) {
-            this._log.info(
-                "New access token specified - {0}",
-                newAccessToken);
+            this._log.info("New access token specified - {0}", newAccessToken);
 
             this._cookie.set(newAccessToken);
             this._accessToken = newAccessToken;
@@ -127,10 +126,7 @@ define(function ( require ) {
             this._log.infoObj(userNode);
 
             this._viewFnav.showPostLoginView(userNode);
-
-            var callback = this._callbackInitialUserNode;
-
-            callback && callback(userNode);
+            this._callbackInitialUserNode(userNode);
         } else {
             this._log.info("Failed to receive self user node...");
         }

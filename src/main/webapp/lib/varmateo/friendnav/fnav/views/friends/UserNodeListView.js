@@ -60,6 +60,8 @@ define(function ( require ) {
         this._divList = divList;
         this._buttonBack = buttonBack;
         this._activityIndicatorView = new ActivityIndicatorView();
+        this._callbackUserNodeSelected = function() { /* Nothing to do. */ };
+        this._callbackBack = function() { /* Nothing to do. */ };
     }
 
 
@@ -184,10 +186,7 @@ define(function ( require ) {
         userNode ) {
 
         this._log.info("Selected node {0} ({1})", userNode.id, userNode.name);
-
-        var callback = this._callbackUserNodeSelected;
-
-        callback && callback(userNode);
+        this._callbackUserNodeSelected(userNode);
     }
 
 
@@ -196,9 +195,7 @@ define(function ( require ) {
      */
     UserNodeListView.prototype._onBack = function () {
 
-        var callback = this._callbackBack;
-
-        callback && callback();
+        this._callbackBack();
     }
 
 

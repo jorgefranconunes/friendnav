@@ -44,10 +44,11 @@ define(function ( require ) {
         var viewUserNodeDetail = new UserNodeDetailView(panelId + "Detail");
         var viewUserNodeList   = new UserNodeListView(panelId + "List");
 
-        this._logger             = logger;
-        this._panel              = JQueryUtils.getOne(panelId);
+        this._logger = logger;
+        this._panel = JQueryUtils.getOne(panelId);
+        this._callbackShow = function () { /* Do nothing. */ };
         this._viewUserNodeDetail = viewUserNodeDetail;
-        this._viewUserNodeList   = viewUserNodeList;
+        this._viewUserNodeList = viewUserNodeList;
     }
 
 
@@ -59,29 +60,6 @@ define(function ( require ) {
         var result = this._panel;
 
         return result;
-    }
-
-
-    /**
-     *
-     */
-    UserNodeNavigatorView.prototype.showEvent = function ( isVisible ) {
-
-        this._logger.info("View is now {0}",
-                          (isVisible ? "shown" : "hidden"));
-
-        var callback = this._callbackShow;
-
-        callback && calback(isVisible);
-    }
-
-
-    /**
-     * Defines the callback for the "show" event.
-     */
-    UserNodeNavigatorView.prototype.onShow = function ( callback ) {
-
-        this._callbackShow = callback;
     }
 
 
