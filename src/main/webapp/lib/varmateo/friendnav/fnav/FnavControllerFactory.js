@@ -12,7 +12,6 @@
  */
 define(function ( require ) {
 
-    var CookieManager = require("varmateo/util/CookieManager");
     var Memoizer = require("varmateo/util/Memoizer");
 
     var FnavController =
@@ -43,11 +42,6 @@ define(function ( require ) {
             builder : function () {
                 return self._newFnavController();
             }
-        }, {
-            name : "CookieManager",
-            builder : function () {
-                return new CookieManager();
-            }
         },];
         var memoizer = new Memoizer(configList);
 
@@ -62,9 +56,12 @@ define(function ( require ) {
      *
      */
     FnavControllerFactory.prototype._newFriendsBrowserPageController = function () {
-        var facade = this._facades.getFriendsFacade();
+        var self = this;
+        var serviceFetcher = function () {
+            return self._facades.getFriendsServiceManager().getFriendsService();
+        };
         var view = this._views.getFriendsBrowserPageView();
-        var controller = new FriendsBrowserPageController(facade, view);
+        var controller = new FriendsBrowserPageController(serviceFetcher, view);
 
         return controller;
     }
@@ -76,10 +73,9 @@ define(function ( require ) {
     FnavControllerFactory.prototype._newFnavController = function () {
 
         var self = this;
-        var facade = this._facades.getFriendsFacade()
+        var service = this._facades.getFriendsServiceManager()
         var view = this._views.getFnavView();
-        var cookieManager = this.getCookieManager();
-        var controller = new FnavController(facade, view, cookieManager);
+        var controller = new FnavController(service, view);
 
         var callback = function ( userNode ) {
             self.getFriendsBrowserPageController().setInitialUserNode(userNode);

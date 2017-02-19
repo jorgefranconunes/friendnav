@@ -9,7 +9,7 @@
 
 /**
  * A concrete implementation of the SocialNetworkManager that uses
- * FoursquareFriendsFacade as provider.
+ * FoursquareFriendsService as provider.
  */
 define(function ( require ) {
 
@@ -19,30 +19,22 @@ define(function ( require ) {
         require("varmateo/friendnav/foursquare/FoursquareJsonCaller");
 
 
-    FoursquareFriendsFacade.prototype._logger = null;
-    FoursquareFriendsFacade.prototype._accessToken = null;
-    FoursquareFriendsFacade.prototype._jsonCaller = null;
+    FoursquareFriendsService.prototype._logger = null;
+    FoursquareFriendsService.prototype._accessToken = null;
+    FoursquareFriendsService.prototype._jsonCaller = null;
 
 
     /**
-     *
+     * @param (String) The OAuth access token to be used on all API
+     * calls that require authentication.
      */
-    function FoursquareFriendsFacade () {
+    function FoursquareFriendsService ( accessToken ) {
 
-        var logger = Logger.createFor("FoursquareFriendsFacade");
+        var logger = Logger.createFor("FoursquareFriendsService");
 
         this._logger = logger;
-        this._jsonCaller = new FoursquareJsonCaller();
-    }
-
-
-    /**
-     * Sets the OAuth acess token to be used on all API calls that
-     * require authentication.
-     */
-    FoursquareFriendsFacade.prototype.setAccessToken = function ( accessToken ) {
-
         this._accessToken = accessToken;
+        this._jsonCaller = new FoursquareJsonCaller();
     }
 
 
@@ -50,12 +42,12 @@ define(function ( require ) {
      * Retrieves data on the user currently signed-in.
      *
      * The returned promise will be resolved when the user data is
-     * retrieved from FoursquareFriendsFacade. This promise will be resolved with a
-     * single UserNode instance.
+     * retrieved from FoursquareFriendsService. This promise will be
+     * resolved with one UserNode instance.
      *
-     * @return Promise
+     * @return Promise UserNode
      */
-    FoursquareFriendsFacade.prototype.retrieveSelfUserNode = function () {
+    FoursquareFriendsService.prototype.retrieveSelfUserNode = function () {
 
         var self = this;
         var endpoint = "users/self";
@@ -76,14 +68,14 @@ define(function ( require ) {
      * Retrieves the list of friends for the given user.
      *
      * The returned promise will be resolved when the user data is
-     * retrieved from FoursquareFriendsFacade. This promise will be resolved with a
-     * list of UserNode instances.
+     * retrieved from FoursquareFriendsService. This promise will be
+     * resolved with a list of UserNode instances.
      *
      * @param userId
      *
-     * @return Promise
+     * @return Promise [UserNode]
      */
-    FoursquareFriendsFacade.prototype.retrieveFriendsList = function ( userId ) {
+    FoursquareFriendsService.prototype.retrieveFriendsList = function ( userId ) {
 
         var self = this;
         var endpoint = "users/" + userId + "/friends";
@@ -103,7 +95,7 @@ define(function ( require ) {
     /**
      *
      */
-    FoursquareFriendsFacade.prototype._doGetWithAuth = function (
+    FoursquareFriendsService.prototype._doGetWithAuth = function (
         endpoint,
         params ) {
 
@@ -121,7 +113,7 @@ define(function ( require ) {
     /**
      *
      */
-    FoursquareFriendsFacade.prototype._checkAccessToken = function () {
+    FoursquareFriendsService.prototype._checkAccessToken = function () {
 
         if ( this._accessToken == null ) {
             var msg = "Message token has not yet been set";
@@ -135,7 +127,7 @@ define(function ( require ) {
      */
     function _buildUserNodeFromFsqUser ( fsqUser ) {
 
-        var name = buildName(fsqUser);
+        var name = _buildName(fsqUser);
         var photo = fsqUser.photo;
         var photoUrl = photo.prefix + "100x100" + photo.suffix;
         var largePhotoUrl = photo.prefix + "300x300" + photo.suffix;
@@ -157,7 +149,7 @@ define(function ( require ) {
     /**
      *
      */
-    function buildName ( fsqUser ) {
+    function _buildName ( fsqUser ) {
 
         var firstName = fsqUser.firstName;
         var lastName  = fsqUser.lastName;
@@ -184,33 +176,23 @@ define(function ( require ) {
     /**
      *
      */
-    function _buildUserNodeListFromFsqUserList ( fsqUserList ) {
 
-        var userNodeList = [];
+    // We will be interested only in Foursquare users of type
+    // "user". Everything eles is either a "page" or "celebrity",
+    // which we do not care about.
+    var isFoursquareUser = R.pipe(R.propOr("user", "type"), R.equals("user"));
 
-        for ( var i=0, size=fsqUserList.length; i<size; ++i ) {
-            var fsqUser     = fsqUserList[i];
-            var fsqUserType = fsqUser.type;
+    var compareUserNodesByName = function ( a, b ) {
+        var s1 = a.name.toLocaleLowerCase();
+        var s2 = b.name.toLocaleLowerCase();
+        return s1.localeCompare(s2);
+    };
 
-            if ( (fsqUserType===undefined) || (fsqUserType=="user") ) {
-                var userNode = _buildUserNodeFromFsqUser(fsqUser);
-
-                userNodeList.push(userNode);
-            } else {
-                // Either a "page" or a "celebrity". We don't care
-                // about those...
-            }
-        }
-
-        userNodeList.sort(function ( a, b ) {
-            var s1 = a.name.toLocaleLowerCase();
-            var s2 = b.name.toLocaleLowerCase();
-            return s1.localeCompare(s2);
-        });
-
-        return userNodeList;
-    }
+    var _buildUserNodeListFromFsqUserList = R.pipe(
+        R.filter(isFoursquareUser),
+        R.map(_buildUserNodeFromFsqUser),
+        R.sort(compareUserNodesByName));
 
 
-    return FoursquareFriendsFacade;
+    return FoursquareFriendsService;
 });

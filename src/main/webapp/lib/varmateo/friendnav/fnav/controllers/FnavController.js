@@ -18,12 +18,8 @@ define(function ( require ) {
     var COOKIE_ACCESS_TOKEN = "FnavAccessToken";
 
     FnavController.prototype._log = null;
-    FnavController.prototype._friendsFacade = null;
+    FnavController.prototype._friendsServiceManager = null;
     FnavController.prototype._viewFnav = null;
-    FnavController.prototype._cookie = null;
-
-    FnavController.prototype._isLoggedIn = false;
-    FnavController.prototype._accessToken = null;
     FnavController.prototype._callbackInitialUserNode = null;
 
 
@@ -31,22 +27,16 @@ define(function ( require ) {
      *
      */
     function FnavController (
-        friendsFacade,
-        viewFnav,
-        cookieManager ) {
+        friendsServiceManager,
+        viewFnav ) {
 
         var logger = Logger.createFor("FnavController");
-
-        logger.info("Seting up...");
 
         viewFnav.setOnLogoutSelectedListener(this._onLogoutSelected.bind(this));
 
         this._log = logger;
-        this._friendsFacade = friendsFacade;
+        this._friendsServiceManager = friendsServiceManager;
         this._viewFnav = viewFnav;
-        this._cookie = cookieManager.getCookie(COOKIE_ACCESS_TOKEN);
-        this._accessToken = null;
-        this._isLoggedIn  = false;
         this._callbackInitialUserNode = function () { /* Do nothing. */ };
     }
 
@@ -57,36 +47,16 @@ define(function ( require ) {
      */
     FnavController.prototype.initialize = function () {
 
-        this._accessToken = this._cookie.get();
-        this._isLoggedIn  = (this._accessToken != null );
+        var currentUrl = window.location.toString();
+        window.location.hash = "";
 
-        var hash           = window.location.hash;
-        var newAccessToken = parseAccessTokenFromHash(hash);
-
-        if ( newAccessToken != null ) {
-            this._log.info("New access token specified - {0}", newAccessToken);
-
-            this._cookie.set(newAccessToken);
-            this._accessToken = newAccessToken;
-            this._isLoggedIn  = true;
-
-            // Remove the hash with the access token from the URL
-            // the browser is displaying.
-            window.location.hash = "";
-        } else {
-            this._log.info("No access token specified.");
-        }
-
-        if ( this._isLoggedIn ) {
-            this._log.info("User is signed in.");
-
-            this._friendsFacade.setAccessToken(this._accessToken);
-            this._friendsFacade.retrieveSelfUserNode()
+        if ( this._friendsServiceManager.startSession(currentUrl) ) {
+            this._friendsServiceManager
+                .getFriendsService()
+                .retrieveSelfUserNode()
                 .then(this._onSetSelfUserNode.bind(this))
                 .fail(this._onFailSetSelfUserNode.bind(this));
         } else {
-            this._log.info("User is not yet signed in.");
-
             this._viewFnav.showPreLoginView();
         }
     }
@@ -107,11 +77,7 @@ define(function ( require ) {
      */
     FnavController.prototype._onLogoutSelected = function () {
 
-        this._cookie.remove();
-
-        this._accessToken = null;
-        this._isLoggedIn  = false;
-
+        this._friendsServiceManager.endSession();
         this._viewFnav.showPreLoginView();
     }
 
@@ -139,28 +105,7 @@ define(function ( require ) {
     FnavController.prototype._onFailSetSelfUserNode = function ( error ) {
 
         this._log.info("Failed to receive self user node - {0}", error);
-    }
-
-
-    /**
-     * Retrieves the value of the access token from the given hash, if
-     * it is present.
-     */
-    function parseAccessTokenFromHash ( hash ) {
-
-        var result = null;
-
-        if ( hash != null ) {
-            var prefix = "#access_token=";
-
-            if ( hash.indexOf(prefix) == 0 ) {
-                result = hash.substring(prefix.length);
-            } else {
-                // Hash does not contain the access token.
-            }
-        }
-
-        return result;
+        // TBD - Surely we should something more here...
     }
 
 

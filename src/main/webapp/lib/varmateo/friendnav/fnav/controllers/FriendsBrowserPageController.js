@@ -18,17 +18,17 @@ define(function ( require ) {
         require("varmateo/friendnav/fnav/controllers/UserNodeCache");
 
 
-    FriendsBrowserPageController.prototype._logger     = null;
-    FriendsBrowserPageController.prototype._fsqManager = null;
-    FriendsBrowserPageController.prototype._view       = null;
-    FriendsBrowserPageController.prototype._cache      = null;
+    FriendsBrowserPageController.prototype._logger = null;
+    FriendsBrowserPageController.prototype._friendsServiceFetcher = null;
+    FriendsBrowserPageController.prototype._view = null;
+    FriendsBrowserPageController.prototype._cache = null;
 
 
     /**
      *
      */
     function FriendsBrowserPageController (
-        fsqManager,
+        friendsServiceFetcher,
         view ) {
 
         var logger = Logger.createFor("FriendsBrowserPageController");
@@ -38,10 +38,10 @@ define(function ( require ) {
         view.setOnUserNodeSelectedListener(this._pushUserNode.bind(this));
         view.setOnBackListener(this._popUserNode.bind(this));
 
-        this._logger     = logger;
-        this._fsqManager = fsqManager;
-        this._view       = view;
-        this._cache      = new UserNodeCache();
+        this._logger = logger;
+        this._friendsServiceFetcher = friendsServiceFetcher;
+        this._view = view;
+        this._cache = new UserNodeCache();
     }
 
 
@@ -95,7 +95,8 @@ define(function ( require ) {
         if ( userNodeList != null ) {
             this._view.setFriendsList(userNodeId, userNodeList);
         } else {
-            this._fsqManager.retrieveFriendsList(userNodeId)
+            var friendsService = this._friendsServiceFetcher();
+            friendsService.retrieveFriendsList(userNodeId)
                 .then(function ( newUserNodeList ) {
                     return self._onSetFriendsList(userNodeId, newUserNodeList);
                 })
