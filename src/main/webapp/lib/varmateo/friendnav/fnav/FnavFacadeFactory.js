@@ -53,9 +53,13 @@ define(function ( require ) {
      */
     FnavFacadeFactory.prototype._newFriendsServiceManager = function () {
 
+        var friendsServiceFactories = {
+            "foursquare" : this.getFoursquareFriendsServiceFactory(),
+        };
+
         return new FriendsServiceManager(
             this.getCookieManager(),
-            this.getFoursquareFriendsServiceFactory());
+            friendsServiceFactories);
     }
 
 

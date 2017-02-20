@@ -28,15 +28,13 @@ define(function ( require ) {
      */
     function FriendsServiceManager (
         cookieManager,
-        foursquareServiceFactory ) {
+        serviceFactories ) {
 
         var log = Logger.createFor("FriendsServiceManager");
 
         this._log = log;
         this._cookie = cookieManager.getCookie(COOKIE_SESSION_INFO);
-        this._serviceFactories = {
-            "foursquare" : foursquareServiceFactory,
-        };
+        this._serviceFactories = serviceFactories;
         this._friendsService = null;
     }
 
@@ -77,23 +75,63 @@ define(function ( require ) {
     FriendsServiceManager.prototype._loadSessionInfoFromUrl = function ( url ) {
 
         var sessionInfo = null;
-        var type = "foursquare";
-        var serviceFactory = this._serviceFactories[type];
-        var token = serviceFactory.parseTokenFromUrl(url);
+        var type = this._loadServiceTypeFromUrl(url);
 
-        if ( token != null ) {
-            this._log.info("Session info is contained in URL");
-            sessionInfo = {
-                "type" : type,
-                "token" : token,
-                "serviceFactory" : serviceFactory,
-            };
-        } else {
-            this._log.info("Session info is not contained in URL");
-            sessionInfo = null;
+        if ( type != null ) {
+            var serviceFactory = this._serviceFactories[type];
+
+            if ( serviceFactory != null ) {
+                var token = serviceFactory.parseTokenFromUrl(url);
+
+                if ( token != null ) {
+                    this._log.info("Session info is contained in URL");
+                    sessionInfo = {
+                        "type" : type,
+                        "token" : token,
+                        "serviceFactory" : serviceFactory,
+                    };
+                } else {
+                    this._log.info("Session info is not contained in URL");
+                    sessionInfo = null;
+                }
+            } else {
+                this._log.info("Unknown service type \"{0}\"", type);
+            }
         }
 
         return sessionInfo;
+    }
+
+
+    /**
+     *
+     */
+    FriendsServiceManager.prototype._loadServiceTypeFromUrl = function ( url ) {
+
+        var serviceType = null;
+
+        // This is an awful way to parse an URL...
+        var prefix = "?serviceType="
+        var paramIndex = url.indexOf(prefix);
+
+        if ( paramIndex >= 0 ) {
+            var hashIndex = url.indexOf("#");
+            if ( hashIndex >= 0 ) {
+                serviceType =
+                    url.substring(paramIndex + prefix.length() + 1, hashIndex);
+            } else {
+                serviceType =
+                    url.substring(paramIndex + prefix.length() + 1);
+            }
+            this._log.info("Service type is contained in URL");
+        } else {
+            serviceType = "foursquare";
+            this._log.info(
+                "Service type is not contained in URL, defaulting to \"{0}\"",
+                serviceType);
+        }
+
+        return serviceType;
     }
 
 
