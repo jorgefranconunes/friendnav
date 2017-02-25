@@ -17,7 +17,7 @@ define(function ( require ) {
 
 
     var _params = {
-        "HomePageView.urlFoursquare" : "https://foursquare.com/oauth2/authenticate?client_id=YWDNHROEVRQYDVY0QMFEBANSS43AMHPALDB3Z31HRX3KLAP3&response_type=token&redirect_uri=http:%2f%2flocalhost%2ffriendnav%2ffnav%2findex.html",
+        "HomePageView.urlFoursquare" : "https://foursquare.com/oauth2/authenticate?client_id=YWDNHROEVRQYDVY0QMFEBANSS43AMHPALDB3Z31HRX3KLAP3&response_type=token&redirect_uri=http%3A%2F%2Flocalhost%2Ffriendnav%2Ffnav%2Findex.html%3FserviceType%3Dfoursquare",
     };
 
 

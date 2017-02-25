@@ -42,13 +42,13 @@ define(function ( require ) {
 
 
     /**
-     * Decides which page view to show depending on the hash on the
-     * current URL.
+     * Decides which page view to show depending on the the current
+     * URL.
      */
     FnavController.prototype.initialize = function () {
 
         var currentUrl = window.location.toString();
-        window.location.hash = "";
+        this._sanitizeBrowserUrl();
 
         if ( this._friendsServiceManager.startSession(currentUrl) ) {
             this._friendsServiceManager
@@ -59,6 +59,21 @@ define(function ( require ) {
         } else {
             this._viewFnav.showPreLoginView();
         }
+    }
+
+
+    /**
+     * Replaces the URL displayed in the browser with a URL with the
+     * same path but without query string and without hash.
+     */
+    FnavController.prototype._sanitizeBrowserUrl = function () {
+
+        var url = window.location;
+        var sanitizedUrl = url.protocol + "//" + url.host + url.pathname;
+
+        this._log.info("Sanitizing browser URL to {0}", sanitizedUrl);
+
+        window.history.replaceState({}, "", sanitizedUrl);
     }
 
 

@@ -118,12 +118,12 @@ define(function ( require ) {
             var hashIndex = url.indexOf("#");
             if ( hashIndex >= 0 ) {
                 serviceType =
-                    url.substring(paramIndex + prefix.length() + 1, hashIndex);
+                    url.substring(paramIndex + prefix.length, hashIndex);
             } else {
                 serviceType =
-                    url.substring(paramIndex + prefix.length() + 1);
+                    url.substring(paramIndex + prefix.length);
             }
-            this._log.info("Service type is contained in URL");
+            this._log.info("Service type is contained in URL ({0})",serviceType);
         } else {
             serviceType = "foursquare";
             this._log.info(
