@@ -10,7 +10,10 @@
 /**
  * Utility functions for working with traits.
  */
-define(function () {
+define(function ( require ) {
+
+    var R = require("ramda");
+
 
     /**
      * Extends an existing object with additional methods implemented
@@ -41,7 +44,7 @@ define(function () {
         R.filter(isMethodOverridable, traitMethodList)
             .forEach(function ( methodName ) {
                 var traitMethod = traitObject[methodName];
-                var proxyMethod =  function () {
+                var proxyMethod = function () {
                     return traitMethod.apply(traitObject, arguments);
                 };
                 object[methodName] = proxyMethod;

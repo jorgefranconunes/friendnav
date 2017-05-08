@@ -14,7 +14,8 @@
 (function ( topContext ) {
 
     var _isStarted = false;
-    var _classUrlPrefix = null;
+    var _baseUrl = null;
+    var _paths = null;
     var _startFunction = null;
     var _pendingLoads = [];
 
@@ -44,6 +45,15 @@
 
     // Emulate a RequireJS environment.
     define.amd = true;
+
+
+    /**
+     *
+     */
+    function _log ( msg ) {
+
+        window.console.log(msg);
+    }
 
 
     /**
@@ -130,20 +140,13 @@
     function _processIfDefineWasCalled ( className ) {
 
         if ( _lastDefineClassBuilder != null ) {
-            _onDefineCompleted(className, _lastDefineClassBuilder);
+            try {
+                _allClassesByName[className] = _lastDefineClassBuilder(_require);
+            } catch ( error ) {
+                _log("Failed to define class \"" + className + "\" - " + error);
+            }
             _lastDefineClassBuilder = null;
         }
-    }
-
-
-    /**
-     *
-     */
-    function _onDefineCompleted(
-        className,
-        defineClassBuilder ) {
-
-        _allClassesByName[className] = defineClassBuilder(_require);
     }
 
 
@@ -178,8 +181,11 @@
      */
     function _buildScriptUrl ( className ) {
 
-        var classPath = className;
-        var scriptUrl = _classUrlPrefix + classPath + ".js";
+        var scriptUrl = _paths[className];
+
+        if ( scriptUrl == null ) {
+            scriptUrl = _baseUrl + className + ".js";
+        }
 
         return scriptUrl;
     }
@@ -235,7 +241,8 @@
      */
     function _amdConfig ( config ) {
 
-        _classUrlPrefix = config.baseUrl;
+        _baseUrl = config.baseUrl;
+        _paths = config.paths || {};
     }
 
 
